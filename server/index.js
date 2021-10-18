@@ -16,6 +16,11 @@ app.get("/api/hello", (req, res) => {
   res.json({ message: "Hello World!" });
 });
 
+// Handle GET requests to /api route
+app.get("/api/hello2", (req, res) => {
+  res.json({ message: "Hello World!" });
+});
+
 // All other GET requests not handled before will return our React app
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
