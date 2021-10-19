@@ -10,12 +10,32 @@ async function createDatabase() {
 
 async function createUsersTable() {
   const sql = `
-  DROP TABLE users;git
+  DROP TABLE users;
   CREATE TABLE users(
   id SERIAL PRIMARY KEY,
   username TEXT NOT NULL UNIQUE,
   password TEXT NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+  )`;
+
+  try {
+    const res = await client.query(sql);
+    console.log("Stories table created");
+    return;
+  } catch (err) {
+    console.log(err);
+    console.log("Stories table issue");
+    return;
+  }
+}
+
+async function createSessionsTable() {
+  const sql = `
+  
+  CREATE TABLE sessions(
+  uuid PRIMARY KEY,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  user_id INTEGER REFERENCES 
   )`;
 
   try {
