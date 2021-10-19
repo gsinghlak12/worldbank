@@ -1,9 +1,11 @@
 const { text } = require("express");
 const express = require("express");
 const path = require("path");
-const client2 = new Client("postgres://localhost:5432/worldbank");
+const bodyParser = require("body-parser");
+// const client2 = new Client("postgres://localhost:5432/worldbank");
 const PORT = process.env.PORT || 8080;
 const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 const { Pool, Client } = require("pg");
@@ -21,39 +23,63 @@ const client = new Client({
 	await client.connect();
 })();
 
-
-(async function () {
-  await client2.connect();
-})();
+// (async function () {
+// 	await client2.connect();
+// })();
 
 app.get("/api", async (req, res) => {
-	const result = await client.query("SELECT * FROM Series LIMIT 5");
-	res.json(result.rows);
+	// const result =
+	// 	await client.query(`SELECT countrycode,indicatorname,year,value FROM indicators
+	// WHERE indicatorname='Birth rate, crude (per 1,000 people)' AND countrycode='ARB'
+	//  LIMIT 10;`);
+
+	const years = await client.query(`SELECT value,year FROM indicators
+  WHERE indicatorname='Birth rate, crude (per 1,000 people)' AND countrycode='ARB'
+   LIMIT 10;`);
+
+	const Arr = years.rows.reduce(
+		(obj, val) => {
+			obj.years.push(val.year);
+			obj.value.push(val.value);
+			return obj;
+		},
+		{ years: [], value: [] }
+	);
+
+	res.json(Arr);
 });
+
+// app.get("/api", async (req, res) => {
+// 	const result =
+// 		await client.query(`SELECT countrycode,indicatorname,year,value FROM indicators
+//   WHERE indicatorname='Birth rate, crude (per 1,000 people)' AND year=1999
+//    LIMIT 10;`);
+// 	res.json(result.rows);
+// });
 
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 
 async function getAllUsers() {
-  let sql = `SELECT * FROM users`;
-  try {
-    console.log(sql);
-    const res = await client.query(sql);
-    console.log(res);
-    return res.rows[0];
-  } catch (err) {
-    console.log(err);
-    return err.stack;
-  }
+	let sql = `SELECT * FROM users`;
+	try {
+		console.log(sql);
+		const res = await client.query(sql);
+		console.log(res);
+		return res.rows[0];
+	} catch (err) {
+		console.log(err);
+		return err.stack;
+	}
 }
 
 // Handle GET requests to /api route
 
 // Handle GET requests to /api route
 app.get("/api/users", async (req, res) => {
-  const data = await getAllUsers();
-  console.log(data);
-  res.json({ message: data });
-}
+	const data = await getAllUsers();
+	console.log(data);
+	res.json({ message: data });
+});
 
 // All other GET requests not handled before will return our React app
 app.get("*", (req, res) => {
