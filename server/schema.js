@@ -3,8 +3,9 @@ const client = new Client("postgres://localhost:5432/worldbank");
 
 async function createDatabase() {
 	await client.connect();
-	createUsersTable();
-	addSeedData();
+	// createUsersTable();
+	// addSeedData();
+	createSessionsTable();
 	return;
 }
 
@@ -39,6 +40,25 @@ async function addSeedData() {
 	} catch (err) {
 		console.log(err);
 		console.log("Seed data issue");
+		return;
+	}
+}
+
+async function createSessionsTable() {
+	const sql = `
+  CREATE TABLE sessions(
+  uuid TEXT PRIMARY KEY,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  user_id INTEGER REFERENCES users(id)
+  )`;
+
+	try {
+		const res = await client.query(sql);
+		console.log("Sessions table created");
+		return;
+	} catch (err) {
+		console.log(err);
+		console.log("Sessions table issue");
 		return;
 	}
 }
