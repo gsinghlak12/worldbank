@@ -1,20 +1,35 @@
 import logo from "./logo.svg";
 import "./App.css";
-import "./App.css";
 import React, { useState, useEffect } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
-import LoginButton from "./Components/LoginButton";
-import LogoutButton from "./Components/LogoutButton.js";
+import { Route, Switch, BrowserRouter as Router, Link } from "react-router-dom";
+import Home from "./Home";
+import Login from "./Login";
+import Register from "./Register";
+import Search from "./Search";
+import History from "./History";
 
 function App() {
-	const { user, isAuthenticated, isLoading } = useAuth0();
 	return (
-		<div className="App">
-			{!isAuthenticated && <LoginButton />}
-			{isAuthenticated && <LogoutButton />}
-			{isAuthenticated}
-			<header className="App-header"></header>
-		</div>
+		<Router>
+			<div className="App">
+				<Link to="/">Home </Link>
+
+				<Link to="/register">Register </Link>
+
+				<Link to="/login">Login </Link>
+
+				<Link to="/search">Search </Link>
+
+				<Link to="/history">History </Link>
+				<Switch>
+					<Route path="/" exact component={Home} />
+					<Route path="/login" component={Login} />
+					<Route path="/register" component={Register} />
+					<Route path="/search" component={Search} />
+					<Route path="/history" component={History} />
+				</Switch>
+			</div>
+		</Router>
 	);
 }
 
