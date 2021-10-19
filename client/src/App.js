@@ -6,6 +6,8 @@ import Login from "./Login";
 import Register from "./Register";
 import Search from "./Search";
 import History from "./History";
+import { Button } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -20,23 +22,22 @@ function App() {
   const setNavButtons = () => {
     if (!loggedIn) {
       return (
-        <div>
-          <Link to="/register">
-            <button>Register</button>
-          </Link>
-
+        <div className="hcol-xs-3">
           <Link to="/login">
-            <button>Login</button>
+            <Button className="btn-block">Login</Button>
+          </Link>
+          <Link to="/register">
+            <Button className="btn-block">Register</Button>
           </Link>
         </div>
       );
     } else {
       return (
-        <div>
+        <div className="hcol-xs-3">
           <Link to="/history">
-            <button>History</button>
+            <Button className="btn-block">History</Button>
           </Link>
-          <button>Logout</button>;
+          <Button className="btn-block">Logout</Button>;
         </div>
       );
     }
@@ -45,9 +46,17 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Link to="/">Home </Link>
-        <Link to="/search">Search </Link>
-        {setNavButtons()}
+        <header>
+          <div className="hcol-xs-3">
+            <Link to="/">
+              <Button className="btn-block">Home</Button>
+            </Link>
+            <Link to="/search">
+              <Button className="btn-block">Search</Button>
+            </Link>
+          </div>
+          {setNavButtons()}
+        </header>
         <Switch>
           <Route exact path="/">
             <Home />

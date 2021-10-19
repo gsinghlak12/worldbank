@@ -26,8 +26,8 @@ router.get("/", async function (req, res) {
 
   const years = await client.query(`SELECT value,year FROM indicators
   WHERE indicatorname='${indicator}' AND countrycode='${country}'
-  ORDER BY year DESC
-   LIMIT 10;`);
+  ORDER BY year ASC
+  LIMIT 10 OFFSET 50`);
 
   const plot = years.rows.reduce(
     (obj, val) => {

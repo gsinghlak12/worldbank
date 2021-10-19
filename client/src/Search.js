@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { Container, Row, Col } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function Search() {
   const [search, setSearch] = useState({
@@ -10,18 +12,29 @@ function Search() {
 
   return (
     <div>
-      <h3>Search data</h3>
-      <label>Countries:</label>
-      <input className="input"></input>
-      <button>+</button>
-      <br />
-      <label>Indicators:</label>
-      <input className="input"></input>
-      <label>Year range:</label>
-      <option key={1} value={1950}>
-        {2021}
-      </option>
-      <button>Search</button>
+      <Container>
+        <Row>
+          <h3>Search data</h3>
+        </Row>
+        <Row>
+          <Col md>
+            <label>Countries:</label>
+            <input className="input"></input>
+            <button>+</button>
+          </Col>
+          <Col md>
+            <label>Indicators:</label>
+            <input className="input"></input>
+          </Col>
+          <Col md>
+            <label>Year range:</label>
+            <option key={1} value={1950}>
+              {2021}
+            </option>
+          </Col>
+        </Row>
+        <button>Search</button>
+      </Container>
     </div>
   );
 }
