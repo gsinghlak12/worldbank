@@ -25,8 +25,8 @@ router.get("/", async function (req, res) {
   const country = "ARB";
   const years = await client.query(`SELECT value,year FROM indicators
   WHERE indicatorname='${indicator}' AND countrycode='${country}'
-   LIMIT 10;`);
-
+  ORDER BY year ASC
+  LIMIT 10 OFFSET 50`);
   const plot = years.rows.reduce(
     (obj, val) => {
       obj.years.push(val.year);
@@ -35,7 +35,6 @@ router.get("/", async function (req, res) {
     },
     { years: [], value: [] }
   );
-
   plot["title"] = indicator;
   plot["country"] = country;
   res.json(plot);
