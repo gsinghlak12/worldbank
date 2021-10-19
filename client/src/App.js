@@ -9,28 +9,28 @@ import Search from "./Search";
 import History from "./History";
 
 function App() {
-	return (
-		<Router>
-			<div className="App">
-				<Link to="/">Home </Link>
+  return (
+    <Router>
+      <div className="App">
+        <Link to="/">Home </Link>
 
-				<Link to="/register">Register </Link>
+        <Link to="/register">Register </Link>
 
-				<Link to="/login">Login </Link>
+        <Link to="/login">Login </Link>
 
-				<Link to="/search">Search </Link>
+        <Link to="/search">Search </Link>
 
-				<Link to="/history">History </Link>
-				<Switch>
-					<Route path="/" exact component={Home} />
-					<Route path="/login" component={Login} />
-					<Route path="/register" component={Register} />
-					<Route path="/search" component={Search} />
-					<Route path="/history" component={History} />
-				</Switch>
-			</div>
-		</Router>
-	);
+        <Link to="/history">History </Link>
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
+          <Route path="/search" component={Search} />
+          <Route path="/history" component={History} />
+        </Switch>
+      </div>
+    </Router>
+  );
 }
 
 export default App;
