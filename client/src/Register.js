@@ -1,5 +1,7 @@
 import React from "react";
 import { useState } from "react/cjs/react.development";
+import { Container, Form, Button, Alert } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function Register(props) {
   const [newUser, setNewUser] = useState({
@@ -103,58 +105,76 @@ function Register(props) {
 
   return (
     <div className="account" id="register">
-      <h3>Register a new user</h3>
-      <label htmlFor="username">Username:</label>
-      <input
-        type="text"
-        className="input"
-        id="username"
-        value={newUser.username}
-        onChange={(e) => {
-          handleRegisterInput(e);
-        }}
-        onKeyPress={(e) => {
-          props.onEnterKey(e, handleNewUser);
-        }}
-      ></input>
-      <br />
-      <label htmlFor="password">Password:</label>
-      <input
-        type="password"
-        className="input"
-        id="password"
-        value={newUser.password}
-        onChange={(e) => {
-          handleRegisterInput(e);
-        }}
-        onKeyPress={(e) => {
-          props.onEnterKey(e, handleNewUser);
-        }}
-      ></input>
-      <br />
-      <label htmlFor="confirm">Confirm password:</label>
-      <input
-        type="password"
-        className="input"
-        id="confirm"
-        value={newUser.confirm}
-        onChange={(e) => {
-          handleRegisterInput(e);
-        }}
-        onKeyPress={(e) => {
-          props.onEnterKey(e, handleNewUser);
-        }}
-      ></input>
-      <br />
-      <button
-        onClick={() => {
-          handleNewUser();
-        }}
-      >
-        Create account
-      </button>
-      <p style={{ color: "green" }}>{message.success}</p>
-      <p style={{ color: "red" }}>{message.error}</p>
+      <Container>
+        {" "}
+        <Form>
+          <Form.Text>
+            <h3>Register a new user</h3>
+          </Form.Text>
+          <Form.Group controlId="formUsername">
+            <Form.Label htmlFor="username">Username:</Form.Label>
+            <Form.Control
+              type="text"
+              className="input"
+              id="username"
+              placeholder="Choose your username"
+              value={newUser.username}
+              onChange={(e) => {
+                handleRegisterInput(e);
+              }}
+              onKeyPress={(e) => {
+                props.onEnterKey(e, handleNewUser);
+              }}
+            />
+          </Form.Group>
+          <br />
+          <Form.Group controlId="formPassword">
+            <Form.Label htmlFor="password">Password:</Form.Label>
+            <Form.Control
+              type="password"
+              className="input"
+              id="password"
+              placeholder="Choose your password"
+              value={newUser.password}
+              onChange={(e) => {
+                handleRegisterInput(e);
+              }}
+              onKeyPress={(e) => {
+                props.onEnterKey(e, handleNewUser);
+              }}
+            />
+          </Form.Group>
+          <br />{" "}
+          <Form.Group controlId="formConfirm">
+            <Form.Label htmlFor="confirm">Confirm password:</Form.Label>
+            <Form.Control
+              type="password"
+              className="input"
+              id="confirm"
+              placeholder="Confirm your password"
+              value={newUser.confirm}
+              onChange={(e) => {
+                handleRegisterInput(e);
+              }}
+              onKeyPress={(e) => {
+                props.onEnterKey(e, handleNewUser);
+              }}
+            />
+            <br />
+            <Button
+              onClick={() => {
+                handleNewUser();
+              }}
+            >
+              Create account
+            </Button>
+          </Form.Group>
+        </Form>
+        {message.success ? (
+          <Alert variant="success">{message.success}</Alert>
+        ) : null}
+        {message.error ? <Alert variant="danger">{message.error}</Alert> : null}
+      </Container>
     </div>
   );
 }
