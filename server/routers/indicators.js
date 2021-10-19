@@ -19,12 +19,14 @@ const client = new Client({
   await client.connect();
 })();
 
-// define the home page route
+// define the indicators
 router.get("/", async function (req, res) {
   const indicator = "Birth rate, crude (per 1,000 people)";
   const country = "ARB";
+
   const years = await client.query(`SELECT value,year FROM indicators
   WHERE indicatorname='${indicator}' AND countrycode='${country}'
+  ORDER BY year DESC
    LIMIT 10;`);
 
   const plot = years.rows.reduce(
@@ -41,5 +43,63 @@ router.get("/", async function (req, res) {
   res.json(plot);
 });
 // define the about route
+
+// User can enter country code and that data will be used
+
+router.get("/countries/:country_code", async function (req, res) {
+  // WE NEED TO CHANGE THIS TO MAKE SURE URM
+  // THAT THE OTHER INDICATORS ARE THERE
+  // AND ALL INDICATORS WE ARE INTERESTED IN, ARE PUT IN AN ARRAY
+  // THAT WE CAN MAP THROUGH IN THE FRONT
+
+  const indicator = "Birth rate, crude (per 1,000 people)";
+  const country = req.params.country_code;
+  console.log(req.params);
+
+  const years = await client.query(`SELECT value,year FROM indicators
+  WHERE indicatorname='${indicator}' AND countrycode='${country}'
+  ORDER BY year DESC
+   LIMIT 10;`);
+
+  const plot = years.rows.reduce(
+    (obj, val) => {
+      obj.years.push(val.year);
+      obj.value.push(val.value);
+      return obj;
+    },
+    { years: [], value: [] }
+  );
+
+  plot["title"] = indicator;
+  plot["country"] = country;
+  res.json(plot);
+});
+
+router.get("/:series_code/countries/:country_code", async function (req, res) {
+  const indicator_code = req.params.series_code;
+  const country = req.params.country_code;
+  console.log(req.params);
+
+  const years =
+    await client.query(`SELECT value,year,countryname FROM indicators
+  WHERE indicatorcode='${indicator_code}' AND countrycode='${country}'
+  ORDER BY year DESC
+   LIMIT 10;`);
+
+  const plot = years.rows.reduce(
+    (obj, val) => {
+      obj.years.push(val.year);
+      obj.value.push(val.value);
+      return obj;
+    },
+    { years: [], value: [] }
+  );
+
+  console.log(years.rows);
+
+  plot["title"] = indicator_code;
+  plot["country"] = years.rows[0].countryname;
+  res.json(plot);
+});
 
 module.exports = router;
