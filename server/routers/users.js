@@ -92,11 +92,13 @@ router.post("/verify", async function (req, res) {
 	const client = await pool.connect();
 
 	const { username, password } = await req.body;
-	const [hash] = client
-		.query(`SELECT password FROM users WHERE username=$1`, [username])
-		.asObjects();
-	console.log(hash);
-	const result = await bcrypt.compare(password, hash.password);
+	const hash = await client.query(
+		`SELECT password FROM users WHERE username=$1`,
+		[username]
+	);
+	const hashing = hash.rows[0].password;
+
+	const result = await bcrypt.compare(password, hashing);
 	if (result) {
 		res.json({ status: "loggedIn" }, 200);
 	} else {
