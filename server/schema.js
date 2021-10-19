@@ -5,6 +5,7 @@ async function createDatabase() {
   await client.connect();
   createUsersTable();
   addSeedData();
+  createSessionsTable();
   return;
 }
 
@@ -31,20 +32,19 @@ async function createUsersTable() {
 
 async function createSessionsTable() {
   const sql = `
-  
   CREATE TABLE sessions(
-  uuid PRIMARY KEY,
+  uuid TEXT PRIMARY KEY,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  user_id INTEGER REFERENCES 
+  user_id INTEGER REFERENCES users(id)
   )`;
 
   try {
     const res = await client.query(sql);
-    console.log("Stories table created");
+    console.log("Sessions table created");
     return;
   } catch (err) {
     console.log(err);
-    console.log("Stories table issue");
+    console.log("Sessions table issue");
     return;
   }
 }
