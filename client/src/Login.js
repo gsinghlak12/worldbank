@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { Form, Button, Alert, Container } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function Login(props) {
   const [currentUser, setCurrentUser] = useState({
@@ -48,44 +50,58 @@ function Login(props) {
 
   return (
     <div className="account" id="login">
-      <h3>Log into your account</h3>
-      <label htmlFor="username">Username:</label>
-      <input
-        type="text"
-        className="input"
-        id="username"
-        value={currentUser.username}
-        onChange={(e) => {
-          handleLoginInput(e);
-        }}
-        onKeyPress={(e) => {
-          props.onEnterKey(e, postLogin);
-        }}
-      ></input>
-      <br />
-      <label htmlFor="password">Password:</label>
-      <input
-        type="password"
-        className="input"
-        id="password"
-        value={currentUser.password}
-        onChange={(e) => {
-          handleLoginInput(e);
-        }}
-        onKeyPress={(e) => {
-          props.onEnterKey(e, postLogin);
-        }}
-      ></input>
-      <br />
-      <button
-        onClick={() => {
-          postLogin();
-        }}
-      >
-        Log in
-      </button>
-      <p style={{ color: "green" }}>{message.success}</p>
-      <p style={{ color: "red" }}>{message.error}</p>
+      <Container>
+        <Form>
+          <Form.Text>
+            <h3>Log into your account</h3>{" "}
+          </Form.Text>
+          <Form.Group controlId="formUsername">
+            <Form.Label htmlFor="username">Username:</Form.Label>
+            <Form.Control
+              type="text"
+              className="input"
+              id="username"
+              placeholder="Enter your username"
+              value={currentUser.username}
+              onChange={(e) => {
+                handleLoginInput(e);
+              }}
+              onKeyPress={(e) => {
+                props.onEnterKey(e, postLogin);
+              }}
+            />
+          </Form.Group>
+          <br />
+          <Form.Group controlId="formPassword">
+            <Form.Label htmlFor="password">Password:</Form.Label>
+            <Form.Control
+              type="password"
+              className="input"
+              id="password"
+              placeholder="Enter your password"
+              value={currentUser.password}
+              onChange={(e) => {
+                handleLoginInput(e);
+              }}
+              onKeyPress={(e) => {
+                props.onEnterKey(e, postLogin);
+              }}
+            />
+            <br />
+            <Button
+              onClick={() => {
+                postLogin();
+              }}
+            >
+              Log in
+            </Button>
+          </Form.Group>
+        </Form>
+        {message.success ? (
+          <Alert variant="success">{message.success}</Alert>
+        ) : null}
+        {message.error ? <Alert variant="danger">{message.error}</Alert> : null}
+      </Container>{" "}
     </div>
   );
 }
