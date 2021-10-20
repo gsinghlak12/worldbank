@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt");
 const v4 = require("uuid");
 
 const { Pool, Client } = require("pg");
-router.use(cors());
+router.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 const pool = new Pool({
 	user: "postgres",

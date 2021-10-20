@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Button, Container, Row, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function Search() {
@@ -185,7 +185,7 @@ function Search() {
             </select>
           </Col>
         </Row>
-        <button>Search</button>
+        <Button className="btn btn-secondary m-2">See results</Button>{" "}
       </Container>
     </div>
   );
