@@ -1,14 +1,3 @@
 .App {
   text-align: center;
 }
-
-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.header-btns {
-  display: flex;
-  justify-content: space-around;
-}
