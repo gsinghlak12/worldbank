@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "./App.css";
 import React, { useState, useEffect } from "react";
 import { Route, Switch, BrowserRouter as Router, Link } from "react-router-dom";
@@ -7,26 +6,73 @@ import Login from "./Login";
 import Register from "./Register";
 import Search from "./Search";
 import History from "./History";
+import { Button } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
+	const [loggedIn, setLoggedIn] = useState(false);
+	const [userType, setUserType] = useState({ userType: "standard" });
+
+	const onEnterKey = (e, callback) => {
+		if (e.charCode === 13) {
+			callback();
+		}
+	};
+
+	const setNavButtons = () => {
+		if (!loggedIn) {
+			return (
+				<div className="hcol-xs-3">
+					<Link to="/login">
+						<Button className="btn-block">Login</Button>
+					</Link>
+					<Link to="/register">
+						<Button className="btn-block">Register</Button>
+					</Link>
+				</div>
+			);
+		} else {
+			return (
+				<div className="hcol-xs-3">
+					<Link to="/history">
+						<Button className="btn-block">History</Button>
+					</Link>
+					<Button className="btn-block">Logout</Button>;
+				</div>
+			);
+		}
+	};
+
 	return (
 		<Router>
 			<div className="App">
-				<Link to="/">Home </Link>
-
-				<Link to="/register">Register </Link>
-
-				<Link to="/login">Login </Link>
-
-				<Link to="/search">Search </Link>
-
-				<Link to="/history">History </Link>
+				<header>
+					<div className="hcol-xs-3">
+						<Link to="/">
+							<Button className="btn-block">Home</Button>
+						</Link>
+						<Link to="/search">
+							<Button className="btn-block">Search</Button>
+						</Link>
+					</div>
+					{setNavButtons()}
+				</header>
 				<Switch>
-					<Route path="/" exact component={Home} />
-					<Route path="/login" component={Login} />
-					<Route path="/register" component={Register} />
-					<Route path="/search" component={Search} />
-					<Route path="/history" component={History} />
+					<Route exact path="/">
+						<Home />
+					</Route>
+					<Route exact path="/login">
+						<Login onEnterKey={onEnterKey} setLoggedIn={setLoggedIn} />
+					</Route>
+					<Route exact path="/register">
+						<Register onEnterKey={onEnterKey} />
+					</Route>
+					<Route exact path="/search">
+						<Search />
+					</Route>
+					<Route exact path="/history">
+						<History />
+					</Route>
 				</Switch>
 			</div>
 		</Router>
