@@ -53,7 +53,7 @@ function Login(props) {
 
   return (
     <div className="account" id="login">
-      <Container>
+      <Container className="container border border-secondary rounded d-flex align-items-center justify-content-center shadow p-3 bg-white rounded">
         <Form>
           <Form.Text>
             <h3>Log into your account</h3>{" "}

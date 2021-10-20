@@ -23,7 +23,7 @@ function App() {
   const setNavButtons = () => {
     if (!loggedIn) {
       return (
-        <div className="hcol-xs-3">
+        <div className="col-xs-3">
           <Link to="/login">
             <Button className="mx-2" variant="outline-secondary">
               <svg
