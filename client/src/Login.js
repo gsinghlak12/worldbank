@@ -30,7 +30,7 @@ function Login(props) {
 	const postLogin = async (e) => {
 		const requestOptions = {
 			method: "POST",
-
+			credentials: "include",
 			headers: {
 				Access: "application/json",
 				"Content-Type": "application/json",
@@ -48,6 +48,7 @@ function Login(props) {
 			setMessage({ error: json.status });
 		} else {
 			setMessage({ success: "Logged in!" });
+			props.setLoggedIn(true);
 		}
 	};
 
