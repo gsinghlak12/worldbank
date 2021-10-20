@@ -30,7 +30,7 @@ function Register(props) {
     });
   };
 
- const validateUsername = () => {
+  const validateUsername = () => {
     const { username } = newUser;
     const numbers = /\d/;
 
