@@ -64,12 +64,13 @@ router.post("/", async function (req, res) {
 
 	const { username } = await req.body;
 	const sessionID = v4.generate();
-	const [userKey] = pool
-		.query(`SELECT id FROM users WHERE username=?`, [username])
-		.asObjects();
+	const userKey = pool.query(`SELECT id FROM users WHERE username=?`, [
+		username,
+	]);
+
 	await client.query(
 		"INSERT INTO sessions (uuid, user_id, created_at) VALUES (?, ?, datetime('now'))",
-		[sessionID, userKey.id]
+		[sessionID, userKey.rows[0]]
 	);
 	res.cookie("SessionID", sessionID).send("cookie sent");
 
@@ -80,15 +81,13 @@ router.get("/check", async function (req, res) {
 	const client = await pool.connect();
 
 	const activeSession = req.cookies;
-	const [sessionID] = client
-		.query(
-			`SELECT uuid FROM sessions
+	const sessionID = client.query(
+		`SELECT uuid FROM sessions
             ORDER BY created_at DESC
             LIMIT 1;`
-		)
-		.asObjects();
+	);
 
-	if (activeSession.sessionID == sessionID.uuid) {
+	if (activeSession.sessionID == sessionID.rows[0]) {
 		res.json({ loggedIn: true });
 	} else {
 		res.json({ loggedIn: false });
