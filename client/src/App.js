@@ -1,6 +1,12 @@
 import "./App.css";
 import React, { useState } from "react";
-import { Route, Switch, BrowserRouter as Router, Link } from "react-router-dom";
+import {
+  Route,
+  Switch,
+  BrowserRouter as Router,
+  Link,
+  Redirect,
+} from "react-router-dom";
 import Home from "./Home";
 import Login from "./Login";
 import Register from "./Register";
@@ -14,6 +20,7 @@ import women from "./Components/women-of-world.png";
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [userType, setUserType] = useState({ userType: "standard" });
+  const [registered, setRegister] = useState(false);
 
   const onEnterKey = (e, callback) => {
     if (e.charCode === 13) {
@@ -93,7 +100,7 @@ function App() {
           </Link>
           <Button
             onClick={async (e) => {
-              e.preventDefault();
+              // e.preventDefault();
               setLoggedIn(false);
               await deleteCookie();
             }}
@@ -168,13 +175,31 @@ function App() {
         <Container className="d-flex justify-content-center align-content-center position-absolute top-50 start-50 translate-middle">
           <Switch>
             <Route exact path="/">
-              <Home />
+              <Home deleteCookie={deleteCookie} setLoggedIn={setLoggedIn} />
             </Route>
             <Route exact path="/login">
-              <Login onEnterKey={onEnterKey} setLoggedIn={setLoggedIn} />
+              {loggedIn ? (
+                <Redirect to="/search" />
+              ) : (
+                <Login onEnterKey={onEnterKey} setLoggedIn={setLoggedIn} />
+              )}
             </Route>
             <Route exact path="/register">
-              <Register onEnterKey={onEnterKey} />
+              {/* <Register
+								onEnterKey={onEnterKey}
+								setRegister={setRegister}
+								registered={registered}
+							/> */}
+
+              {registered ? (
+                <Redirect to="/login" />
+              ) : (
+                <Register
+                  onEnterKey={onEnterKey}
+                  setRegister={setRegister}
+                  registered={registered}
+                />
+              )}
             </Route>
             <Route exact path="/search">
               <Search />

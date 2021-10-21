@@ -57,7 +57,9 @@ function Login(props) {
       setMessage({ error: json.status });
     } else {
       setMessage({ success: "Logged in!" });
-      props.setLoggedIn(true);
+      setTimeout(() => {
+        props.setLoggedIn(true);
+      }, 1000);
       postSession();
     }
   };
@@ -96,7 +98,7 @@ function Login(props) {
       <Container className="container border border-secondary rounded d-flex align-items-center justify-content-center shadow p-5 bg-white rounded">
         <Form>
           <Form.Text>
-            <h3 className="text-center pb-3">Log into an account</h3>{" "}
+            <h3 className="text-center pb-3">Log into an account</h3>
           </Form.Text>
           <Form.Group controlId="formUsername">
             <Form.Label htmlFor="username">Username:</Form.Label>
