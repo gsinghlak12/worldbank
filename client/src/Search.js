@@ -3,7 +3,6 @@ import { Button, Container, Form, Row, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Graph from "./Components/GraphComponents/Graph";
 import convertData from "./Components/GraphComponents/convertData";
-import e from "express";
 
 function Search() {
   const [countryList, setCountryList] = useState([]);
@@ -231,14 +230,32 @@ function Search() {
       const response = await fetch(
         `http://localhost:8080/api/indicators/${indicatorCode}/countries/${firstCode}`
       );
+
       const json = await response.json();
-      setGraphData(convertData([json.years, json.country, json.value]));
+      const queryData = json.data[0];
+
+      console.log(json);
+      console.log(queryData);
+      setGraphData(
+        convertData([queryData.years, queryData.country, queryData.value])
+      );
     } else {
       const response = await fetch(
-        `http://localhost:8080/api/${indicatorCode}/countries/${firstCode}/:${secondCode}`
+        `http://localhost:8080/api/indicators/${indicatorCode}/countries/${firstCode}/${secondCode}`
       );
+      console.log(response);
       const json = await response.json();
-      setGraphData(convertData([json.years, json.country, json.value]));
+      const query1 = json.data[0];
+      const query2 = json.data[1];
+      setGraphData(
+        convertData([
+          query1.years,
+          query1.country,
+          query1.value,
+          query2.country,
+          query2.value,
+        ])
+      );
     }
 
     setDataSent(true);
@@ -247,11 +264,7 @@ function Search() {
   const showGraph = () => {
     console.log(graphData);
     if (dataSent) {
-      return (
-        <div>
-          <Graph title={indicator} dataset={graphData} />
-        </div>
-      );
+      return <div>{<Graph title={indicator} dataset={graphData} />}</div>;
     }
   };
 
