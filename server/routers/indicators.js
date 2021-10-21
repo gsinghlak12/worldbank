@@ -21,26 +21,23 @@ const client = new Client({
 
 // define the indicators
 router.get("/", async function (req, res) {
-  const indicator = "Birth rate, crude (per 1,000 people)";
-  const country = "ARB";
+  // RETURN A LIST OF ALL REQUIRED INDICATORS
+  const data = [
+    "SP.ADO.TFRT",
+    "SE.ADT.LITR.FE.ZS",
+    "SL.TLF.0714.WK.FE.TM",
+    "SP.DYN.CBRT.IN",
+    "SP.DYN.LE00.FE.IN",
+  ];
 
-  const years = await client.query(`SELECT value,year FROM indicators
-  WHERE indicatorname='${indicator}' AND countrycode='${country}'
-  ORDER BY year ASC
-  LIMIT 10 OFFSET 50`);
+  const sql = `SELECT seriescode,topic,indicatorname
+              FROM series 
+              WHERE seriescode = ANY($1::text[])
+              LIMIT 10`;
 
-  const plot = years.rows.reduce(
-    (obj, val) => {
-      obj.years.push(val.year);
-      obj.value.push(val.value);
-      return obj;
-    },
-    { years: [], value: [] }
-  );
+  const indicators = await client.query(sql, [data]);
 
-  plot["title"] = indicator;
-  plot["country"] = country;
-  res.json(plot);
+  res.json({ data: indicators.rows });
 });
 // define the about route
 
@@ -51,6 +48,7 @@ router.get("/countries/:country_code", async function (req, res) {
   // THAT THE OTHER INDICATORS ARE THERE
   // AND ALL INDICATORS WE ARE INTERESTED IN, ARE PUT IN AN ARRAY
   // THAT WE CAN MAP THROUGH IN THE FRONT
+  // ALSO GET RID OF URM THE SQL INJECTION!!!
 
   const indicator = "Birth rate, crude (per 1,000 people)";
   const country = req.params.country_code;

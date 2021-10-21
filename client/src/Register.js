@@ -95,17 +95,25 @@ function Register(props) {
       requestOptions
     );
     const json = await response.json();
+    console.log(response);
 
-    // if (!response.ok) {
-    // 	setMessage({ error: json.status });
-    // } else {
-    // 	setMessage({ success: "Account created. Please login." });
-    // 	setNewUser({
-    // 		username: "",
-    // 		password: "",
-    // 		confirm: "",
-    // 	});
-    // }
+    if (response.status == 400) {
+      setMessage({ error: json.statusText });
+    } else {
+      setTimeout(() => {
+        props.setRegister(true);
+      }, 1000);
+      setMessage({ success: "Account created. Redirecting to login!" });
+      setNewUser({
+        username: "",
+        password: "",
+        confirm: "",
+      });
+
+      setTimeout(() => {
+        props.setRegister(false);
+      }, 1100);
+    }
   };
 
   return (
@@ -115,7 +123,7 @@ function Register(props) {
           <Form.Text>
             <h3>Register a new user</h3>
           </Form.Text>
-          <Form.Group>
+          <Form.Group controlId="formUsername">
             <Form.Label htmlFor="username">Username:</Form.Label>
             <Form.Control
               type="text"
@@ -132,7 +140,7 @@ function Register(props) {
             />
           </Form.Group>
           <br />
-          <Form.Group>
+          <Form.Group controlId="formPassword">
             <Form.Label htmlFor="password">Password:</Form.Label>
             <Form.Control
               type="password"
@@ -149,7 +157,7 @@ function Register(props) {
             />
           </Form.Group>
           <br />{" "}
-          <Form.Group>
+          <Form.Group controlId="formConfirm">
             <Form.Label htmlFor="confirm">Confirm password:</Form.Label>
             <Form.Control
               type="password"
