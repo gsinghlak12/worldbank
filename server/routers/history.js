@@ -18,9 +18,6 @@ const pool = new Pool({
 })();
 
 // define the home page route
-router.get("/", function (req, res) {
-	res.json({ message: "History list will be here soon" });
-});
 
 router.post("/postSearch", async function (req, res) {
 	const client = await pool.connect();
@@ -33,6 +30,26 @@ router.post("/postSearch", async function (req, res) {
 			[user_id, firstCountry, secondCountry, indicator]
 		);
 		res.status(200).json({ Message: "History updated!" }, 200);
+	} catch {
+		res.status(400).json({ Message: "Error" }, 400);
+	}
+
+	client.release();
+});
+
+router.get("/", async function (req, res) {
+	const client = await pool.connect();
+	try {
+		const user_id = await client.query(`SELECT user_id FROM sessions`);
+		const user_id_value = user_id.rows[0].user_id;
+		const response = await client.query(
+			`SELECT country1_id,country2_id,indicator_id,created_at
+    FROM history WHERE user_id=$1`,
+			[user_id_value]
+		);
+		res.json(response.rows);
+		console.log(user_id.rows[0].user_id);
+		console.log(response.rows);
 	} catch {
 		res.status(400).json({ Message: "Error" }, 400);
 	}
