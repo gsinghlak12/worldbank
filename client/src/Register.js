@@ -110,10 +110,10 @@ function Register(props) {
 
   return (
     <div className="account" id="register">
-      <Container className="container border border-secondary rounded d-flex align-items-center justify-content-center shadow p-3 bg-white rounded">
+      <Container className="container border border-secondary rounded d-flex align-items-center justify-content-center shadow p-5 bg-white rounded">
         <Form>
           <Form.Text>
-            <h3>Register a new user</h3>
+            <h3 className="text-center pb-3">Register a new user</h3>
           </Form.Text>
           <Form.Group controlId="formUsername">
             <Form.Label htmlFor="username">Username:</Form.Label>
@@ -165,14 +165,16 @@ function Register(props) {
               }}
             />
             <br />
-            <Button
-              className="btn btn-secondary m-2"
-              onClick={() => {
-                handleNewUser();
-              }}
-            >
-              Create account
-            </Button>
+            <Container className="d-flex align-items-center justify-content-center">
+              <Button
+                className="btn btn-secondary m-2"
+                onClick={() => {
+                  handleNewUser();
+                }}
+              >
+                Create account
+              </Button>
+            </Container>
           </Form.Group>
         </Form>
         {message.success ? (

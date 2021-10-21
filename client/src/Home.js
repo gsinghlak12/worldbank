@@ -49,7 +49,7 @@ function Home() {
       style={outerStyle}
     >
       <Container>
-        <Jumbotron>
+        <Jumbotron className="text-center">
           <h1>Hello, world!</h1>
           <p>...</p>
           <p>
@@ -61,7 +61,6 @@ function Home() {
       </Container>
     </Container>
   );
-
 }
 
 export default Home;
