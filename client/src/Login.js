@@ -4,54 +4,93 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import women from "./Components/women-of-world.png";
 
 function Login(props) {
-  const [currentUser, setCurrentUser] = useState({
-    username: "",
-    password: "",
-  });
+	const [currentUser, setCurrentUser] = useState({
+		username: "",
+		password: "",
+	});
 
-  const [message, setMessage] = useState({
-    error: "",
-    success: "",
-  });
+	const [message, setMessage] = useState({
+		error: "",
+		success: "",
+	});
+	const [SessionCount, setSessionCount] = useState(0);
 
-  const handleLoginInput = (e) => {
-    const { username, password } = currentUser;
-    setCurrentUser({
-      username,
-      password,
-      [e.target.id]: e.target.value,
-    });
+	const [sessionUpdate, setSessionUpdate] = useState(0);
 
-    setMessage({
-      error: "",
-      success: "",
-    });
-  };
+	useEffect(() => {
+		if (sessionUpdate == 0) {
+			checkSessionExists();
+		}
+	});
 
-  const postLogin = async (e) => {
-    const requestOptions = {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        Access: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(currentUser),
-    };
+	const handleLoginInput = (e) => {
+		const { username, password } = currentUser;
+		setCurrentUser({
+			username,
+			password,
+			[e.target.id]: e.target.value,
+		});
+  setMessage({
+			error: "",
+			success: "",
+		});
+	};
 
-    const response = await fetch(
-      `http://localhost:8080/api/users/verify`,
-      requestOptions
-    );
-    const json = await response.json();
+	const postLogin = async (e) => {
+		const requestOptions = {
+			method: "POST",
+			credentials: "include",
+			headers: {
+				Access: "application/json",
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(currentUser),
+		};
 
-    if (!response.ok) {
-      setMessage({ error: json.status });
-    } else {
-      setMessage({ success: "Logged in!" });
-      props.setLoggedIn(true);
-    }
-  };
+		const response = await fetch(
+			`http://localhost:8080/api/users/verify`,
+			requestOptions
+		);
+		const json = await response.json();
+
+		if (!response.ok) {
+			setMessage({ error: json.status });
+		} else {
+			setMessage({ success: "Logged in!" });
+			props.setLoggedIn(true);
+			postSession();
+		}
+	};
+
+	async function postSession() {
+		setSessionCount(1);
+		const response = await fetch(`http://localhost:8080/api/sessions`, {
+			method: "POST",
+			credentials: "include",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(currentUser),
+		});
+	}
+	async function checkSessionExists() {
+		setSessionUpdate(1);
+		const response = await fetch(`http://localhost:8080/api/sessions/check`, {
+			method: "GET",
+			credentials: "include",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
+		const jsonResponse = await response.json();
+		console.log(jsonResponse.loggedIn);
+		if (jsonResponse.loggedIn) {
+			props.setLoggedIn(true);
+		} else {
+			props.setLoggedIn(false);
+		}
+	}
+
 
   return (
     <div className="account" id="login">
