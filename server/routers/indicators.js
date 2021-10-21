@@ -70,18 +70,30 @@ router.get(
 
     if (indicator_code.includes(".FE")) {
       console.log(true);
-      indicator_code_male = indicator_code.replace(".FE", ".MA");
-    }
+      const indicator_code_male = indicator_code.replace(".FE", ".MA");
+      console.log(indicator_code_male);
+      const data1 = await client.query(sql, [indicator_code, country]);
+      const data2 = await client.query(sql, [indicator_code_male, country]);
 
-    const data = await client.query(sql, [indicator_code, country]);
-
-    try {
-      const plot = arrangeData(data.rows);
-      res.json({ data: [plot] });
-    } catch (error) {
-      console.log("Error in Indicators: ");
-      console.log(error);
-      res.json({ data: null, message: "Error: data not found" }, 400);
+      try {
+        const plot1 = arrangeData(data1.rows);
+        const plot2 = arrangeData(data2.rows);
+        res.json({ data: [plot1, plot2] });
+      } catch {
+        console.log("Error in Indicators: ");
+        console.log(error);
+        res.json({ data: null, message: "Error: data not found" }, 400);
+      }
+    } else {
+      const data = await client.query(sql, [indicator_code, country]);
+      try {
+        const plot = arrangeData(data.rows);
+        res.json({ data: [plot] });
+      } catch (error) {
+        console.log("Error in Indicators: ");
+        console.log(error);
+        res.json({ data: null, message: "Error: data not found" }, 400);
+      }
     }
   }
 );
