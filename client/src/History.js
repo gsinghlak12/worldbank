@@ -1,36 +1,37 @@
 import React, { useState, useEffect } from "react";
 
 function History() {
-  // const getRows = () => {
-  //   const rows = {
-  //     1: {
-  //       username: "Kasia95",
-  //       country1: "Poland",
-  //       country2: "England",
-  //       indicator: "Birth rate",
-  //       date: "20/10/21",
-  //     },
-  //   };
+  const getRows = async () => {
+    const response = await fetch(`http://localhost:8080/api/history/`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-  //   for (user in rows) {
-  //     return (
-  //       <tr>
-  //         <th scope="row">{user.username}</th>
-  //         <td>{user.country1}</td>
-  //         <td>{user.country2}</td>
-  //         <td>{user.indicator}</td>
-  //         <td>{user.date}</td>
-  //       </tr>
-  //     );
-  //   }
-  // };
+    const json = await response.json();
+    const rows = json.rows;
+
+    console.log(rows);
+
+    // for (let i in response.rows) {
+    //   return (
+    //     <tr>
+    //       <td>{rows[i].country1_id}</td>
+    //       <td>{rows[i].country2_id}</td>
+    //       <td>{rows[i].indicator_id}</td>
+    //       <td>{rows[i].created_at}</td>
+    //     </tr>
+    //   );
+    // }
+  };
 
   return (
     <div>
       <table class="table table-striped table-bordered">
         <thead>
           <tr>
-            <th scope="col">Username</th>
             <th scope="col">Country 1</th>
             <th scope="col">Country 2</th>
             <th scope="col">Indicator</th>
@@ -38,7 +39,7 @@ function History() {
           </tr>
         </thead>
         <tbody>
-          {/* {getRows()} */}
+          {getRows()}
           <tr>
             <th scope="row">KASIA95</th>
             <td>Poland</td>
