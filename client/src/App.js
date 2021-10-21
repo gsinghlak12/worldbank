@@ -202,7 +202,7 @@ function App() {
               )}
             </Route>
             <Route exact path="/search">
-              <Search />
+              <Search loggedIn={loggedIn} />
             </Route>
             <Route exact path="/history">
               <History />

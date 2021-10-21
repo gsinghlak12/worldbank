@@ -42,6 +42,7 @@ function oneDataset(labelArray, label, dataset) {
 }
 
 function convertData(dataset) {
+  console.log(dataset);
   if (dataset.length > 3) {
     return twoDatasets(
       dataset[0],
@@ -51,6 +52,7 @@ function convertData(dataset) {
       dataset[4]
     );
   }
+  console.log("return one");
   return oneDataset(dataset[0], dataset[1], dataset[2]);
 }
 export default convertData;
