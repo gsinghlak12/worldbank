@@ -5,6 +5,7 @@ const indicators = require("./routers/indicators");
 const users = require("./routers/users");
 const history = require("./routers/history");
 const sessions = require("./routers/sessions");
+const countries = require("./routers/countries");
 const bcrypt = require("bcrypt");
 const v4 = require("uuid");
 const { Server } = require("http");
@@ -25,7 +26,6 @@ app.use(express.json());
 
 // For parsing application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
-ls;
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
@@ -33,6 +33,7 @@ app.use("/api/indicators", indicators);
 app.use("/api/users", users);
 app.use("/api/history", history);
 app.use("/api/sessions", sessions);
+app.use("/api/countries", countries);
 
 // app.post("/users", async (req, res) => {});
 
