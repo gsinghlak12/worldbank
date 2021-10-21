@@ -110,8 +110,7 @@ function Register(props) {
 
   return (
     <div className="account" id="register">
-      <Container>
-        {" "}
+      <Container className="container border border-secondary rounded d-flex align-items-center justify-content-center shadow p-3 bg-white rounded">
         <Form>
           <Form.Text>
             <h3>Register a new user</h3>

@@ -13,8 +13,8 @@ function Team() {
   };
 
   return (
-    <Container>
-      <h1>Hello from Team μ</h1>
+    <Container className="align-content-center p-3">
+      <h1 style={{ textAlign: "center" }}>Hello from Team μ</h1>
       <Container className="m-5">
         <Row>
           <Col>
