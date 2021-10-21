@@ -64,7 +64,7 @@ function Search() {
     const options = [];
     options.push(
       <option key={0 + type} value={0} disabled hidden>
-        Choose {type} year
+        {type} year
       </option>
     );
     for (let i = startYear; i >= endYear; i--) {
@@ -101,9 +101,25 @@ function Search() {
 
   const addCountryButton = () => {
     if (clicked) {
-      return <button onClick={(e) => cleanSecondCountry(e)}>-</button>;
+      return (
+        <Button
+          className="mx-2"
+          variant="outline-secondary"
+          onClick={(e) => cleanSecondCountry(e)}
+        >
+          -
+        </Button>
+      );
     }
-    return <button onClick={(e) => makeSecondCountryInput(e)}>+</button>;
+    return (
+      <Button
+        className="mx-2"
+        variant="outline-secondary"
+        onClick={(e) => makeSecondCountryInput(e)}
+      >
+        +
+      </Button>
+    );
   };
 
   const makeSecondCountryInput = (e) => {
@@ -115,9 +131,10 @@ function Search() {
     setSecondCountry("");
     setClicked(false);
   };
+
   const hideSecondCountry = () => {
     if (clicked) {
-      return "input";
+      return "btn btn-light dropdown-toggle";
     }
     return "d-none";
   };
@@ -141,15 +158,13 @@ function Search() {
 
   return (
     <div>
-      <Container className="container border border-secondary rounded d-flex align-content-center justify-content-center shadow p-3 bg-white rounded">
+      <Container className="container border border-secondary rounded d-flex align-content-center justify-content-center shadow py-4 px-5 bg-white rounded">
         <Form className="d-flex flex-column align-items-center">
-          <Row>
-            <Form.Text>
-              <h3>Search data</h3>{" "}
-            </Form.Text>
-          </Row>
-          <Row>
-            <Col md>
+          <Form.Text>
+            <h3 className="text-center pb-3">Search data</h3>
+          </Form.Text>
+          <Container>
+            <Container>
               <label>Countries:</label>
               <input
                 class="btn btn-light dropdown-toggle"
@@ -162,11 +177,11 @@ function Search() {
               {addCountryButton()}
               {addNewCountryField()}
               <datalist id="countryList1">{countryDropDown("first")}</datalist>
-            </Col>
-            <Col md>
+            </Container>
+            <Container>
               <label>Indicators:</label>
               <input
-                className="input"
+                className="btn btn-light dropdown-toggle"
                 list="indicatorList"
                 placeholder="Choose indicator..."
                 onChange={(e) =>
@@ -174,25 +189,25 @@ function Search() {
                 }
               ></input>
               <datalist id="indicatorList">{indicatorDropDown()}</datalist>
-            </Col>
-            <Col md>
+            </Container>
+            <Container>
               <label>Year range:</label>
               <select
-                className="input"
+                className="btn btn-light dropdown-toggle"
                 defaultValue={0}
                 onChange={(e) => setStart(e.target.value)}
               >
-                {yearDropDown(parseInt(end), 1980, "start")}
+                {yearDropDown(parseInt(end), 1980, "Start")}
               </select>
               <select
-                className="input"
+                className="btn btn-light dropdown-toggle"
                 defaultValue={0}
                 onChange={(e) => setEnd(e.target.value)}
               >
-                {yearDropDown(2021, parseInt(start), "end")}
+                {yearDropDown(2021, parseInt(start), "End")}
               </select>
-            </Col>
-          </Row>
+            </Container>
+          </Container>
           <Button className="btn btn-secondary m-2">See results</Button>{" "}
         </Form>{" "}
       </Container>

@@ -22,7 +22,7 @@ function Home() {
       data-testid="home-container"
     >
       <Container>
-        <Jumbotron>
+        <Jumbotron className="text-center">
           <h1>Hello, world!</h1>
           <p>...</p>
           <p>
