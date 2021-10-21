@@ -157,7 +157,6 @@ function Search(props) {
 	};
 
 	///posting Search
-	console.log(firstCountry, secondCountry, indicator);
 	const postSearch = async (e) => {
 		const bodyResponse = {
 			user_id: 38,
@@ -180,6 +179,10 @@ function Search(props) {
 			requestOptions
 		);
 		const json = await response.json();
+		console.log(json);
+		/*-json.Message ="history updated!"... make an alert for that :)
+    thx
+*/
 	};
 	return (
 		<div>
@@ -250,7 +253,6 @@ function Search(props) {
 			</Container>
 		</div>
 	);
-
 }
 
 export default Search;
