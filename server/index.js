@@ -25,6 +25,7 @@ app.use(express.json());
 
 // For parsing application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
+ls;
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
@@ -40,7 +41,6 @@ app.use("/api/sessions", sessions);
 // app.post("/sessions", async (req, res) => {});
 
 // app.get("/sessions/check", async (req, res) => {});
-
 
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 
