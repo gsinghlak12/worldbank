@@ -78,11 +78,12 @@ router.get("/:series_code/countries/:country_code", async function (req, res) {
   const country = req.params.country_code;
   console.log(req.params);
 
-  const years =
-    await client.query(`SELECT value,year,countryname FROM indicators
-  WHERE indicatorcode='${indicator_code}' AND countrycode='${country}'
+  sql = `SELECT value,year,countryname FROM indicators
+  WHERE indicatorcode=$1 AND countrycode=$2
   ORDER BY year DESC
-   LIMIT 10;`);
+   LIMIT 10;`;
+
+  const years = await client.query(sql, [indicator_code, country]);
 
   const plot = years.rows.reduce(
     (obj, val) => {
@@ -95,9 +96,9 @@ router.get("/:series_code/countries/:country_code", async function (req, res) {
 
   console.log(years.rows);
 
-  plot["title"] = indicator_code;
+  plot["indicator"] = indicator_code;
   plot["country"] = years.rows[0].countryname;
-  res.json(plot);
+  res.json({ data: [plot] });
 });
 
 module.exports = router;
