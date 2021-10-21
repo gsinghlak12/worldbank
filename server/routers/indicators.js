@@ -1,6 +1,22 @@
 const express = require("express");
 const router = express.Router();
 
+function arrangeData(row) {
+  const plot = row.reduce(
+    (obj, val) => {
+      obj.years.push(val.year);
+      obj.value.push(val.value);
+      return obj;
+    },
+    { years: [], value: [] }
+  );
+
+  plot["indicator"] = row[0].indicatorname;
+  plot["country"] = row[0].countryname;
+
+  return plot;
+}
+
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 const { Pool, Client } = require("pg");
 
@@ -40,29 +56,12 @@ router.get("/", async function (req, res) {
   res.json({ data: indicators.rows });
 });
 
-function arrangeData(row) {
-  const plot = row.reduce(
-    (obj, val) => {
-      obj.years.push(val.year);
-      obj.value.push(val.value);
-      return obj;
-    },
-    { years: [], value: [] }
-  );
-
-  plot["indicator"] = row[0].indicatorname;
-  plot["country"] = row[0].countryname;
-
-  return plot;
-}
-
 // One Indicator , One Country
 router.get(
   "/:indicator_code/countries/:country_code",
   async function (req, res) {
     const indicator_code = req.params.indicator_code;
     const country = req.params.country_code;
-    console.log(req.params);
 
     const sql = `SELECT value,year,countryname,indicatorname FROM indicators
   WHERE indicatorcode=$1 AND countrycode=$2
@@ -71,9 +70,14 @@ router.get(
 
     const data = await client.query(sql, [indicator_code, country]);
 
-    const plot = arrangeData(data.rows);
-
-    res.json({ data: [plot] });
+    try {
+      const plot = arrangeData(data.rows);
+      res.json({ data: [plot] });
+    } catch (error) {
+      console.log("Error in Indicators: ");
+      console.log(error);
+      res.json({ data: null, message: "Error: data not found" }, 400);
+    }
   }
 );
 
@@ -83,7 +87,6 @@ router.get(
     const indicator_code = req.params.indicator_code;
     const country1 = req.params.country_code1;
     const country2 = req.params.country_code2;
-    console.log(req.params);
 
     const sql = `SELECT value,year,countryname,indicatorname FROM indicators
   WHERE indicatorcode=$1 
@@ -91,13 +94,19 @@ router.get(
   ORDER BY year DESC
    LIMIT 10;`;
 
-    const data = await client.query(sql, [indicator_code, country1]);
-    const data2 = await client.query(sql, [indicator_code, country2]);
+    try {
+      const data = await client.query(sql, [indicator_code, country1]);
+      const data2 = await client.query(sql, [indicator_code, country2]);
 
-    const plot1 = arrangeData(data.rows);
-    const plot2 = arrangeData(data2.rows);
+      const plot1 = arrangeData(data.rows);
+      const plot2 = arrangeData(data2.rows);
 
-    res.json({ data: [plot1, plot2] });
+      res.json({ data: [plot1, plot2] });
+    } catch (error) {
+      console.log("Error in Indicators: ");
+      console.log(error);
+      res.json({ data: null, message: "Error: data not found" }, 400);
+    }
   }
 );
 
