@@ -1,10 +1,12 @@
 var express = require("express");
 var router = express.Router();
-const bcrypt = require("bcrypt");
-const v4 = require("uuid");
-
+var cookieParser = require("cookie-parser");
+const cors = require("cors");
+const { v4: uuidv4 } = require("uuid");
 const { Pool, Client } = require("pg");
 const { application } = require("express");
+router.use(cookieParser());
+router.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 const pool = new Pool({
 	user: "postgres",
@@ -24,7 +26,7 @@ const pool = new Pool({
 
 async function postSession(req, res) {
 	const { username } = await req.body;
-	const sessionID = v4.generate();
+	const sessionID = uuidv4();
 	const [userKey] = pool2
 		.query(`SELECT userId FROM login WHERE username=?`, [username])
 		.asObjects();
@@ -62,16 +64,18 @@ async function deleteSession() {
 router.post("/", async function (req, res) {
 	const client = await pool.connect();
 
-	const { username } = await req.body;
-	const sessionID = v4.generate();
-	const [userKey] = pool
-		.query(`SELECT id FROM users WHERE username=?`, [username])
-		.asObjects();
-	await client.query(
-		"INSERT INTO sessions (uuid, user_id, created_at) VALUES (?, ?, datetime('now'))",
-		[sessionID, userKey.id]
-	);
-	res.cookie("SessionID", sessionID).send("cookie sent");
+	const { username, password } = await req.body;
+	const sessionID = uuidv4();
+	const userKey = await client.query(`SELECT id FROM users WHERE username=$1`, [
+		username,
+	]);
+
+	await client.query("INSERT INTO sessions (uuid, user_id) VALUES ($1, $2)", [
+		sessionID,
+		userKey.rows[0].id,
+	]);
+
+	res.cookie("sessionID", sessionID).send("cookie sent");
 
 	client.release();
 });
@@ -79,19 +83,21 @@ router.post("/", async function (req, res) {
 router.get("/check", async function (req, res) {
 	const client = await pool.connect();
 
-	const activeSession = req.cookies;
-	const [sessionID] = client
-		.query(
-			`SELECT uuid FROM sessions
+	const activeSession = await req.cookies;
+	const sessionID = await client.query(
+		`SELECT uuid FROM sessions
             ORDER BY created_at DESC
             LIMIT 1;`
-		)
-		.asObjects();
+	);
+	console.log("Cookies: " + activeSession.sessionID);
+	console.log("Session: " + sessionID.rows[0].uuid);
 
-	if (activeSession.sessionID == sessionID.uuid) {
+	if (activeSession.sessionID === sessionID.rows[0].uuid) {
 		res.json({ loggedIn: true });
+		console.log("passes");
 	} else {
 		res.json({ loggedIn: false });
+		console.log("fails");
 	}
 
 	client.release();

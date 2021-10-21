@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt");
 const v4 = require("uuid");
 
 const { Pool, Client } = require("pg");
-router.use(cors());
+router.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 const pool = new Pool({
 	user: "postgres",
@@ -23,30 +23,6 @@ const pool = new Pool({
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-async function getAllUsers(client) {
-	let sql = `SELECT * FROM users`;
-	try {
-		console.log(sql);
-		const res = await client.query(sql);
-		console.log(res);
-		return res.rows[0];
-	} catch (err) {
-		console.log(err);
-		return err.stack;
-	}
-}
-
-async function registerUser(req, res) {
-	const { username, password } = await req.body;
-	const salt = await bcrypt.genSalt(8);
-	const passwordEncrypted = await bcrypt.hash(password, salt);
-
-	pool.query(`INSERT INTO login(username,password) VALUES(?,?)`, [
-		username,
-		passwordEncrypted,
-	]);
-}
 
 async function verifyUser(req, res) {
 	const { username, password } = await req.body;
@@ -71,7 +47,6 @@ router.post("/", async function (req, res) {
 	const { username, password } = await req.body;
 	const salt = await bcrypt.genSalt(8);
 	const passwordEncrypted = await bcrypt.hash(password, salt);
-	console.log(passwordEncrypted);
 	const duplicate = await client.query(
 		`SELECT username FROM users WHERE username=$1`,
 		[username]
@@ -107,6 +82,5 @@ router.post("/verify", async function (req, res) {
 
 	client.release();
 });
-// define the about route
 
 module.exports = router;
