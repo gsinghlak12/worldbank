@@ -1,8 +1,10 @@
 import React from "react";
 import "./Graph.css";
-import { Line, Bar } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 
 function lineGraph(inputTitle, dataset) {
+  console.log(inputTitle);
+  console.log(dataset);
   return (
     <Line
       data={dataset}

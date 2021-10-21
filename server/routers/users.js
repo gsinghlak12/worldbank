@@ -24,6 +24,8 @@ const pool = new Pool({
 router.post("/", async function (req, res) {
 	const client = await pool.connect();
 
+
+
 	const { username, password } = await req.body;
 	const salt = await bcrypt.genSalt(8);
 	const passwordEncrypted = await bcrypt.hash(password, salt);
@@ -48,13 +50,14 @@ router.post("/", async function (req, res) {
 router.post("/verify", async function (req, res) {
 	const client = await pool.connect();
 
-	const { username, password } = await req.body;
-	const hash = await client.query(
-		`SELECT password FROM users WHERE username=$1`,
-		[username]
-	);
-	if (hash.rows[0]) {
-		const hashing = hash.rows[0].password;
+  const { username, password } = await req.body;
+  const hash = await client.query(
+    `SELECT password FROM users WHERE username=$1`,
+    [username]
+  );
+  if (hash.rows[0]) {
+    const hashing = hash.rows[0].password;
+
 
 		const result = await bcrypt.compare(password, hashing);
 		if (result) {
