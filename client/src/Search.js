@@ -1,62 +1,78 @@
 import React, { useState, useEffect } from "react";
 import { Button, Container, Form, Row, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Graph from "./Components/GraphComponents/Graph";
+import convertData from "./Components/GraphComponents/convertData";
 
 function Search() {
   const [countryList, setCountryList] = useState([]);
   const [firstCountry, setFirstCountry] = useState("");
+  const [firstCode, setFirstCode] = useState("");
   const [secondCountry, setSecondCountry] = useState("");
+  const [secondCode, setSecondCode] = useState("");
   const [indicatorList, setIndicatorList] = useState([]);
   const [indicator, setIndicator] = useState("None");
+  const [indicatorCode, setIndicatorCode] = useState("");
   const [start, setStart] = useState("1980");
   const [end, setEnd] = useState("2021");
   const [clicked, setClicked] = useState(false);
+  const [dataSent, setDataSent] = useState(false);
+  const [graphData, setGraphData] = useState([]);
 
   useEffect(() => {
     //fetch data from server side of all indicators and countries
-    setCountryList(
-      [
-        "America",
-        "Japan",
-        "England",
-        "Korea",
-        "India",
-        "Pakistan",
-        "Norway",
-        "Switzerland",
-        "Brazil",
-        "Mexico",
-        "Canada",
-        "Denmark",
-        "France",
-        "Portugal",
-        "Vietnam",
-        "Hungary",
-        "Qatar",
-      ].sort()
-    ); //placeholder data
-    setIndicatorList(
-      [
-        "Life",
-        "Death",
-        "Spirit",
-        "Wind",
-        "Earth",
-        "Time",
-        "Fire",
-        "Water",
-        "Magic",
-        "List",
-      ].sort()
-    ); //placeholder data
+    const fetchData = async () => {
+      const response = await fetch("http://localhost:8080/api/countries");
+      const json = await response.json();
+      const countryData = json.countries;
+      setCountryList(countryData);
+      const indicatorResp = await fetch("http://localhost:8080/api/indicators");
+      const indicatorJson = await indicatorResp.json();
+      const indicatorData = indicatorJson.data;
+      setIndicatorList(indicatorData);
+    };
+    fetchData();
   }, []);
   useEffect(() => {
-    console.log(firstCountry, secondCountry, indicator, start, end);
+    console.log(
+      firstCountry,
+      firstCode,
+      secondCountry,
+      secondCode,
+      indicator,
+      indicatorCode,
+      start,
+      end
+    );
   });
 
-  const validateInput = (e, listOfItems, callback) => {
-    if (listOfItems.some((input) => input === e)) {
-      callback(e);
+  const validateCountry = (
+    e,
+    listOfItems,
+    setStateCallback,
+    setCodeCallback
+  ) => {
+    let countryCode = "";
+    if (
+      listOfItems.some((input) => {
+        countryCode = input.countrycode;
+        return input.shortname === e;
+      })
+    ) {
+      setStateCallback(e);
+      setCodeCallback(countryCode);
+    }
+  };
+  const validateIndicator = (e, listOfItems) => {
+    let tempCode = "";
+    if (
+      listOfItems.some((input) => {
+        tempCode = input.seriescode;
+        return input.indicatorname === e;
+      })
+    ) {
+      setIndicator(e);
+      setIndicatorCode(tempCode);
     }
   };
 
@@ -79,35 +95,36 @@ function Search() {
 
   const countryDropDown = (type) => {
     return countryList.map((input) => (
-      <option key={input + type} value={input}>
-        {input}
+      <option key={input.shortname + type} value={input.shortname}>
+        {input.shortname}
       </option>
     ));
   };
 
   const indicatorDropDown = () => {
     let indicatorOption = indicatorList.map((input) => (
-      <option key={input} value={input}>
-        {input}
+      <option key={input.indicatorname} value={input.indicatorname}>
+        {input.indicatorname}
       </option>
     ));
-    indicatorOption.unshift(
-      <option key={"None"} value="None">
-        {"None"}
-      </option>
-    );
     return indicatorOption;
   };
 
   const addCountryButton = () => {
     if (clicked) {
-      return <button onClick={() => cleanSecondCountry()}>-</button>;
+      return <button onClick={(e) => cleanSecondCountry(e)}>-</button>;
     }
-    return <button onClick={() => setClicked(true)}>+</button>;
+    return <button onClick={(e) => makeSecondCountryInput(e)}>+</button>;
   };
 
-  const cleanSecondCountry = () => {
+  const makeSecondCountryInput = (e) => {
+    e.preventDefault();
+    setClicked(true);
+  };
+  const cleanSecondCountry = (e) => {
+    e.preventDefault();
     setSecondCountry("");
+    setSecondCode("");
     setClicked(false);
   };
   const hideSecondCountry = () => {
@@ -126,12 +143,48 @@ function Search() {
           placeholder="Type a country..."
           autoComplete="on"
           onChange={(e) =>
-            validateInput(e.target.value, countryList, setSecondCountry)
+            validateCountry(
+              e.target.value,
+              countryList,
+              setSecondCountry,
+              setSecondCode
+            )
           }
         ></input>
         <datalist id="countryList2">{countryDropDown("second")}</datalist>
       </div>
     );
+  };
+
+  const sendData = async () => {
+    console.log("sent");
+    console.log(firstCode, secondCode, indicatorCode);
+    console.log(secondCode === "");
+    if (firstCode === "" || indicatorCode === "") {
+      return;
+    }
+    if (secondCode === "" && clicked === true) {
+      return;
+    }
+    if (secondCode === "") {
+      const response = await fetch(
+        `http://localhost:8080/api/indicators/${indicatorCode}/countries/${firstCode}`
+      );
+      const json = await response.json();
+      setGraphData(convertData([json.years, json.country, json.value]));
+    }
+    setDataSent(true);
+  };
+
+  const showGraph = () => {
+    console.log(graphData);
+    if (dataSent) {
+      return (
+        <div>
+          <Graph title={indicator} dataset={graphData} />
+        </div>
+      );
+    }
   };
 
   return (
@@ -151,7 +204,12 @@ function Search() {
                 list="countryList1"
                 placeholder="Type a country..."
                 onChange={(e) =>
-                  validateInput(e.target.value, countryList, setFirstCountry)
+                  validateCountry(
+                    e.target.value,
+                    countryList,
+                    setFirstCountry,
+                    setFirstCode
+                  )
                 }
               ></input>
               {addCountryButton()}
@@ -165,7 +223,7 @@ function Search() {
                 list="indicatorList"
                 placeholder="Choose indicator..."
                 onChange={(e) =>
-                  validateInput(e.target.value, indicatorList, setIndicator)
+                  validateIndicator(e.target.value, indicatorList)
                 }
               ></input>
               <datalist id="indicatorList">{indicatorDropDown()}</datalist>
@@ -188,9 +246,15 @@ function Search() {
               </select>
             </Col>
           </Row>
-          <Button className="btn btn-secondary m-2">See results</Button>{" "}
+          <Button
+            className="btn btn-secondary m-2"
+            onClick={async (e) => await sendData()}
+          >
+            See results
+          </Button>{" "}
         </Form>{" "}
       </Container>
+      {showGraph()}
     </div>
   );
 }
