@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Route, Switch, BrowserRouter as Router, Link } from "react-router-dom";
 import { Container, Col, Row, Badge, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import gp from "./Components/gp.jpeg";
-import adnan from "./Components/adnan.jpg";
-import kasia from "./Components/kasia.jpeg";
-import sang from "./Components/sang.jpg";
+import gp from "./Components/GP.jpg";
+import adnan from "./Components/Adnan.jpg";
+import kasia from "./Components/Kasia.jpg";
+import sang from "./Components/Sang.jpg";
 
 function Team() {
   const imgStyle = {
@@ -14,24 +13,31 @@ function Team() {
 
   return (
     <Container className="align-content-center p-3">
-      <h1 style={{ textAlign: "center" }}>Hello from Team μ</h1>
-      <Container className="m-5">
+      <h1 className="p-2" style={{ textAlign: "center" }}>
+        Hello from Team μ
+      </h1>
+      <Container className="m-3">
+        <div class="card">
+          <div class="card-body text-center">Welcome to our dashboard. </div>
+        </div>
+      </Container>
+      <Container className="m-3">
         <Row>
           <Col>
-            <div className="card" style={{ width: "18rem" }}>
+            <div className="card text-center my-3" style={{ width: "18rem" }}>
               <img src={adnan} className="card-img-top" alt="" />
               <div className="card-body">
-                <h5 className="card-title">
-                  Adnan<span class="badge badge-secondary">New</span>
-                </h5>
+                <span class="badge bg-secondary p-2 mb-2">DEVOPS</span>
+                <h5 className="card-title p-1">Adnan Gondal</h5>
                 <p className="card-text">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
+                  Adnan is a recent MEng graduate from Imperial College London.
+                  He loves how coding brings people from all walks of life
+                  together.
                 </p>
                 <Button
                   href="https://github.com/AdnanGondal"
                   target="_blank"
-                  className="btn btn-light border m-1"
+                  className="btn btn-light text-secondary border m-1"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -47,7 +53,7 @@ function Team() {
                 <Button
                   href="https://www.linkedin.com/in/adnan-gondal-2021/"
                   target="_blank"
-                  className="btn btn-light border m-1"
+                  className="btn btn-light text-secondary border m-1"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -64,18 +70,21 @@ function Team() {
             </div>
           </Col>
           <Col>
-            <div className="card" style={{ width: "18rem" }}>
+            <div className="card text-center my-3" style={{ width: "18rem" }}>
               <img src={gp} className="card-img-top" alt="" />
               <div className="card-body">
-                <h5 className="card-title">Gurpartap</h5>
+                <span class="badge bg-secondary p-2 mb-2">
+                  SOFTWARE ARCHITECT
+                </span>
+                <h5 className="card-title p-1">Gurpartap Lakhanpal</h5>
                 <p className="card-text">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
+                  Gurpartap studied Mechanical Engineering at the University of
+                  Warwick. He's an avid listener of TedTalks Daily podcast.
                 </p>
                 <Button
                   href="https://github.com/gsinghlak12"
                   target="_blank"
-                  className="btn btn-light border m-1"
+                  className="btn btn-light text-secondary border m-1"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -89,9 +98,9 @@ function Team() {
                   </svg>
                 </Button>
                 <Button
-                  href="https://www.linkedin.com/in/gurpartap-s-l-a1236a139/"
+                  href="https://www.linkedin.com/in/gurpartap-s-a1236a139/"
                   target="_blank"
-                  className="btn btn-light border m-1"
+                  className="btn btn-light text-secondary border m-1"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -108,18 +117,20 @@ function Team() {
             </div>
           </Col>
           <Col>
-            <div className="card" style={{ width: "18rem" }}>
+            <div className="card text-center my-3" style={{ width: "18rem" }}>
               <img src={kasia} className="card-img-top" alt="" />
               <div className="card-body">
-                <h5 className="card-title">Kasia</h5>
+                <span class="badge bg-secondary p-2 mb-2">PROJECT MANAGER</span>
+                <h5 className="card-title p-1">Kasia Dutch</h5>
                 <p className="card-text">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
+                  Kasia holds a degree in Russian and Chinese, but now uses her
+                  language skills to build software. She's passionate about
+                  great UI.
                 </p>
                 <Button
                   href="https://github.com/kashcoding"
                   target="_blank"
-                  className="btn btn-light border m-1"
+                  className="btn btn-light text-secondary border m-1"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -135,7 +146,7 @@ function Team() {
                 <Button
                   href="https://www.linkedin.com/in/k-dutch/"
                   target="_blank"
-                  className="btn btn-light border m-1"
+                  className="btn btn-light text-secondary border m-1"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -152,18 +163,22 @@ function Team() {
             </div>
           </Col>
           <Col>
-            <div className="card" style={{ width: "18rem" }}>
+            <div className="card text-center my-3" style={{ width: "18rem" }}>
               <img src={sang} className="card-img-top" alt="" />
               <div className="card-body">
-                <h5 className="card-title">Sang</h5>
+                <span class="badge bg-secondary p-2 mb-2">
+                  QUALITY ASSURANCE
+                </span>
+                <h5 className="card-title p-1">Sang Ta</h5>
                 <p className="card-text">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
+                  Sang is a CompSci graduate from the University of Nottingham.
+                  As well as being our team's QA Tester, he also provides all
+                  the snacks.
                 </p>
                 <Button
                   href="https://github.com/gSangsterr"
                   target="_blank"
-                  className="btn btn-light border m-1"
+                  className="btn btn-light text-secondary border m-1"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -179,7 +194,7 @@ function Team() {
                 <Button
                   href="https://www.linkedin.com/in/sang-t-080892172/"
                   target="_blank"
-                  className="btn btn-light border m-1"
+                  className="btn btn-light text-secondary border m-1"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
