@@ -12,6 +12,15 @@ function Login(props) {
 		error: "",
 		success: "",
 	});
+	const [SessionCount, setSessionCount] = useState(0);
+
+	const [sessionUpdate, setSessionUpdate] = useState(0);
+
+	useEffect(() => {
+		if (sessionUpdate == 0) {
+			checkSessionExists();
+		}
+	});
 
 	const handleLoginInput = (e) => {
 		const { username, password } = currentUser;
@@ -49,8 +58,38 @@ function Login(props) {
 		} else {
 			setMessage({ success: "Logged in!" });
 			props.setLoggedIn(true);
+			postSession();
 		}
 	};
+
+	async function postSession() {
+		setSessionCount(1);
+		const response = await fetch(`http://localhost:8080/api/sessions`, {
+			method: "POST",
+			credentials: "include",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(currentUser),
+		});
+	}
+	async function checkSessionExists() {
+		setSessionUpdate(1);
+		const response = await fetch(`http://localhost:8080/api/sessions/check`, {
+			method: "GET",
+			credentials: "include",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
+		const jsonResponse = await response.json();
+		console.log(jsonResponse.loggedIn);
+		if (jsonResponse.loggedIn) {
+			props.setLoggedIn(true);
+		} else {
+			props.setLoggedIn(false);
+		}
+	}
 
 	return (
 		<div className="account" id="login">
@@ -93,6 +132,7 @@ function Login(props) {
 						/>
 						<br />
 						<Button
+							className="btn btn-secondary m-2"
 							onClick={() => {
 								postLogin();
 							}}

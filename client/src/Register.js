@@ -167,6 +167,10 @@ function Register(props) {
             />
             <br />
             <Button
+<<<<<<< HEAD
+=======
+              className="btn btn-secondary m-2"
+>>>>>>> 60a24eaf61a4f7c914017e13a27310e61b326731
               onClick={() => {
                 handleNewUser();
               }}
