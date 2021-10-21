@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Container, Form, Row, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-function Search() {
+function Search(props) {
 	const [countryList, setCountryList] = useState([]);
 	const [firstCountry, setFirstCountry] = useState("");
 	const [secondCountry, setSecondCountry] = useState("");
@@ -60,25 +60,22 @@ function Search() {
 		}
 	};
 
-
-
-
-  const yearDropDown = (startYear, endYear, type) => {
-    const options = [];
-    options.push(
-      <option key={0 + type} value={0} disabled hidden>
-        {type} year
-      </option>
-    );
-    for (let i = startYear; i >= endYear; i--) {
-      options.push(
-        <option key={i + type} value={i}>
-          {i}
-        </option>
-      );
-    }
-    return options;
-  };
+	const yearDropDown = (startYear, endYear, type) => {
+		const options = [];
+		options.push(
+			<option key={0 + type} value={0} disabled hidden>
+				{type} year
+			</option>
+		);
+		for (let i = startYear; i >= endYear; i--) {
+			options.push(
+				<option key={i + type} value={i}>
+					{i}
+				</option>
+			);
+		}
+		return options;
+	};
 
 	const countryDropDown = (type) => {
 		return countryList.map((input) => (
@@ -102,48 +99,45 @@ function Search() {
 		return indicatorOption;
 	};
 
+	const addCountryButton = () => {
+		if (clicked) {
+			return (
+				<Button
+					className="mx-2"
+					variant="outline-secondary"
+					onClick={(e) => cleanSecondCountry(e)}
+				>
+					-
+				</Button>
+			);
+		}
+		return (
+			<Button
+				className="mx-2"
+				variant="outline-secondary"
+				onClick={(e) => makeSecondCountryInput(e)}
+			>
+				+
+			</Button>
+		);
+	};
 
+	const makeSecondCountryInput = (e) => {
+		e.preventDefault();
+		setClicked(true);
+	};
+	const cleanSecondCountry = (e) => {
+		e.preventDefault();
+		setSecondCountry("");
+		setClicked(false);
+	};
 
-  const addCountryButton = () => {
-    if (clicked) {
-      return (
-        <Button
-          className="mx-2"
-          variant="outline-secondary"
-          onClick={(e) => cleanSecondCountry(e)}
-        >
-          -
-        </Button>
-      );
-    }
-    return (
-      <Button
-        className="mx-2"
-        variant="outline-secondary"
-        onClick={(e) => makeSecondCountryInput(e)}
-      >
-        +
-      </Button>
-    );
-  };
-
-  const makeSecondCountryInput = (e) => {
-    e.preventDefault();
-    setClicked(true);
-  };
-  const cleanSecondCountry = (e) => {
-    e.preventDefault();
-    setSecondCountry("");
-    setClicked(false);
-  };
-
-  const hideSecondCountry = () => {
-    if (clicked) {
-      return "btn btn-light dropdown-toggle";
-    }
-    return "d-none";
-  };
-
+	const hideSecondCountry = () => {
+		if (clicked) {
+			return "btn btn-light dropdown-toggle";
+		}
+		return "d-none";
+	};
 
 	const addNewCountryField = () => {
 		return (
@@ -163,10 +157,12 @@ function Search() {
 	};
 
 	///posting Search
-
+	console.log(firstCountry, secondCountry, indicator);
 	const postSearch = async (e) => {
 		const bodyResponse = {
+			user_id: 38,
 			firstCountry: firstCountry,
+			secondCountry: secondCountry,
 			indicator: indicator,
 		};
 		const requestOptions = {
@@ -176,11 +172,11 @@ function Search() {
 				Access: "application/json",
 				"Content-Type": "application/json",
 			},
-			body: bodyResponse,
+			body: JSON.stringify(bodyResponse),
 		};
 
 		const response = await fetch(
-			`http://localhost:8080/api/users/history/postSearch`,
+			`http://localhost:8080/api/history/postSearch`,
 			requestOptions
 		);
 		const json = await response.json();
@@ -239,12 +235,21 @@ function Search() {
 							</select>
 						</Col>
 					</Row>
-					<Button className="btn btn-secondary m-2">See results</Button>{" "}
+					<Button
+						onClick={(e) => {
+							// e.preventDefault();
+							if (props.loggedIn) {
+								postSearch();
+							}
+						}}
+						className="btn btn-secondary m-2"
+					>
+						See results
+					</Button>{" "}
 				</Form>{" "}
 			</Container>
 		</div>
 	);
-
 }
 
 export default Search;

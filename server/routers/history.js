@@ -25,14 +25,12 @@ router.get("/", function (req, res) {
 router.post("/postSearch", async function (req, res) {
 	const client = await pool.connect();
 
-	const { firstCountry, indicator } = await req.body;
-
-	await client.query("INSERT INTO sessions (uuid, user_id) VALUES ($1, $2)", [
-		sessionID,
-		userKey.rows[0].id,
-	]);
-	//first insert into countrysearches (country,)
-	res.cookie("sessionID", sessionID).send("cookie sent");
+	const { user_id, firstCountry, secondCountry, indicator } = await req.body;
+	console.log(user_id, firstCountry, secondCountry, indicator);
+	await client.query(
+		"INSERT INTO history (user_id, country1_id,country2_id,indicator_id) VALUES ($1, $2,$3,$4)",
+		[user_id, firstCountry, secondCountry, indicator]
+	);
 
 	client.release();
 });

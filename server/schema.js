@@ -6,7 +6,7 @@ async function createDatabase() {
 	// createUsersTable();
 	// addSeedData();
 	// createSessionsTable();
-	// createHistoryTable();
+	createHistoryTable();
 	// createCountrySearchesTable();
 	// createIndicatorSearchesTable();
 	return;
@@ -90,8 +90,10 @@ async function createHistoryTable() {
 	const sql = `
   CREATE TABLE history(
     id SERIAL PRIMARY KEY,
-    country_id TEXT NOT NULL,
-    indicator_id TEXT NOT NULL,
+    user_id INTEGER REFERENCES users(id),
+    country1_id TEXT DEFAULT NULL,
+    country2_id TEXT DEFAULT NULL,
+    indicator_id TEXT DEFAULT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
   )
   `;
