@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Alert, Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import women from "./Components/women-of-world.png";
 
 function Login(props) {
   const [currentUser, setCurrentUser] = useState({
@@ -27,17 +28,16 @@ function Login(props) {
     });
   };
 
-
-	const postLogin = async (e) => {
-		const requestOptions = {
-			method: "POST",
-			credentials: "include",
-			headers: {
-				Access: "application/json",
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(currentUser),
-		};
+  const postLogin = async (e) => {
+    const requestOptions = {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        Access: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(currentUser),
+    };
 
     const response = await fetch(
       `http://localhost:8080/api/users/verify`,
@@ -45,14 +45,13 @@ function Login(props) {
     );
     const json = await response.json();
 
-
-		if (!response.ok) {
-			setMessage({ error: json.status });
-		} else {
-			setMessage({ success: "Logged in!" });
-			props.setLoggedIn(true);
-		}
-	};
+    if (!response.ok) {
+      setMessage({ error: json.status });
+    } else {
+      setMessage({ success: "Logged in!" });
+      props.setLoggedIn(true);
+    }
+  };
 
   return (
     <div className="account" id="login">

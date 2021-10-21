@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Container, Row, Col } from "react-bootstrap";
+import { Button, Container, Form, Row, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function Search() {
@@ -64,7 +64,7 @@ function Search() {
     const options = [];
     options.push(
       <option key={0 + type} value={0} disabled hidden>
-        Choose {type} Year!
+        Choose {type} year
       </option>
     );
     for (let i = startYear; i >= endYear; i--) {
@@ -136,56 +136,60 @@ function Search() {
 
   return (
     <div>
-      <Container>
-        <Row>
-          <h3>Search data</h3>
-        </Row>
-        <Row>
-          <Col md>
-            <label>Countries:</label>
-            <input
-              className="input"
-              list="countryList1"
-              placeholder="Type a country..."
-              onChange={(e) =>
-                validateInput(e.target.value, countryList, setFirstCountry)
-              }
-            ></input>
-            {addCountryButton()}
-            {addNewCountryField()}
-            <datalist id="countryList1">{countryDropDown("first")}</datalist>
-          </Col>
-          <Col md>
-            <label>Indicators:</label>
-            <input
-              className="input"
-              list="indicatorList"
-              placeholder="Choose indicator..."
-              onChange={(e) =>
-                validateInput(e.target.value, indicatorList, setIndicator)
-              }
-            ></input>
-            <datalist id="indicatorList">{indicatorDropDown()}</datalist>
-          </Col>
-          <Col md>
-            <label>Year range:</label>
-            <select
-              className="input"
-              defaultValue={0}
-              onChange={(e) => setStart(e.target.value)}
-            >
-              {yearDropDown(parseInt(end), 1980, "Start")}
-            </select>
-            <select
-              className="input"
-              defaultValue={0}
-              onChange={(e) => setEnd(e.target.value)}
-            >
-              {yearDropDown(2021, parseInt(start), "End")}
-            </select>
-          </Col>
-        </Row>
-        <Button className="btn btn-secondary m-2">See results</Button>{" "}
+      <Container className="container border border-secondary rounded d-flex align-content-center justify-content-center shadow p-3 bg-white rounded">
+        <Form className="d-flex flex-column align-items-center">
+          <Row>
+            <Form.Text>
+              <h3>Search data</h3>{" "}
+            </Form.Text>
+          </Row>
+          <Row>
+            <Col md>
+              <label>Countries:</label>
+              <input
+                class="btn btn-light dropdown-toggle"
+                list="countryList1"
+                placeholder="Type a country..."
+                onChange={(e) =>
+                  validateInput(e.target.value, countryList, setFirstCountry)
+                }
+              ></input>
+              {addCountryButton()}
+              {addNewCountryField()}
+              <datalist id="countryList1">{countryDropDown("first")}</datalist>
+            </Col>
+            <Col md>
+              <label>Indicators:</label>
+              <input
+                className="input"
+                list="indicatorList"
+                placeholder="Choose indicator..."
+                onChange={(e) =>
+                  validateInput(e.target.value, indicatorList, setIndicator)
+                }
+              ></input>
+              <datalist id="indicatorList">{indicatorDropDown()}</datalist>
+            </Col>
+            <Col md>
+              <label>Year range:</label>
+              <select
+                className="input"
+                defaultValue={0}
+                onChange={(e) => setStart(e.target.value)}
+              >
+                {yearDropDown(parseInt(end), 1980, "start")}
+              </select>
+              <select
+                className="input"
+                defaultValue={0}
+                onChange={(e) => setEnd(e.target.value)}
+              >
+                {yearDropDown(2021, parseInt(start), "end")}
+              </select>
+            </Col>
+          </Row>
+          <Button className="btn btn-secondary m-2">See results</Button>{" "}
+        </Form>{" "}
       </Container>
     </div>
   );

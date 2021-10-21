@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Route, Switch, BrowserRouter as Router, Link } from "react-router-dom";
 import Home from "./Home";
 import Login from "./Login";
@@ -7,18 +7,19 @@ import Register from "./Register";
 import Search from "./Search";
 import History from "./History";
 import Team from "./Team";
-import { Button, Navbar, Nav, Container } from "react-bootstrap";
+import { Button, Nav, Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import women from "./Components/women-of-world.png";
 
 function App() {
-	const [loggedIn, setLoggedIn] = useState(false);
-	const [userType, setUserType] = useState({ userType: "standard" });
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [userType, setUserType] = useState({ userType: "standard" });
 
-	const onEnterKey = (e, callback) => {
-		if (e.charCode === 13) {
-			callback();
-		}
-	};
+  const onEnterKey = (e, callback) => {
+    if (e.charCode === 13) {
+      callback();
+    }
+  };
 
   const setNavButtons = () => {
     if (!loggedIn) {
@@ -62,7 +63,7 @@ function App() {
       );
     } else {
       return (
-        <div className="hcol-xs-3">
+        <div>
           <Link to="/history">
             <Button className="mx-2" variant="outline-secondary">
               <svg
@@ -100,9 +101,12 @@ function App() {
 
   return (
     <Router>
-      <div className="App">
-        <Nav className="navbar p-2 mb-4 bg-light text-dark">
-          <div className="col-xs-3">
+      <Container
+        className="d-flex justify-content-center align-content-center"
+        style={{ backgroundImage: "url(" + women + ")" }}
+      >
+        <Nav className="navbar p-2 bg-light text-dark fixed-top">
+          <div>
             <Link to="/">
               <Button className="mx-2" variant="outline-secondary">
                 <svg
@@ -143,13 +147,13 @@ function App() {
           </div>
           {setNavButtons()}
         </Nav>
-        <main>
-          <Switch className="row align-items-center">
+        <Container className="d-flex justify-content-center align-content-center position-absolute top-50 start-50 translate-middle">
+          <Switch>
             <Route exact path="/">
               <Home />
             </Route>
             <Route exact path="/login">
-              <Login onEnterKey={onEnterKey} setLoggedIn={setLoggedIn}/>
+              <Login onEnterKey={onEnterKey} setLoggedIn={setLoggedIn} />
             </Route>
             <Route exact path="/register">
               <Register onEnterKey={onEnterKey} />
@@ -164,7 +168,7 @@ function App() {
               <Team />
             </Route>
           </Switch>
-        </main>
+        </Container>
         <footer className="container-fluid fixed-bottom p-1 bg-light text-dark">
           <div className="text-center ">
             Built by{" "}
@@ -183,7 +187,7 @@ function App() {
             2021
           </div>
         </footer>
-      </div>
+      </Container>
     </Router>
   );
 }
