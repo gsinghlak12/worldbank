@@ -60,22 +60,25 @@ function Search() {
 		}
 	};
 
-	const yearDropDown = (startYear, endYear, type) => {
-		const options = [];
-		options.push(
-			<option key={0 + type} value={0} disabled hidden>
-				Choose {type} year
-			</option>
-		);
-		for (let i = startYear; i >= endYear; i--) {
-			options.push(
-				<option key={i + type} value={i}>
-					{i}
-				</option>
-			);
-		}
-		return options;
-	};
+
+
+
+  const yearDropDown = (startYear, endYear, type) => {
+    const options = [];
+    options.push(
+      <option key={0 + type} value={0} disabled hidden>
+        {type} year
+      </option>
+    );
+    for (let i = startYear; i >= endYear; i--) {
+      options.push(
+        <option key={i + type} value={i}>
+          {i}
+        </option>
+      );
+    }
+    return options;
+  };
 
 	const countryDropDown = (type) => {
 		return countryList.map((input) => (
@@ -99,23 +102,48 @@ function Search() {
 		return indicatorOption;
 	};
 
-	const addCountryButton = () => {
-		if (clicked) {
-			return <button onClick={() => cleanSecondCountry()}>-</button>;
-		}
-		return <button onClick={() => setClicked(true)}>+</button>;
-	};
 
-	const cleanSecondCountry = () => {
-		setSecondCountry("");
-		setClicked(false);
-	};
-	const hideSecondCountry = () => {
-		if (clicked) {
-			return "input";
-		}
-		return "d-none";
-	};
+
+  const addCountryButton = () => {
+    if (clicked) {
+      return (
+        <Button
+          className="mx-2"
+          variant="outline-secondary"
+          onClick={(e) => cleanSecondCountry(e)}
+        >
+          -
+        </Button>
+      );
+    }
+    return (
+      <Button
+        className="mx-2"
+        variant="outline-secondary"
+        onClick={(e) => makeSecondCountryInput(e)}
+      >
+        +
+      </Button>
+    );
+  };
+
+  const makeSecondCountryInput = (e) => {
+    e.preventDefault();
+    setClicked(true);
+  };
+  const cleanSecondCountry = (e) => {
+    e.preventDefault();
+    setSecondCountry("");
+    setClicked(false);
+  };
+
+  const hideSecondCountry = () => {
+    if (clicked) {
+      return "btn btn-light dropdown-toggle";
+    }
+    return "d-none";
+  };
+
 
 	const addNewCountryField = () => {
 		return (
@@ -216,6 +244,7 @@ function Search() {
 			</Container>
 		</div>
 	);
+
 }
 
 export default Search;

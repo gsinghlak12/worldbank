@@ -6,34 +6,6 @@ import women from "./Components/women-of-world.png";
 import convertData from "./Components/GraphComponents/convertData";
 
 function Home() {
-  const [years, setYears] = useState([]);
-  const [country, setCountry] = useState("");
-  const [value, setValue] = useState([]);
-  const [title, setTitle] = useState("");
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://localhost:8080/api/indicators");
-        const json = await response.json();
-        console.log(json);
-        const { years, country, value, title } = json;
-        setYears(years);
-        setCountry(country);
-        setValue(value);
-        setTitle(title);
-        console.log(years, country, value, title);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, []);
-
-  const dataset = convertData([years, country, value]);
-
-  console.log(dataset);
-
   const outerStyle = {
     backgroundImage: "url(" + women + ")",
     backgroundSize: "85%",
@@ -47,9 +19,10 @@ function Home() {
     <Container
       className="container border border-secondary rounded d-flex flex-column align-items-center justify-content-center shadow p-3 bg-white rounded"
       style={outerStyle}
+      data-testid="home-container"
     >
       <Container>
-        <Jumbotron>
+        <Jumbotron className="text-center">
           <h1>Hello, world!</h1>
           <p>...</p>
           <p>
@@ -61,7 +34,6 @@ function Home() {
       </Container>
     </Container>
   );
-
 }
 
 export default Home;
