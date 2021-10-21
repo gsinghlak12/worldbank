@@ -177,6 +177,28 @@ function Search() {
     );
   };
 
+  const postSearch = async (e) => {
+    const bodyResponse = {
+      firstCountry: firstCountry,
+      indicator: indicator,
+    };
+    const requestOptions = {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        Access: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: bodyResponse,
+    };
+
+    const response = await fetch(
+      `http://localhost:8080/api/users/history/postSearch`,
+      requestOptions
+    );
+    const json = await response.json();
+  };
+
   return (
     <div>
       <Container className="container border border-secondary rounded d-flex shadow py-4 px-5 bg-white rounded">
