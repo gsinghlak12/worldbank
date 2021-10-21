@@ -27,10 +27,15 @@ router.post("/postSearch", async function (req, res) {
 
 	const { user_id, firstCountry, secondCountry, indicator } = await req.body;
 	console.log(user_id, firstCountry, secondCountry, indicator);
-	await client.query(
-		"INSERT INTO history (user_id, country1_id,country2_id,indicator_id) VALUES ($1, $2,$3,$4)",
-		[user_id, firstCountry, secondCountry, indicator]
-	);
+	try {
+		await client.query(
+			"INSERT INTO history (user_id, country1_id,country2_id,indicator_id) VALUES ($1, $2,$3,$4)",
+			[user_id, firstCountry, secondCountry, indicator]
+		);
+		res.status(200).json({ Message: "History updated!" }, 200);
+	} catch {
+		res.status(400).json({ Message: "Error" }, 400);
+	}
 
 	client.release();
 });
