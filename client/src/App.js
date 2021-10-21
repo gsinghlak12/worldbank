@@ -207,7 +207,7 @@ function App() {
             <Route exact path="/history">
               <History />
             </Route>
-            <Route exact path="/meet-the-team">
+            <Route exact path="/about">
               <Team />
             </Route>
           </Switch>
@@ -215,7 +215,7 @@ function App() {
         <footer className="container-fluid fixed-bottom p-1 bg-light text-dark">
           <div className="text-center ">
             Built by{" "}
-            <Link className="link-dark" to="/meet-the-team">
+            <Link className="link-dark" to="/about">
               Team μ
             </Link>{" "}
             @{" "}

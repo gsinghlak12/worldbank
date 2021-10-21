@@ -220,8 +220,8 @@ function Search() {
                   }
                 ></input>
               </Container>
+              <datalist id="countryList1">{countryDropDown("first")}</datalist>{" "}
               {addNewCountryField()}
-              <datalist id="countryList1">{countryDropDown("first")}</datalist>
             </Container>
             <Container className="d-flex flex-column align-items-center text-center">
               <label className="p-2">Indicators:</label>
