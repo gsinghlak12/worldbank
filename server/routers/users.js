@@ -6,7 +6,6 @@ const bcrypt = require("bcrypt");
 const v4 = require("uuid");
 
 const { Pool, Client } = require("pg");
-//router.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 const pool = new Pool({
 	user: "postgres",
@@ -32,10 +31,8 @@ router.post("/", async function (req, res) {
 		`SELECT username FROM users WHERE username=$1`,
 		[username]
 	);
-	console.log(duplicate.rows.length);
 	if (duplicate.rows.length !== 0) {
 		res.status(400).json({ Message: "Error" }, 400);
-		console.log("shit");
 	} else {
 		res.status(200).json({ Message: "Works" }, 200);
 
@@ -56,7 +53,6 @@ router.post("/verify", async function (req, res) {
 		`SELECT password FROM users WHERE username=$1`,
 		[username]
 	);
-	console.log(hash.rows[0]);
 	if (hash.rows[0]) {
 		const hashing = hash.rows[0].password;
 
