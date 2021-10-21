@@ -80,7 +80,7 @@ function Search() {
     const options = [];
     options.push(
       <option key={0 + type} value={0} disabled hidden>
-        Choose {type} year
+        {type} year
       </option>
     );
     for (let i = startYear; i >= endYear; i--) {
@@ -112,9 +112,43 @@ function Search() {
 
   const addCountryButton = () => {
     if (clicked) {
-      return <button onClick={(e) => cleanSecondCountry(e)}>-</button>;
+      return (
+        <Button
+          className="m-1"
+          variant="outline-secondary"
+          onClick={(e) => cleanSecondCountry(e)}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            fill="currentColor"
+            class="bi bi-dash"
+            viewBox="0 0 16 16"
+          >
+            <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
+          </svg>{" "}
+        </Button>
+      );
     }
-    return <button onClick={(e) => makeSecondCountryInput(e)}>+</button>;
+    return (
+      <Button
+        className="m-1 "
+        variant="outline-secondary"
+        onClick={(e) => makeSecondCountryInput(e)}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          fill="currentColor"
+          class="bi bi-plus "
+          viewBox="0 0 16 16"
+        >
+          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+        </svg>
+      </Button>
+    );
   };
 
   const makeSecondCountryInput = (e) => {
@@ -127,6 +161,7 @@ function Search() {
     setSecondCode("");
     setClicked(false);
   };
+
   const hideSecondCountry = () => {
     if (clicked) {
       return "input";
@@ -136,24 +171,49 @@ function Search() {
 
   const addNewCountryField = () => {
     return (
-      <div>
-        <input
-          className={hideSecondCountry()}
-          list="countryList2"
-          placeholder="Type a country..."
-          autoComplete="on"
-          onChange={(e) =>
-            validateCountry(
-              e.target.value,
-              countryList,
-              setSecondCountry,
-              setSecondCode
-            )
-          }
-        ></input>
-        <datalist id="countryList2">{countryDropDown("second")}</datalist>
-      </div>
+      <Container className="d-flex flex-column align-items-center text-center">
+        <div className={hideSecondCountry()}>
+          <label className="p-2">Country 2:</label>
+          <input
+            className="btn btn-light dropdown-toggle m-1"
+            list="countryList2"
+            placeholder="Type a country..."
+            autoComplete="on"
+            onChange={(e) =>
+              validateCountry(
+                e.target.value,
+                countryList,
+                setSecondCountry,
+                setSecondCode
+              )
+            }
+          ></input>
+          <datalist id="countryList2">{countryDropDown("second")}</datalist>
+        </div>
+      </Container>
     );
+  };
+
+  const postSearch = async (e) => {
+    const bodyResponse = {
+      firstCountry: firstCountry,
+      indicator: indicator,
+    };
+    const requestOptions = {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        Access: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: bodyResponse,
+    };
+
+    const response = await fetch(
+      `http://localhost:8080/api/users/history/postSearch`,
+      requestOptions
+    );
+    const json = await response.json();
   };
 
   const sendData = async () => {
@@ -189,37 +249,37 @@ function Search() {
 
   return (
     <div>
-      <Container className="container border border-secondary rounded d-flex align-content-center justify-content-center shadow p-3 bg-white rounded">
-        <Form className="d-flex flex-column align-items-center">
-          <Row>
-            <Form.Text>
-              <h3>Search data</h3>{" "}
-            </Form.Text>
-          </Row>
-          <Row>
-            <Col md>
-              <label>Countries:</label>
-              <input
-                class="btn btn-light dropdown-toggle"
-                list="countryList1"
-                placeholder="Type a country..."
-                onChange={(e) =>
-                  validateCountry(
-                    e.target.value,
-                    countryList,
-                    setFirstCountry,
-                    setFirstCode
-                  )
-                }
-              ></input>
+      <Container className="container border border-secondary rounded d-flex shadow py-4 px-5 bg-white rounded">
+        <Form className="d-flex flex-column align-items-center justify-content-center">
+          <Form.Text>
+            <h3 className="text-center pb-2">Search data</h3>
+          </Form.Text>
+          <Container className="d-flex flex-row align-items-start justify-content-center">
+            <Container className="d-flex flex-row align-items-end justify-items-start">
               {addCountryButton()}
+              <Container className="d-flex flex-column align-items-center text-center">
+                <label className="p-2">Country 1:</label>
+                <input
+                  className="btn btn-light dropdown-toggle m-1"
+                  list="countryList1"
+                  placeholder="Type a country..."
+                  onChange={(e) =>
+                    validateCountry(
+                      e.target.value,
+                      countryList,
+                      setFirstCountry,
+                      setFirstCode
+                    )
+                  }
+                ></input>
+              </Container>
               {addNewCountryField()}
               <datalist id="countryList1">{countryDropDown("first")}</datalist>
-            </Col>
-            <Col md>
-              <label>Indicators:</label>
+            </Container>
+            <Container className="d-flex flex-column align-items-center text-center">
+              <label className="p-2">Indicators:</label>
               <input
-                className="input"
+                className="btn btn-light dropdown-toggle m-1"
                 list="indicatorList"
                 placeholder="Choose indicator..."
                 onChange={(e) =>
@@ -227,32 +287,34 @@ function Search() {
                 }
               ></input>
               <datalist id="indicatorList">{indicatorDropDown()}</datalist>
-            </Col>
-            <Col md>
-              <label>Year range:</label>
-              <select
-                className="input"
-                defaultValue={0}
-                onChange={(e) => setStart(e.target.value)}
-              >
-                {yearDropDown(parseInt(end), 1980, "start")}
-              </select>
-              <select
-                className="input"
-                defaultValue={0}
-                onChange={(e) => setEnd(e.target.value)}
-              >
-                {yearDropDown(2021, parseInt(start), "end")}
-              </select>
-            </Col>
-          </Row>
+            </Container>
+            <Container className="d-flex flex-column align-items-center text-center">
+              <label className="p-2">Year range:</label>
+              <Container className="d-flex flex-row align-items-center text-center">
+                <select
+                  className="btn btn-light dropdown-toggle p-2 m-1"
+                  defaultValue={0}
+                  onChange={(e) => setStart(e.target.value)}
+                >
+                  {yearDropDown(parseInt(end), 1980, "Start")}
+                </select>
+                <select
+                  className="btn btn-light dropdown-toggle p-2 m-1"
+                  defaultValue={0}
+                  onChange={(e) => setEnd(e.target.value)}
+                >
+                  {yearDropDown(2021, parseInt(start), "End")}
+                </select>
+              </Container>
+            </Container>
+          </Container>
           <Button
-            className="btn btn-secondary m-2"
+            className="btn btn-secondary mt-3"
             onClick={async (e) => await sendData()}
           >
             See results
           </Button>{" "}
-        </Form>{" "}
+        </Form>
       </Container>
       {showGraph()}
     </div>

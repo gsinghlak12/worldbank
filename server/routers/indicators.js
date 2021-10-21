@@ -39,27 +39,9 @@ router.get("/", async function (req, res) {
 
   res.json({ data: indicators.rows });
 });
-// define the about route
 
-// User can enter country code and that data will be used
-
-router.get("/countries/:country_code", async function (req, res) {
-  // WE NEED TO CHANGE THIS TO MAKE SURE URM
-  // THAT THE OTHER INDICATORS ARE THERE
-  // AND ALL INDICATORS WE ARE INTERESTED IN, ARE PUT IN AN ARRAY
-  // THAT WE CAN MAP THROUGH IN THE FRONT
-  // ALSO GET RID OF URM THE SQL INJECTION!!!
-
-  const indicator = "Birth rate, crude (per 1,000 people)";
-  const country = req.params.country_code;
-  console.log(req.params);
-
-  const years = await client.query(`SELECT value,year FROM indicators
-  WHERE indicatorname='${indicator}' AND countrycode='${country}'
-  ORDER BY year DESC
-   LIMIT 10;`);
-
-  const plot = years.rows.reduce(
+function arrangeData(row) {
+  const plot = row.reduce(
     (obj, val) => {
       obj.years.push(val.year);
       obj.value.push(val.value);
@@ -68,36 +50,55 @@ router.get("/countries/:country_code", async function (req, res) {
     { years: [], value: [] }
   );
 
-  plot["title"] = indicator;
-  plot["country"] = country;
-  res.json(plot);
-});
+  plot["indicator"] = row[0].indicatorname;
+  plot["country"] = row[0].countryname;
 
-router.get("/:series_code/countries/:country_code", async function (req, res) {
-  const indicator_code = req.params.series_code;
-  const country = req.params.country_code;
-  console.log(req.params);
+  return plot;
+}
 
-  const years =
-    await client.query(`SELECT value,year,countryname FROM indicators
-  WHERE indicatorcode='${indicator_code}' AND countrycode='${country}'
+// One Indicator , One Country
+router.get(
+  "/:indicator_code/countries/:country_code",
+  async function (req, res) {
+    const indicator_code = req.params.indicator_code;
+    const country = req.params.country_code;
+    console.log(req.params);
+
+    const sql = `SELECT value,year,countryname,indicatorname FROM indicators
+  WHERE indicatorcode=$1 AND countrycode=$2
   ORDER BY year DESC
-   LIMIT 10;`);
+   LIMIT 10;`;
 
-  const plot = years.rows.reduce(
-    (obj, val) => {
-      obj.years.push(val.year);
-      obj.value.push(val.value);
-      return obj;
-    },
-    { years: [], value: [] }
-  );
+    const data = await client.query(sql, [indicator_code, country]);
 
-  console.log(years.rows);
+    const plot = arrangeData(data.rows);
 
-  plot["title"] = indicator_code;
-  plot["country"] = years.rows[0].countryname;
-  res.json(plot);
-});
+    res.json({ data: [plot] });
+  }
+);
+
+router.get(
+  "/:indicator_code/countries/:country_code1/:country_code2",
+  async function (req, res) {
+    const indicator_code = req.params.indicator_code;
+    const country1 = req.params.country_code1;
+    const country2 = req.params.country_code2;
+    console.log(req.params);
+
+    const sql = `SELECT value,year,countryname,indicatorname FROM indicators
+  WHERE indicatorcode=$1 
+  AND countrycode=$2
+  ORDER BY year DESC
+   LIMIT 10;`;
+
+    const data = await client.query(sql, [indicator_code, country1]);
+    const data2 = await client.query(sql, [indicator_code, country2]);
+
+    const plot1 = arrangeData(data.rows);
+    const plot2 = arrangeData(data2.rows);
+
+    res.json({ data: [plot1, plot2] });
+  }
+);
 
 module.exports = router;

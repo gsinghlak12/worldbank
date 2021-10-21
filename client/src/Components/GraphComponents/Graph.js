@@ -26,7 +26,6 @@ function lineGraph(inputTitle, dataset) {
 }
 
 function Graph(props) {
-  console.log(props);
   return lineGraph(props.title, props.dataset);
 }
 
