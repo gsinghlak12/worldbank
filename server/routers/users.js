@@ -9,23 +9,21 @@ const { Pool, Client } = require("pg");
 //router.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 const pool = new Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "worldbank",
-  password: null,
-  port: 5432,
+	user: "postgres",
+	host: "localhost",
+	database: "worldbank",
+	password: null,
+	port: 5432,
 });
 
 (async function () {
-  res = await pool.connect();
-  return res;
+	res = await pool.connect();
+	return res;
 })();
-
 
 // define the home page route
 router.post("/", async function (req, res) {
-  const client = await pool.connect();
-
+	const client = await pool.connect();
 
 	const { username, password } = await req.body;
 	const salt = await bcrypt.genSalt(8);
@@ -46,28 +44,33 @@ router.post("/", async function (req, res) {
 			passwordEncrypted,
 		]);
 
-    client.release();
-  }
+		client.release();
+	}
 });
 
 router.post("/verify", async function (req, res) {
-  const client = await pool.connect();
+	const client = await pool.connect();
 
-  const { username, password } = await req.body;
-  const hash = await client.query(
-    `SELECT password FROM users WHERE username=$1`,
-    [username]
-  );
-  const hashing = hash.rows[0].password;
+	const { username, password } = await req.body;
+	const hash = await client.query(
+		`SELECT password FROM users WHERE username=$1`,
+		[username]
+	);
+	console.log(hash.rows[0]);
+	if (hash.rows[0]) {
+		const hashing = hash.rows[0].password;
 
-  const result = await bcrypt.compare(password, hashing);
-  if (result) {
-    res.json({ status: "loggedIn" }, 200);
-  } else {
-    res.json({ status: "notLoggedIn" }, 400);
-  }
+		const result = await bcrypt.compare(password, hashing);
+		if (result) {
+			res.json({ status: "loggedIn" }, 200);
+		} else {
+			res.json({ status: "Incorrect Password" }, 400);
+		}
+	} else {
+		res.json({ status: "Incorrect Username!" }, 400);
+	}
 
-  client.release();
+	client.release();
 });
 
 module.exports = router;
