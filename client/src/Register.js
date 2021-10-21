@@ -115,7 +115,7 @@ function Register(props) {
           <Form.Text>
             <h3>Register a new user</h3>
           </Form.Text>
-          <Form.Group controlId="formUsername">
+          <Form.Group>
             <Form.Label htmlFor="username">Username:</Form.Label>
             <Form.Control
               type="text"
@@ -132,7 +132,7 @@ function Register(props) {
             />
           </Form.Group>
           <br />
-          <Form.Group controlId="formPassword">
+          <Form.Group>
             <Form.Label htmlFor="password">Password:</Form.Label>
             <Form.Control
               type="password"
@@ -149,7 +149,7 @@ function Register(props) {
             />
           </Form.Group>
           <br />{" "}
-          <Form.Group controlId="formConfirm">
+          <Form.Group>
             <Form.Label htmlFor="confirm">Confirm password:</Form.Label>
             <Form.Control
               type="password"

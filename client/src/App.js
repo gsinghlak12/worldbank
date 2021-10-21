@@ -20,17 +20,17 @@ function App() {
       callback();
     }
   };
- 
-  	async function deleteCookie() {
-		const response = await fetch(`http://localhost:8080/api/sessions/delete`, {
-			method: "GET",
-			credentials: "include",
-			headers: {
-				"Content-Type": "application/json",
-			},
-		});
-	}
-  
+
+  async function deleteCookie() {
+    const response = await fetch(`http://localhost:8080/api/sessions/delete`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  }
+
   const setNavButtons = () => {
     if (!loggedIn) {
       return (
@@ -91,12 +91,15 @@ function App() {
               History
             </Button>
           </Link>
-          	<Button
-						onClick={async (e) => {
-							e.preventDefault();
-							setLoggedIn(false);
-							await deleteCookie();
-						}} className="mx-2" variant="outline-secondary">
+          <Button
+            onClick={async (e) => {
+              e.preventDefault();
+              setLoggedIn(false);
+              await deleteCookie();
+            }}
+            className="mx-2"
+            variant="outline-secondary"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"
@@ -123,7 +126,11 @@ function App() {
         <Nav className="navbar p-2 bg-light text-dark fixed-top">
           <div>
             <Link to="/">
-              <Button className="mx-2" variant="outline-secondary">
+              <Button
+                className="mx-2"
+                variant="outline-secondary"
+                data-testid="Home"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="18"

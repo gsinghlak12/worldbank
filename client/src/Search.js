@@ -101,12 +101,17 @@ function Search() {
 
   const addCountryButton = () => {
     if (clicked) {
-      return <button onClick={() => cleanSecondCountry()}>-</button>;
+      return <button onClick={(e) => cleanSecondCountry(e)}>-</button>;
     }
-    return <button onClick={() => setClicked(true)}>+</button>;
+    return <button onClick={(e) => makeSecondCountryInput(e)}>+</button>;
   };
 
-  const cleanSecondCountry = () => {
+  const makeSecondCountryInput = (e) => {
+    e.preventDefault();
+    setClicked(true);
+  };
+  const cleanSecondCountry = (e) => {
+    e.preventDefault();
     setSecondCountry("");
     setClicked(false);
   };
