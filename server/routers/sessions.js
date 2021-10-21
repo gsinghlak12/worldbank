@@ -21,45 +21,7 @@ const pool = new Pool({
   return res;
 })();
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-async function postSession(req, res) {
-  const { username } = await req.body;
-  const sessionID = uuidv4();
-  const [userKey] = pool2
-    .query(`SELECT userId FROM login WHERE username=?`, [username])
-    .asObjects();
-  await pool2.query(
-    "INSERT INTO sessions (uuid, user_id, created_at) VALUES (?, ?, datetime('now'))",
-    [sessionID, userKey.userId]
-  );
-  res.cookie("SessionID", sessionID).send("cookie sent");
-}
-
-async function getSession(req, res) {
-  const activeSession = req.cookies;
-  const [sessionID] = pool2
-    .query(
-      `SELECT uuid FROM sessions
-            ORDER BY created_at DESC
-            LIMIT 1;`
-    )
-    .asObjects();
-
-  if (activeSession.sessionID == sessionID.uuid) {
-    res.json({ loggedIn: true });
-  } else {
-    res.json({ loggedIn: false });
-  }
-}
-async function deleteSession() {
-  pool2.query(
-    `DELETE FROM sessions WHERE created_at=(SELECT MAX(created_at) FROM sessions)`
-  );
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 router.post("/", async function (req, res) {
   const client = await pool.connect();
