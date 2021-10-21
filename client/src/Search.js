@@ -3,6 +3,7 @@ import { Button, Container, Form, Row, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Graph from "./Components/GraphComponents/Graph";
 import convertData from "./Components/GraphComponents/convertData";
+import e from "express";
 
 function Search() {
   const [countryList, setCountryList] = useState([]);
@@ -194,27 +195,27 @@ function Search() {
     );
   };
 
-  const postSearch = async (e) => {
-    const bodyResponse = {
-      firstCountry: firstCountry,
-      indicator: indicator,
-    };
-    const requestOptions = {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        Access: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: bodyResponse,
-    };
+  // const postSearch = async (e) => {
+  //   const bodyResponse = {
+  //     firstCountry: firstCountry,
+  //     indicator: indicator,
+  //   };
+  //   const requestOptions = {
+  //     method: "POST",
+  //     credentials: "include",
+  //     headers: {
+  //       Access: "application/json",
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: bodyResponse,
+  //   };
 
-    const response = await fetch(
-      `http://localhost:8080/api/users/history/postSearch`,
-      requestOptions
-    );
-    const json = await response.json();
-  };
+  //   const response = await fetch(
+  //     `http://localhost:8080/api/users/history/postSearch`,
+  //     requestOptions
+  //   );
+  //   const json = await response.json();
+  // };
 
   const sendData = async () => {
     console.log("sent");
@@ -232,7 +233,14 @@ function Search() {
       );
       const json = await response.json();
       setGraphData(convertData([json.years, json.country, json.value]));
+    } else {
+      const response = await fetch(
+        `http://localhost:8080/api/${indicatorCode}/countries/${firstCode}/:${secondCode}`
+      );
+      const json = await response.json();
+      setGraphData(convertData([json.years, json.country, json.value]));
     }
+
     setDataSent(true);
   };
 
