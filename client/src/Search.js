@@ -250,6 +250,7 @@ function Search(props) {
 			</Container>
 		</div>
 	);
+
 }
 
 export default Search;
