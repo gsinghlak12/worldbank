@@ -13,7 +13,7 @@ function History() {
     const json = await response.json();
     const rows = json.rows;
 
-    console.log(rows);
+    console.log(json);
 
     // for (let i in response.rows) {
     //   return (
