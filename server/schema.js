@@ -5,10 +5,10 @@ const client = new Client(
 
 async function createDatabase() {
   await client.connect();
-  createUsersTable();
-  //addSeedData();
-  createSessionsTable();
-  createHistoryTable();
+  // createUsersTable();
+  // addSeedData();
+  //createSessionsTable();
+  // createHistoryTable();
   // createCountrySearchesTable();
   // createIndicatorSearchesTable();
   return;

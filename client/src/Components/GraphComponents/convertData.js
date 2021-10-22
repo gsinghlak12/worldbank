@@ -11,14 +11,14 @@ function twoDatasets(
       {
         label: firstLabel,
         backgroundColor: "rgba(192,75,75,1)",
-        borderColor: "rgba(0,0,0,1)",
+        borderColor: "rgba(192,75,75,1)",
         borderWidth: 2,
         data: firstDataset,
       },
       {
         label: SecondLabel,
         backgroundColor: "rgba(75,192,192,1)",
-        borderColor: "rgba(0,0,0,1)",
+        borderColor: "rgba(75,192,192,1)",
         borderWidth: 2,
         data: secondDataset,
       },
@@ -33,7 +33,7 @@ function oneDataset(labelArray, label, dataset) {
       {
         label: label,
         backgroundColor: "rgba(75,192,192,1)",
-        borderColor: "rgba(0,0,0,1)",
+        borderColor: "rgba(75,192,192,1)",
         borderWidth: 2,
         data: dataset,
       },

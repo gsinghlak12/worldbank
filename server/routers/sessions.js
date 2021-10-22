@@ -32,8 +32,10 @@ router.post("/", async function (req, res) {
   console.log("released");
 });
 
-router.get("/check", async function (req, res) {
-  const client = await pool.connect();
+
+router.get("/cookie", async function (req, res) {
+	const client = await pool.connect();
+
 
   const activeSession = await req.cookies;
   const sessionID = await client.query(
@@ -58,12 +60,13 @@ router.get("/check", async function (req, res) {
   client.release();
 });
 
-router.get("/delete", async function () {
-  const client = await pool.connect();
-  client.query(
-    `DELETE FROM sessions WHERE created_at=(SELECT MAX(created_at) FROM sessions)`
-  );
-  client.release();
+
+router.delete("/", async function () {
+	const client = await pool.connect();
+	client.query(
+		`DELETE FROM sessions WHERE created_at=(SELECT MAX(created_at) FROM sessions)`
+	);
+	client.release();
 });
 
 module.exports = router;
