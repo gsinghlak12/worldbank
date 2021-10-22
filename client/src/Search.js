@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Graph from "./Components/GraphComponents/Graph";
 import convertData from "./Components/GraphComponents/convertData";
 
-function Search() {
+function Search(props) {
   const [countryList, setCountryList] = useState([]);
   const [firstCountry, setFirstCountry] = useState("");
   const [firstCode, setFirstCode] = useState("");
@@ -218,7 +218,12 @@ function Search() {
           setGraphData(
             convertData([queryData.years, queryData.country, queryData.value])
           );
+
           setDataSent(true);
+
+          if (props.loggedIn) {
+            postSearch();
+          }
         } else {
           const queryData = json.data[0];
 
@@ -228,6 +233,9 @@ function Search() {
             convertData([queryData.years, queryData.country, queryData.value])
           );
           setDataSent(true);
+          if (props.loggedIn) {
+            postSearch();
+          }
         }
       } catch (error) {
         console.log(error);
@@ -251,6 +259,9 @@ function Search() {
           ])
         );
         setDataSent(true);
+        if (props.loggedIn) {
+          postSearch();
+        }
       } catch (error) {
         console.log(error);
       }
@@ -328,9 +339,6 @@ function Search() {
           <Button
             className="btn btn-secondary mt-3"
             onClick={async (e) => {
-              // if (props.loggedIn) {
-              // 	postSearch();
-              // }
               await sendData();
             }}
           >
