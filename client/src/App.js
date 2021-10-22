@@ -19,7 +19,7 @@ import women from "./Components/women-of-world.png";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [userType, setUserType] = useState({ userType: "standard" });
+  //   const [userType, setUserType] = useState({ userType: "standard" });
   const [registered, setRegister] = useState(false);
 
   const onEnterKey = (e, callback) => {
@@ -29,13 +29,17 @@ function App() {
   };
 
   async function deleteCookie() {
-    const response = await fetch(`http://localhost:8080/api/sessions/delete`, {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    try {
+      await fetch(`http://localhost:8080/api/sessions/delete`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const setNavButtons = () => {
@@ -69,7 +73,7 @@ function App() {
               >
                 <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"></path>
                 <path
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"
                 ></path>
               </svg>{" "}
@@ -100,7 +104,6 @@ function App() {
           </Link>
           <Button
             onClick={async (e) => {
-              // e.preventDefault();
               setLoggedIn(false);
               await deleteCookie();
             }}
@@ -143,11 +146,11 @@ function App() {
                   viewBox="0 0 16 16"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"
                   ></path>
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"
                   ></path>
                 </svg>
@@ -185,12 +188,6 @@ function App() {
               )}
             </Route>
             <Route exact path="/register">
-              {/* <Register
-								onEnterKey={onEnterKey}
-								setRegister={setRegister}
-								registered={registered}
-							/> */}
-
               {registered ? (
                 <Redirect to="/login" />
               ) : (
