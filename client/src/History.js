@@ -20,11 +20,9 @@ function History() {
 		});
 
 		const json = await response.json();
-		console.log(json);
 		setHistory(json);
 	};
 	function fetchHistory() {
-		console.log(history);
 		if (history.length === 0) {
 			return <div />;
 		}
