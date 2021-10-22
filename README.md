@@ -1,7 +1,13 @@
 # μ's World Bank Data
 
-This is Group μ's Week 10 project, creating a website that allows users to navigate the website and look up interesting correlations in the data. 
-The goal of this project is to create a prototype website application for the World Bank and build it to the best level possible within a week. 
+Welcome to Group μ's Week 10 project: The World For Women.
+
+The brief was to create a prototype data visualisation dashboard for The World Bank that displays its data on World Development Indicators. 
+We were given three "must-have" features to include:
+ - Log In Feature
+ - Search Functionality
+ - History Functionality
+In addition to these core features, we were given a number of other User Stories to fulfil and the goal was to create the best possible application within one week. 
 
 
 ## Contents
@@ -15,34 +21,30 @@ The goal of this project is to create a prototype website application for the Wo
 
 ## Objective
 
-Our focus of this project is to show what life is like for women across the world by visualising data from The World Bank. Where we have had data for both men and women for certain indicators, we have chosen to display both as a point of reference. 
+Since there were over 1,300 indicators available in the database from The World Bank, the focus of our project was data that pertains to the lives of women around the world. Where we had data for both men and women for certain indicators, we have chosen to display both as a point of reference. 
 
 Being able to select different countries to see what the regional differences are as well as using graphs to graphically show these. 
-We want to at least include 3 core features:
- - Log In Feature
- - Search Functionality
- - History Functionality
 
 ## Our Team
 
 **Kasia - Project Manager**<br />
 <br />
-**Adnan - Architect & Dev Ops**<br />
+**Adnan - Dev Ops**<br />
 <br />
-**Gurpartap - Architect & Dev Ops**<br />
+**Gurpartap - Software Architect**<br />
 <br />
 **Sang - QA Tester**<br />
 
 ## Database
 
-Our Database is based on the World Bank Data from the World Development Indicators which contain over a thousand annual indicators of
-economic development from hundreds of countries around the world, we will be using a subset of these for the purpose of this website.
+Our Database is based on the World Development Indicators data from The World Bank, which contain over a thousand annual indicators of
+economic development from hundreds of countries around the world. We will be using a subset of these for the purpose of this website.
 The database source can be found [here!](https://www.kaggle.com/kaggle/world-development-indicators)
 
 ## User Manual
 
 <br />
-Welcome to "The world for women", the website that allows you to compare many different indicators across many different countries for your inquisitive needs!
+Welcome to "The World For Women", a website that allows you to compare many different indicators across many different countries for your inquisitive needs!
 <br />
 This user manual is here to help you navigate around the website letting you make the most of our website, enjoy your stay! 
 <br /><br />
@@ -156,6 +158,7 @@ There's also a Sigma Labs link, to find amazing software developers like us (hir
 
 ## Technical Manual
 
+This Technical manual is here for you to get the technical side set up
 
 need to: <br />
 node schema.js <br />
