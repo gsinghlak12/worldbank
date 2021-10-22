@@ -9,10 +9,10 @@ import {
 } from "react-router-dom";
 import Home from "./Home";
 import Login from "./Login";
-import Register from "./Register";
 import Search from "./Search";
 import History from "./History";
 import Team from "./Team";
+import Register from "./Register";
 import { Button, Nav, Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import women from "./Components/women-of-world.png";

@@ -5,17 +5,9 @@ const cors = require("cors");
 const { Pool, Client } = require("pg");
 
 const pool = new Pool({
-	user: "postgres",
-	host: "localhost",
-	database: "worldbank",
-	password: null,
-	port: 5432,
+  connectionString:
+    "postgres://mdyeizsw:5uQ87xIDkLZWdnE30hzc1z5rydLuOHZ1@tai.db.elephantsql.com/mdyeizsw",
 });
-
-(async function () {
-	res = await pool.connect();
-	return res;
-})();
 
 // define the home page route
 
@@ -37,15 +29,16 @@ router.post("/", async function (req, res) {
 	}
 
 	client.release();
+
 });
 
 router.get("/", async function (req, res) {
-	const client = await pool.connect();
-	try {
-		const user_id = await client.query(`SELECT user_id FROM sessions`);
-		const user_id_value = user_id.rows[0].user_id;
-		const response = await client.query(
-			`SELECT country1_id,country2_id,indicator_id,created_at
+  const client = await pool.connect();
+  try {
+    const user_id = await client.query(`SELECT user_id FROM sessions`);
+    const user_id_value = user_id.rows[0].user_id;
+    const response = await client.query(
+      `SELECT country1_id,country2_id,indicator_id,created_at
     FROM history WHERE user_id=$1`,
 			[user_id_value]
 		);

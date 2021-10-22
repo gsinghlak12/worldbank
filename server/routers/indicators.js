@@ -17,6 +17,40 @@ function arrangeData(row) {
   return plot;
 }
 
+function getData() {
+  return [
+    "SP.POP.TOTL.FE.ZS",
+    "SP.ADO.TFRT",
+    "SE.ADT.LITR.FE.ZS",
+    "SL.TLF.0714.WK.FE.TM",
+    "SP.DYN.CBRT.IN",
+    "SP.DYN.LE00.FE.IN",
+    "SL.TLF.0714.FE.ZS",
+    "SP.DYN.CONU.ZS",
+    "SL.FAM.WORK.FE.ZS",
+    "SL.AGR.EMPL.FE.ZS",
+    "SL.IND.EMPL.FE.ZS",
+    "SL.SRV.EMPL.FE.ZS",
+    "SL.EMP.TOTL.SP.FE.NE.ZS",
+    "SL.EMP.1524.SP.FE.NE.ZS",
+    "SP.HOU.FEMA.ZS",
+    "SG.GEN.LSOM.ZS",
+    "SP.DYN.TFRT.IN",
+    "IC.FRM.FEMO.ZS",
+    "IC.FRM.FEMM.ZS",
+    "SE.PRE.ENRR.FE",
+    "SE.PRM.ENRR.FE",
+    "SE.SEC.ENRR.FE",
+    "SE.TER.ENRR.FE",
+    "SL.TLF.ACTI.1524.FE.NE.ZS",
+    "SL.TLF.CACT.FE.NE.ZS",
+    "SL.TLF.PRIM.FE.ZS",
+    "SL.TLF.SECO.FE.ZS",
+    "SL.TLF.TERT.FE.ZS",
+    "SL.TLF.TOTL.FE.ZS",
+  ];
+}
+
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 const { Pool, Client } = require("pg");
 
@@ -38,18 +72,15 @@ const client = new Client({
 // define the indicators
 router.get("/", async function (req, res) {
   // RETURN A LIST OF ALL REQUIRED INDICATORS
-  const data = [
-    "SP.ADO.TFRT",
-    "SE.ADT.LITR.FE.ZS",
-    "SL.TLF.0714.WK.FE.TM",
-    "SP.DYN.CBRT.IN",
-    "SP.DYN.LE00.FE.IN",
-  ];
+
+  const data = getData();
+
+  console.log(data);
 
   const sql = `SELECT seriescode,topic,indicatorname
               FROM series 
               WHERE seriescode = ANY($1::text[])
-              LIMIT 10`;
+              LIMIT 100`;
 
   const indicators = await client.query(sql, [data]);
 

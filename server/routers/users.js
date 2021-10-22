@@ -8,17 +8,9 @@ const v4 = require("uuid");
 const { Pool, Client } = require("pg");
 
 const pool = new Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "worldbank",
-  password: null,
-  port: 5432,
+  connectionString:
+    "postgres://mdyeizsw:5uQ87xIDkLZWdnE30hzc1z5rydLuOHZ1@tai.db.elephantsql.com/mdyeizsw",
 });
-
-(async function () {
-  res = await pool.connect();
-  return res;
-})();
 
 // define the home page route
 router.post("/", async function (req, res) {

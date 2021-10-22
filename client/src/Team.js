@@ -7,6 +7,7 @@ import kasia from "./Components/Kasia.jpg";
 import sang from "./Components/Sang.jpg";
 
 function Team() {
+
   return (
     <Container className="align-content-center text-center m-2 pt-4 overflow-auto position-relative">
       <h1 className="py-2">Hello from Team μ</h1>
