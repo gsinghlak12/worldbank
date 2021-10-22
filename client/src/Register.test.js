@@ -4,7 +4,6 @@ import App from "./App";
 import userEvent from "@testing-library/user-event";
 import { createMemoryHistory } from "history";
 import React from "react";
-import Register from "./Register.js";
 
 describe("Register input field Username is validated", () => {
   test("Username has to be larger than 6 characters", () => {

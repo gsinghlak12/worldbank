@@ -20,7 +20,6 @@ function History() {
     });
 
     const json = await response.json();
-    console.log(json);
     setHistory(json);
   };
 
@@ -36,9 +35,6 @@ function History() {
       </tr>
     ));
   }, 1500);
-
-  console.log(history);
-  // console.log(rows);
 
   return (
     <div>
