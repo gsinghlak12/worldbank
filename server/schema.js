@@ -1,17 +1,17 @@
 const { Client } = require("pg");
-const client = new Client("postgres://localhost:5432/worldbank");
+const client = new Client(
+  "postgres://mdyeizsw:5uQ87xIDkLZWdnE30hzc1z5rydLuOHZ1@tai.db.elephantsql.com/mdyeizsw"
+);
 
 async function createDatabase() {
-
-	await client.connect();
-	// createUsersTable();
-	// addSeedData();
-	// createSessionsTable();
-	createHistoryTable();
-	// createCountrySearchesTable();
-	// createIndicatorSearchesTable();
-	return;
-
+  await client.connect();
+  createUsersTable();
+  //addSeedData();
+  createSessionsTable();
+  createHistoryTable();
+  // createCountrySearchesTable();
+  // createIndicatorSearchesTable();
+  return;
 }
 
 async function createUsersTable() {

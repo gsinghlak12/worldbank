@@ -15,9 +15,20 @@ const e = require("express");
 const { resolveSoa } = require("dns");
 const cors = require("cors");
 
+console.log("No value for FOO yet:", process.env.FOO);
+
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+
+console.log("Now the value for FOO is:", process.env.FOO);
+
 // import { Pool } from "pg";
 
 const PORT = process.env.PORT || 8080;
+const ORIGIN = process.env.URL || "http://localhost:3000";
+console.log(ORIGIN);
+
 const app = express();
 
 app.use(cors({ origin: "http://localhost:3000", credentials: true }));
@@ -45,9 +56,9 @@ app.use(express.static(path.resolve(__dirname, "../client/build")));
 
 // All other GET requests not handled before will return our React app
 app.get("*", (req, res) => {
-	res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
+  res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
 });
 
 app.listen(PORT, () => {
-	console.log(`Server listening on ${PORT}`);
+  console.log(`Server listening on ${PORT}`);
 });
