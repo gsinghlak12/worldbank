@@ -22,14 +22,20 @@ function Search(props) {
   useEffect(() => {
     //fetch data from server side of all indicators and countries
     const fetchData = async () => {
-      const response = await fetch("http://localhost:8080/api/countries");
-      const json = await response.json();
-      const countryData = json.countries;
-      setCountryList(countryData);
-      const indicatorResp = await fetch("http://localhost:8080/api/indicators");
-      const indicatorJson = await indicatorResp.json();
-      const indicatorData = indicatorJson.data;
-      setIndicatorList(indicatorData);
+      try {
+        const response = await fetch("http://localhost:8080/api/countries");
+        const json = await response.json();
+        const countryData = json.countries;
+        setCountryList(countryData);
+        const indicatorResp = await fetch(
+          "http://localhost:8080/api/indicators"
+        );
+        const indicatorJson = await indicatorResp.json();
+        const indicatorData = indicatorJson.data;
+        setIndicatorList(indicatorData);
+      } catch (error) {
+        console.log(error);
+      }
     };
     fetchData();
   }, []);
@@ -186,27 +192,31 @@ function Search(props) {
       body: JSON.stringify(bodyResponse),
     };
 
-    const response = await fetch(
-      `http://localhost:8080/api/history/postSearch`,
-      requestOptions
-    );
-    const json = await response.json();
-    console.log(json);
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/history/postSearch`,
+        requestOptions
+      );
+      const json = await response.json();
+      console.log(json);
+    } catch (error) {
+      console.log(error);
+    }
+
     /*-json.Message ="history updated!"... make an alert for that :)
     thx
 */
   };
   const sendData = async () => {
-    console.log("sent");
+    console.log("try send");
     console.log(firstCode, secondCode, indicatorCode);
     console.log(secondCode === "");
     if (firstCode === "" || indicatorCode === "") {
 
-      console.log("failed ist");
       return;
     }
     if (secondCode === "" && clicked === true) {
-      console.log("failed 2ndt");
+      console.log("failed second check");
       return;
     }
     if (secondCode === "") {
@@ -215,13 +225,20 @@ function Search(props) {
           `http://localhost:8080/api/indicators/${indicatorCode}/countries/${firstCode}`
         );
         const json = await response.json();
+        console.log(json);
 
         if (json.data.length > 1) {
-          const queryData = json.data[0];
+          const womenData = json.data[0];
+          const menData = json.data[1];
           console.log(json);
-          console.log(queryData);
           setGraphData(
-            convertData([queryData.years, queryData.country, queryData.value])
+            convertData([
+              womenData.years,
+              "Women",
+              womenData.value,
+              "Men",
+              menData.value,
+            ])
           );
 
           setDataSent(true);
