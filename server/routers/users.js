@@ -32,7 +32,12 @@ router.post("/", async function (req, res) {
     [username]
   );
   if (duplicate.rows.length !== 0) {
-    res.status(400).json({ Message: "Error" }, 400);
+    res.json(
+      {
+        Message: "This username is taken. Please try a different one or login.",
+      },
+      400
+    );
   } else {
     res.status(200).json({ Message: "Works" }, 200);
 
@@ -60,10 +65,16 @@ router.post("/verify", async function (req, res) {
     if (result) {
       res.json({ status: "loggedIn" }, 200);
     } else {
-      res.json({ status: "Incorrect Password" }, 400);
+      res.json({ status: "Incorrect password. Please try again." }, 400);
     }
   } else {
-    res.json({ status: "Incorrect Username!" }, 400);
+    res.json(
+      {
+        status:
+          "Username doesn't exist. Please try again or register an account",
+      },
+      400
+    );
   }
 
   client.release();

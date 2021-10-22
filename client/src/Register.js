@@ -98,7 +98,9 @@ function Register(props) {
     console.log(response);
 
     if (response.status == 400) {
-      setMessage({ error: json.statusText });
+      setMessage({
+        error: "This username is taken. Please try a different one or login.",
+      });
     } else {
       setTimeout(() => {
         props.setRegister(true);

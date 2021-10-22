@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Container, Form, Row, Col } from "react-bootstrap";
+import { Alert, Button, Container, Form, Row, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Graph from "./Components/GraphComponents/Graph";
 import convertData from "./Components/GraphComponents/convertData";
@@ -18,6 +18,9 @@ function Search(props) {
   const [clicked, setClicked] = useState(false);
   const [dataSent, setDataSent] = useState(false);
   const [graphData, setGraphData] = useState([]);
+  const [message, setMessage] = useState({
+    error: "",
+  });
 
   useEffect(() => {
     //fetch data from server side of all indicators and countries
@@ -40,6 +43,11 @@ function Search(props) {
     fetchData();
   }, []);
 
+  const resetMessage = () => {
+    setMessage({
+      error: "",
+    });
+  };
 
   const validateCountry = (
     e,
@@ -141,16 +149,14 @@ function Search(props) {
 
   const hideSecondCountry = () => {
     if (clicked) {
-
       return "input";
-
     }
     return "d-none";
   };
 
   const addNewCountryField = () => {
     return (
-      <Container className="d-flex flex-column align-items-center text-center">
+      <Container className="d-flex overflow-auto flex-column align-items-center text-center">
         <div className={hideSecondCountry()}>
           <label className="p-2">Country 2:</label>
           <input
@@ -166,6 +172,7 @@ function Search(props) {
                 setSecondCode
               )
             }
+            onClick={resetMessage}
           ></input>
           <datalist id="countryList2">{countryDropDown("second")}</datalist>
         </div>
@@ -173,11 +180,8 @@ function Search(props) {
     );
   };
 
-
-  console.log(firstCountry, secondCountry, indicator);
   const postSearch = async (e) => {
     const bodyResponse = {
-
       firstCountry: firstCountry,
       secondCountry: secondCountry,
       indicator: indicator,
@@ -212,11 +216,11 @@ function Search(props) {
     console.log(firstCode, secondCode, indicatorCode);
     console.log(secondCode === "");
     if (firstCode === "" || indicatorCode === "") {
-
+      setMessage({ error: "Please choose a country and indicator to search" });
       return;
     }
     if (secondCode === "" && clicked === true) {
-      console.log("failed second check");
+      setMessage({ error: "Please choose a second country" });
       return;
     }
     if (secondCode === "") {
@@ -288,19 +292,22 @@ function Search(props) {
         console.log(error);
       }
     }
-
   };
 
   const showGraph = () => {
     console.log(graphData);
     if (dataSent) {
-      return <div>{<Graph title={indicator} dataset={graphData} />}</div>;
+      return (
+        <div className="m-5">
+          {<Graph title={indicator} dataset={graphData} />}
+        </div>
+      );
     }
   };
 
   return (
     <div>
-      <Container className="container border border-secondary rounded d-flex shadow py-4 px-5 bg-white rounded">
+      <Container className="d-flex vh-85 border border-secondary rounded align-items-center justify-content-center shadow py-4 px-5 bg-white rounded">
         <Form className="d-flex flex-column align-items-center justify-content-center">
           <Form.Text>
             <h3 className="text-center pb-2">Search data</h3>
@@ -322,22 +329,23 @@ function Search(props) {
                       setFirstCode
                     )
                   }
+                  onClick={resetMessage}
                 ></input>
               </Container>
 
               {addNewCountryField()}
               <datalist id="countryList1">{countryDropDown("first")}</datalist>
-
             </Container>
             <Container className="d-flex flex-column align-items-center text-center">
               <label className="p-2">Indicators:</label>
               <input
-                className="btn btn-light dropdown-toggle m-1"
+                className="btn btn-light dropdown-toggle m-1 "
                 list="indicatorList"
                 placeholder="Choose indicator..."
                 onChange={(e) =>
                   validateIndicator(e.target.value, indicatorList)
                 }
+                onClick={resetMessage}
               ></input>
               <datalist id="indicatorList">{indicatorDropDown()}</datalist>
             </Container>
@@ -368,7 +376,12 @@ function Search(props) {
             }}
           >
             See results
-          </Button>{" "}
+          </Button>
+          {message.error ? (
+            <Alert className="mt-4" variant="danger">
+              {message.error}
+            </Alert>
+          ) : null}
         </Form>
       </Container>
       {showGraph()}

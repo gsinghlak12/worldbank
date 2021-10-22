@@ -81,7 +81,6 @@ router.get(
         res.json({ data: [plot1, plot2] });
       } catch {
         console.log("Error in Indicators: ");
-        console.log(error);
         res.json({ data: null, message: "Error: data not found" }, 400);
       }
     } else {
