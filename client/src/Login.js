@@ -3,19 +3,56 @@ import { Form, Button, Alert, Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function Login(props) {
-	const [currentUser, setCurrentUser] = useState({
-		username: "",
-		password: "",
-	});
+  const [currentUser, setCurrentUser] = useState({
+    username: "",
+    password: "",
+  });
 
-	const [message, setMessage] = useState({
-		error: "",
-		success: "",
-	});
-	const [SessionCount, setSessionCount] = useState(0);
+  const [message, setMessage] = useState({
+    error: "",
+    success: "",
+  });
+  const [SessionCount, setSessionCount] = useState(0);
 
-	const [sessionUpdate, setSessionUpdate] = useState(0);
+  const [sessionUpdate, setSessionUpdate] = useState(0);
 
+<<<<<<< HEAD
+  useEffect(() => {
+    if (sessionUpdate == 0) {
+      checkSessionExists();
+    }
+  });
+
+  const handleLoginInput = (e) => {
+    const { username, password } = currentUser;
+    setCurrentUser({
+      username,
+      password,
+      [e.target.id]: e.target.value,
+    });
+    setMessage({
+      error: "",
+      success: "",
+    });
+  };
+
+  const postLogin = async (e) => {
+    const requestOptions = {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        Access: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(currentUser),
+    };
+
+    const response = await fetch(
+      `http://localhost:8080/api/users/verify`,
+      requestOptions
+    );
+    const json = await response.json();
+=======
 	useEffect(() => {
 		if (sessionUpdate == 0) {
 			checkSessionExists();
@@ -34,17 +71,18 @@ function Login(props) {
 			success: "",
 		});
 	};
+>>>>>>> 398da568f4f64068c462ab90af2e5d1315d3f4b0
 
-	const postLogin = async (e) => {
-		const requestOptions = {
-			method: "POST",
-			credentials: "include",
-			headers: {
-				Access: "application/json",
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(currentUser),
-		};
+    if (!response.ok) {
+      setMessage({ error: json.status });
+    } else {
+      setMessage({ success: "Logged in!" });
+      setTimeout(() => {
+        props.setLoggedIn(true);
+      }, 1000);
+      postSession();
+    }
+  };
 
 		const response = await fetch(
 			`https://world-for-women-12345.herokuapp.com/api/users/verify`,
@@ -108,7 +146,7 @@ function Login(props) {
 
 	return (
 		<div className="account" id="login">
-			<Container className="container d-flex flex-column border border-secondary rounded d-flex align-items-center justify-content-center shadow p-5 bg-white rounded">
+      <Container className="container d-flex flex-column border border-secondary overflow-auto rounded d-flex align-items-center justify-content-center shadow p-5 mt-5 bg-white rounded">
 				<Form>
 					<Form.Text>
 						<h3 className="text-center pb-3">Log into an account</h3>
