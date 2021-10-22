@@ -30,20 +30,16 @@ app.use(express.urlencoded({ extended: true }));
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
+app.get("/api/", (req, res) => {
+  res.json({ message: "API is active" });
+});
+
 app.use("/api/indicators", indicators);
 app.use("/api/users", users);
 app.use("/api/history", history);
 app.use("/api/sessions", sessions);
 app.use("/api/countries", countries);
 app.use("api/results", results);
-
-// app.post("/users", async (req, res) => {});
-
-// app.post("/users/verify", async (req, res) => {});
-
-// app.post("/sessions", async (req, res) => {});
-
-// app.get("/sessions/check", async (req, res) => {});
 
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 
