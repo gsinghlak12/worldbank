@@ -118,7 +118,7 @@ function Register(props) {
 
   return (
     <div className="account" id="register">
-      <Container className="container d-flex flex-column border border-secondary rounded d-flex align-items-center justify-content-center shadow p-5 bg-white rounded">
+      <Container className="container d-flex flex-column border border-secondary overflow-auto rounded d-flex align-items-center justify-content-center shadow p-5 mt-5 bg-white rounded">
         <Form>
           <Form.Text>
             <h3 className="text-center pb-3">Register a new user</h3>

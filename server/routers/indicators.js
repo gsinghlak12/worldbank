@@ -99,9 +99,9 @@ router.get(
   ORDER BY year DESC
    LIMIT 10;`;
 
-    if (indicator_code.includes(".FE")) {
+    if (indicator_code.includes(".FE.")) {
       console.log(true);
-      const indicator_code_male = indicator_code.replace(".FE", ".MA");
+      const indicator_code_male = indicator_code.replace(".FE.", ".MA.");
       console.log(indicator_code_male);
       const data1 = await client.query(sql, [indicator_code, country]);
       const data2 = await client.query(sql, [indicator_code_male, country]);
