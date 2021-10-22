@@ -8,14 +8,49 @@ import sang from "./Components/Sang.jpg";
 
 function Team() {
   return (
-    <Container className="align-content-center p-3">
-      <h1 className="p-2" style={{ textAlign: "center" }}>
-        Hello from Team μ
-      </h1>
-      <Container className="m-3">
-        <div className="card">
-          <div className="card-body text-center">
-            Welcome to our dashboard.{" "}
+    <Container className="align-content-center text-center m-2 pt-4 overflow-auto position-relative">
+      <h1 className="py-2">Hello from Team μ</h1>
+      <Container className="m-2">
+        <div class="card px-5">
+          <div class="card-body text-center">
+            <h6>
+              We are a team of four Software Engineers working at{" "}
+              <a
+                href="https://sigmalabs.co.uk/"
+                target="_blank"
+                rel="noreferrer"
+                className="link-dark"
+              >
+                Sigma Labs
+              </a>{" "}
+              in London.
+            </h6>
+            Using the skills learnt during our full-stack training, we have
+            created this data visualisation dashboard to display{" "}
+            <a
+              href="https://www.kaggle.com/kaggle/world-development-indicators"
+              target="_blank"
+              rel="noreferrer"
+              className="link-dark"
+            >
+              World Development Indicators
+            </a>{" "}
+            data from{" "}
+            <a
+              href="https://www.worldbank.org/en/home"
+              target="_blank"
+              rel="noreferrer"
+              className="link-dark"
+            >
+              The World Bank
+            </a>
+            . Since the database contains over 1,300 indicators, we thought it
+            would be beneficial to focus on human geography, in particular
+            metrics relating to the lives of women around the world. Where the
+            data for men relating to the same indicator exists, we have
+            automatically displayed it on the same graph for comparison. We hope
+            you find exploring this website as interesting as we found building
+            it!
           </div>
         </div>
       </Container>
