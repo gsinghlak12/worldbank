@@ -19,7 +19,7 @@ const pool = new Pool({
 
 // define the home page route
 
-router.post("/postSearch", async function (req, res) {
+router.post("/", async function (req, res) {
 	const client = await pool.connect();
 	////////UPDATE SO THAT USER_ID GRABS FROM SESSIONS//////////
 	const user_id = await client.query(`SELECT user_id FROM sessions`);
@@ -50,8 +50,6 @@ router.get("/", async function (req, res) {
 			[user_id_value]
 		);
 		res.json(response.rows);
-		console.log(user_id.rows[0].user_id);
-		console.log(response.rows);
 	} catch {
 		res.status(400).json({ Message: "Error" }, 400);
 	}

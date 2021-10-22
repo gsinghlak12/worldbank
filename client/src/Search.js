@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Alert, Button, Container, Form, Row, Col } from "react-bootstrap";
+import { Alert, Button, Container, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Graph from "./Components/GraphComponents/Graph";
 import convertData from "./Components/GraphComponents/convertData";
@@ -203,18 +203,14 @@ function Search(props) {
       );
       const json = await response.json();
       console.log(json);
+      /*-json.Message ="history updated!"... make an alert for that :)
+    thx
+    */
     } catch (error) {
       console.log(error);
     }
-
-    /*-json.Message ="history updated!"... make an alert for that :)
-    thx
-*/
   };
   const sendData = async () => {
-    console.log("try send");
-    console.log(firstCode, secondCode, indicatorCode);
-    console.log(secondCode === "");
     if (firstCode === "" || indicatorCode === "") {
       setMessage({ error: "Please choose a country and indicator to search" });
       return;
@@ -229,12 +225,9 @@ function Search(props) {
           `http://localhost:8080/api/indicators/${indicatorCode}/countries/${firstCode}`
         );
         const json = await response.json();
-        console.log(json);
-
         if (json.data.length > 1) {
           const womenData = json.data[0];
           const menData = json.data[1];
-          console.log(json);
           setGraphData(
             convertData([
               womenData.years,
@@ -244,17 +237,12 @@ function Search(props) {
               menData.value,
             ])
           );
-
           setDataSent(true);
-
           if (props.loggedIn) {
             postSearch();
           }
         } else {
           const queryData = json.data[0];
-
-          console.log(json);
-          console.log(queryData);
           setGraphData(
             convertData([queryData.years, queryData.country, queryData.value])
           );
@@ -271,7 +259,6 @@ function Search(props) {
         const response = await fetch(
           `http://localhost:8080/api/indicators/${indicatorCode}/countries/${firstCode}/${secondCode}`
         );
-        console.log(response);
         const json = await response.json();
         const query1 = json.data[0];
         const query2 = json.data[1];
@@ -295,7 +282,6 @@ function Search(props) {
   };
 
   const showGraph = () => {
-    console.log(graphData);
     if (dataSent) {
       return (
         <div className="m-5">

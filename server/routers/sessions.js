@@ -40,7 +40,7 @@ router.post("/", async function (req, res) {
 	client.release();
 });
 
-router.get("/check", async function (req, res) {
+router.get("/cookie", async function (req, res) {
 	const client = await pool.connect();
 
 	const activeSession = await req.cookies;
@@ -66,7 +66,7 @@ router.get("/check", async function (req, res) {
 	client.release();
 });
 
-router.get("/delete", async function () {
+router.delete("/", async function () {
 	const client = await pool.connect();
 	client.query(
 		`DELETE FROM sessions WHERE created_at=(SELECT MAX(created_at) FROM sessions)`

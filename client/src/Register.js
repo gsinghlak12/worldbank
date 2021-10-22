@@ -95,7 +95,6 @@ function Register(props) {
       requestOptions
     );
     const json = await response.json();
-    console.log(response);
 
     if (response.status == 400) {
       setMessage({
