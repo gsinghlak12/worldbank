@@ -39,7 +39,7 @@ function Search(props) {
     };
     fetchData();
   }, []);
-  useEffect(() => {});
+
 
   const validateCountry = (
     e,
@@ -141,7 +141,9 @@ function Search(props) {
 
   const hideSecondCountry = () => {
     if (clicked) {
+
       return "input";
+
     }
     return "d-none";
   };
@@ -171,9 +173,11 @@ function Search(props) {
     );
   };
 
+
+  console.log(firstCountry, secondCountry, indicator);
   const postSearch = async (e) => {
     const bodyResponse = {
-      user_id: 38,
+
       firstCountry: firstCountry,
       secondCountry: secondCountry,
       indicator: indicator,
@@ -188,26 +192,31 @@ function Search(props) {
       body: JSON.stringify(bodyResponse),
     };
 
-    const response = await fetch(
-      `http://localhost:8080/api/history/postSearch`,
-      requestOptions
-    );
-    const json = await response.json();
-    console.log(json);
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/history/postSearch`,
+        requestOptions
+      );
+      const json = await response.json();
+      console.log(json);
+    } catch (error) {
+      console.log(error);
+    }
+
     /*-json.Message ="history updated!"... make an alert for that :)
     thx
 */
   };
   const sendData = async () => {
-    console.log("sent");
+    console.log("try send");
     console.log(firstCode, secondCode, indicatorCode);
     console.log(secondCode === "");
     if (firstCode === "" || indicatorCode === "") {
-      console.log("failed ist");
+
       return;
     }
     if (secondCode === "" && clicked === true) {
-      console.log("failed 2ndt");
+      console.log("failed second check");
       return;
     }
     if (secondCode === "") {
@@ -216,13 +225,20 @@ function Search(props) {
           `http://localhost:8080/api/indicators/${indicatorCode}/countries/${firstCode}`
         );
         const json = await response.json();
+        console.log(json);
 
         if (json.data.length > 1) {
-          const queryData = json.data[0];
+          const womenData = json.data[0];
+          const menData = json.data[1];
           console.log(json);
-          console.log(queryData);
           setGraphData(
-            convertData([queryData.years, queryData.country, queryData.value])
+            convertData([
+              womenData.years,
+              "Women",
+              womenData.value,
+              "Men",
+              menData.value,
+            ])
           );
 
           setDataSent(true);
@@ -272,6 +288,7 @@ function Search(props) {
         console.log(error);
       }
     }
+
   };
 
   const showGraph = () => {
@@ -307,8 +324,10 @@ function Search(props) {
                   }
                 ></input>
               </Container>
+
               {addNewCountryField()}
               <datalist id="countryList1">{countryDropDown("first")}</datalist>
+
             </Container>
             <Container className="d-flex flex-column align-items-center text-center">
               <label className="p-2">Indicators:</label>
