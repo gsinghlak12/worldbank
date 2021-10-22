@@ -2,9 +2,9 @@ import React from "react";
 import { Container, Col, Row, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import gp from "./Components/GP.jpg";
-//import adnan from "./Components/Adnan.jpg";
+import adnan from "./Components/Adnan.jpg";
 import kasia from "./Components/Kasia.jpg";
-//import sang from "./Components/Sang.jpg";
+import sang from "./Components/Sang.jpg";
 
 function Team() {
 	return (
@@ -58,11 +58,7 @@ function Team() {
 				<Row>
 					<Col>
 						<div className="card text-center my-3" style={{ width: "18rem" }}>
-							<img
-								src="https://avatars.githubusercontent.com/u/43793942?v=4"
-								className="card-img-top"
-								alt=""
-							/>
+							<img src={adnan} className="card-img-top" alt="" />
 							<div className="card-body">
 								<span className="badge bg-secondary p-2 mb-2">DEVOPS</span>
 								<h5 className="card-title p-1">Adnan Gondal</h5>
@@ -203,11 +199,7 @@ function Team() {
 					</Col>
 					<Col>
 						<div className="card text-center my-3" style={{ width: "18rem" }}>
-							<img
-								src="https://picsum.photos/seed/picsum/200/200"
-								className="card-img-top"
-								alt=""
-							/>
+							<img src={sang} className="card-img-top" alt="" />
 							<div className="card-body">
 								<span className="badge bg-secondary p-2 mb-2">
 									QUALITY ASSURANCE
