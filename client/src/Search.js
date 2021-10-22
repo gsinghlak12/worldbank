@@ -39,7 +39,7 @@ function Search(props) {
     };
     fetchData();
   }, []);
-  useEffect(() => {});
+
 
   const validateCountry = (
     e,
@@ -141,7 +141,9 @@ function Search(props) {
 
   const hideSecondCountry = () => {
     if (clicked) {
+
       return "input";
+
     }
     return "d-none";
   };
@@ -171,9 +173,11 @@ function Search(props) {
     );
   };
 
+
+  console.log(firstCountry, secondCountry, indicator);
   const postSearch = async (e) => {
     const bodyResponse = {
-      user_id: 38,
+
       firstCountry: firstCountry,
       secondCountry: secondCountry,
       indicator: indicator,
@@ -208,7 +212,7 @@ function Search(props) {
     console.log(firstCode, secondCode, indicatorCode);
     console.log(secondCode === "");
     if (firstCode === "" || indicatorCode === "") {
-      console.log("failed first check");
+
       return;
     }
     if (secondCode === "" && clicked === true) {
@@ -284,6 +288,7 @@ function Search(props) {
         console.log(error);
       }
     }
+
   };
 
   const showGraph = () => {
@@ -319,8 +324,10 @@ function Search(props) {
                   }
                 ></input>
               </Container>
+
               {addNewCountryField()}
               <datalist id="countryList1">{countryDropDown("first")}</datalist>
+
             </Container>
             <Container className="d-flex flex-column align-items-center text-center">
               <label className="p-2">Indicators:</label>
