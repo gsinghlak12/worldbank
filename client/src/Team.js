@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import gp from "./Components/GP.jpg";
 //import adnan from "./Components/Adnan.jpg";
 import kasia from "./Components/Kasia.jpg";
-import sang from "./Components/Sang.jpg";
+//import sang from "./Components/Sang.jpg";
 
 function Team() {
 	return (
@@ -203,7 +203,11 @@ function Team() {
 					</Col>
 					<Col>
 						<div className="card text-center my-3" style={{ width: "18rem" }}>
-							<img src={sang} className="card-img-top" alt="" />
+							<img
+								src="https://picsum.photos/seed/picsum/200/200"
+								className="card-img-top"
+								alt=""
+							/>
 							<div className="card-body">
 								<span className="badge bg-secondary p-2 mb-2">
 									QUALITY ASSURANCE
