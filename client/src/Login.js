@@ -46,20 +46,24 @@ function Login(props) {
       body: JSON.stringify(currentUser),
     };
 
-    const response = await fetch(
-      `http://localhost:8080/api/users/verify`,
-      requestOptions
-    );
-    const json = await response.json();
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/users/verify`,
+        requestOptions
+      );
+      const json = await response.json();
 
-    if (!response.ok) {
-      setMessage({ error: json.status });
-    } else {
-      setMessage({ success: "Logged in!" });
-      setTimeout(() => {
-        props.setLoggedIn(true);
-      }, 1000);
-      postSession();
+      if (!response.ok) {
+        setMessage({ error: json.status });
+      } else {
+        setMessage({ success: "Logged in!" });
+        setTimeout(() => {
+          props.setLoggedIn(true);
+        }, 1000);
+        postSession();
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
