@@ -22,14 +22,20 @@ function Search(props) {
   useEffect(() => {
     //fetch data from server side of all indicators and countries
     const fetchData = async () => {
-      const response = await fetch("http://localhost:8080/api/countries");
-      const json = await response.json();
-      const countryData = json.countries;
-      setCountryList(countryData);
-      const indicatorResp = await fetch("http://localhost:8080/api/indicators");
-      const indicatorJson = await indicatorResp.json();
-      const indicatorData = indicatorJson.data;
-      setIndicatorList(indicatorData);
+      try {
+        const response = await fetch("http://localhost:8080/api/countries");
+        const json = await response.json();
+        const countryData = json.countries;
+        setCountryList(countryData);
+        const indicatorResp = await fetch(
+          "http://localhost:8080/api/indicators"
+        );
+        const indicatorJson = await indicatorResp.json();
+        const indicatorData = indicatorJson.data;
+        setIndicatorList(indicatorData);
+      } catch (error) {
+        console.log(error);
+      }
     };
     fetchData();
   }, []);
