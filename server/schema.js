@@ -2,16 +2,14 @@ const { Client } = require("pg");
 const client = new Client("postgres://localhost:5432/worldbank");
 
 async function createDatabase() {
-
-	await client.connect();
-	// createUsersTable();
-	// addSeedData();
-	// createSessionsTable();
-	createHistoryTable();
-	// createCountrySearchesTable();
-	// createIndicatorSearchesTable();
-	return;
-
+  await client.connect();
+  // createUsersTable();
+  // addSeedData();
+  createSessionsTable();
+  // createHistoryTable();
+  // createCountrySearchesTable();
+  // createIndicatorSearchesTable();
+  return;
 }
 
 async function createUsersTable() {

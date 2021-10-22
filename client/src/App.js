@@ -23,7 +23,6 @@ function App() {
 	const [userType, setUserType] = useState({ userType: "standard" });
 	const [registered, setRegister] = useState(false);
 
-
 	const onEnterKey = (e, callback) => {
 		if (e.charCode === 13) {
 			callback();
