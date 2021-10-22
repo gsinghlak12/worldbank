@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react/cjs/react.development";
+import React, { useState } from "react";
 import { Container, Form, Button, Alert } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -96,8 +95,10 @@ function Register(props) {
     );
     const json = await response.json();
 
-    if (response.status === 400) {
-      setMessage({ error: json.statusText });
+    if (response.status == 400) {
+      setMessage({
+        error: "This username is taken. Please try a different one or login.",
+      });
     } else {
       setTimeout(() => {
         props.setRegister(true);
