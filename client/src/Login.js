@@ -16,13 +16,11 @@ function Login(props) {
 
 	const [sessionUpdate, setSessionUpdate] = useState(0);
 
-
 	useEffect(() => {
 		if (sessionUpdate == 0) {
 			checkSessionExists();
 		}
 	});
-
 
 	const handleLoginInput = (e) => {
 		const { username, password } = currentUser;
@@ -48,9 +46,8 @@ function Login(props) {
 			body: JSON.stringify(currentUser),
 		};
 
-
 		const response = await fetch(
-			`http://localhost:8080/api/users/verify`,
+			`https://world-for-women-12345.herokuapp.com/api/users/verify`,
 			requestOptions
 		);
 		const json = await response.json();
@@ -69,14 +66,17 @@ function Login(props) {
 	async function postSession() {
 		setSessionCount(1);
 		try {
-			const response = await fetch(`http://localhost:8080/api/sessions`, {
-				method: "POST",
-				credentials: "include",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(currentUser),
-			});
+			const response = await fetch(
+				`https://world-for-women-12345.herokuapp.com/api/sessions`,
+				{
+					method: "POST",
+					credentials: "include",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(currentUser),
+				}
+			);
 		} catch (error) {
 			console.log(error);
 		}
@@ -85,7 +85,7 @@ function Login(props) {
 		setSessionUpdate(1);
 		try {
 			const response = await fetch(
-				`http://localhost:8080/api/sessions/cookie`,
+				`https://world-for-women-12345.herokuapp.com/api/sessions/cookie`,
 				{
 					method: "GET",
 					credentials: "include",
@@ -171,7 +171,6 @@ function Login(props) {
 			</Container>
 		</div>
 	);
-
 }
 
 export default Login;
