@@ -198,7 +198,7 @@ function Search(props) {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/api/history/postSearch`,
+        `http://localhost:8080/api/history/`,
         requestOptions
       );
       const json = await response.json();
