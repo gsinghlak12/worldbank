@@ -90,7 +90,7 @@ function Register(props) {
     };
 
     const response = await fetch(
-      `http://localhost:8080/api/users`,
+      `https://world-for-women-12345.herokuapp.com/api/users`,
       requestOptions
     );
     const json = await response.json();

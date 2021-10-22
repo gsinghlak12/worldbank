@@ -95,9 +95,8 @@ router.get(
     const country = req.params.country_code;
 
     const sql = `SELECT value,year,countryname,indicatorname FROM indicators
-  WHERE indicatorcode=$1 AND countrycode=$2
-  ORDER BY year DESC
-   LIMIT 10;`;
+  WHERE indicatorcode=$1 AND countrycode=$2 AND year>1995
+  ORDER BY year ASC `;
 
     if (indicator_code.includes(".FE.")) {
       console.log(true);
@@ -136,10 +135,9 @@ router.get(
     const country2 = req.params.country_code2;
 
     const sql = `SELECT value,year,countryname,indicatorname FROM indicators
-  WHERE indicatorcode=$1 
+  WHERE indicatorcode=$1 AND year > 1995 
   AND countrycode=$2
-  ORDER BY year DESC
-   LIMIT 10;`;
+  ORDER BY year ASC`;
 
     try {
       const data = await client.query(sql, [indicator_code, country1]);

@@ -26,13 +26,15 @@ function Search(props) {
     //fetch data from server side of all indicators and countries
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/countries");
+        const response = await fetch(
+					"https://world-for-women-12345.herokuapp.com/api/countries"
+				);
         const json = await response.json();
         const countryData = json.countries;
         setCountryList(countryData);
         const indicatorResp = await fetch(
-          "http://localhost:8080/api/indicators"
-        );
+					"https://world-for-women-12345.herokuapp.com/api/indicators"
+				);
         const indicatorJson = await indicatorResp.json();
         const indicatorData = indicatorJson.data;
         setIndicatorList(indicatorData);
@@ -216,9 +218,9 @@ function Search(props) {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/api/history/postSearch`,
-        requestOptions
-      );
+				`https://world-for-women-12345.herokuapp.com/api/history`,
+				requestOptions
+			);
       const json = await response.json();
       console.log(json);
     } catch (error) {
@@ -237,8 +239,8 @@ function Search(props) {
     if (secondCode === "") {
       try {
         const response = await fetch(
-          `http://localhost:8080/api/indicators/${indicatorCode}/countries/${firstCode}`
-        );
+					`https://world-for-women-12345.herokuapp.com/api/indicators/${indicatorCode}/countries/${firstCode}`
+				);
         const json = await response.json();
         if (json.data.length > 1) {
           const womenData = json.data[0];
@@ -274,8 +276,8 @@ function Search(props) {
     } else {
       try {
         const response = await fetch(
-          `http://localhost:8080/api/indicators/${indicatorCode}/countries/${firstCode}/${secondCode}`
-        );
+					`https://world-for-women-12345.herokuapp.com/api/indicators/${indicatorCode}/countries/${firstCode}/${secondCode}`
+				);
         const json = await response.json();
         const query1 = json.data[0];
         const query2 = json.data[1];
