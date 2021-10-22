@@ -5,6 +5,7 @@ import Graph from "./Components/GraphComponents/Graph";
 import convertData from "./Components/GraphComponents/convertData";
 
 function Search(props) {
+
 	const [countryList, setCountryList] = useState([]);
 	const [firstCountry, setFirstCountry] = useState("");
 	const [firstCode, setFirstCode] = useState("");
@@ -18,6 +19,8 @@ function Search(props) {
 	const [clicked, setClicked] = useState(false);
 	const [dataSent, setDataSent] = useState(false);
 	const [graphData, setGraphData] = useState([]);
+
+
 
 	useEffect(() => {
 		//fetch data from server side of all indicators and countries
@@ -45,6 +48,7 @@ function Search(props) {
 			end
 		);
 	});
+
 
 	const validateCountry = (
 		e,
@@ -110,28 +114,29 @@ function Search(props) {
 		return indicatorOption;
 	};
 
-	const addCountryButton = () => {
-		if (clicked) {
-			return (
-				<Button
-					className="mx-2"
-					variant="outline-secondary"
-					onClick={(e) => cleanSecondCountry(e)}
-				>
-					-
-				</Button>
-			);
-		}
-		return (
-			<Button
-				className="mx-2"
-				variant="outline-secondary"
-				onClick={(e) => makeSecondCountryInput(e)}
-			>
-				+
-			</Button>
-		);
-	};
+  const addCountryButton = () => {
+    if (clicked) {
+      return (
+        <Button
+          className="mx-2"
+          variant="outline-secondary"
+          onClick={(e) => cleanSecondCountry(e)}
+        >
+          -
+        </Button>
+      );
+    }
+    return (
+      <Button
+        className="mx-2"
+        variant="outline-secondary"
+        onClick={(e) => makeSecondCountryInput(e)}
+      >
+        +
+      </Button>
+    );
+  };
+
 
 	const makeSecondCountryInput = (e) => {
 		e.preventDefault();
@@ -176,6 +181,7 @@ function Search(props) {
 		);
 	};
 
+
 	const postSearch = async (e) => {
 		const bodyResponse = {
 			firstCountry: firstCountry,
@@ -192,15 +198,16 @@ function Search(props) {
 			body: JSON.stringify(bodyResponse),
 		};
 
-		const response = await fetch(
-			`http://localhost:8080/api/history/postSearch`,
-			requestOptions
-		);
-		const json = await response.json();
-		console.log(json);
-		/*-json.Message ="history updated!"... make an alert for that :)
+    const response = await fetch(
+      `http://localhost:8080/api/history/postSearch`,
+      requestOptions
+    );
+    const json = await response.json();
+    console.log(json);
+    /*-json.Message ="history updated!"... make an alert for that :)
     thx
 */
+
 	};
 	const sendData = async () => {
 		console.log("sent");
@@ -253,6 +260,7 @@ function Search(props) {
 			return <div>{<Graph title={indicator} dataset={graphData} />}</div>;
 		}
 	};
+
 
 	return (
 		<div>
@@ -331,6 +339,7 @@ function Search(props) {
 			{showGraph()}
 		</div>
 	);
+
 }
 
 export default Search;
