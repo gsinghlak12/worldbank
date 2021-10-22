@@ -93,7 +93,6 @@ function Login(props) {
         },
       });
       const jsonResponse = await response.json();
-      console.log(jsonResponse.loggedIn);
       if (jsonResponse.loggedIn) {
         props.setLoggedIn(true);
       } else {

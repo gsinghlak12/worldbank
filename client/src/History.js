@@ -1,79 +1,61 @@
 import React, { useState, useEffect } from "react";
 
 function History() {
-  const [history, setHistory] = useState();
-  const [count, setCount] = useState(false);
-  useEffect(() => {
-    if (count === false) {
-      getRows();
-    }
-  });
 
-  const getRows = async () => {
-    setCount(true);
-    const response = await fetch(`http://localhost:8080/api/history/`, {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+	const [history, setHistory] = useState([]);
+	const [count, setCount] = useState(false);
+	useEffect(() => {
+		if (count === false) {
+			getRows();
+		}
+	});
 
-    const json = await response.json();
-    console.log(json);
-    setHistory(json);
-  };
+	const getRows = async () => {
+		setCount(true);
+		const response = await fetch(`http://localhost:8080/api/history/`, {
+			method: "GET",
+			credentials: "include",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
 
-  let historyRows;
+		const json = await response.json();
+		console.log(json);
+		setHistory(json);
+	};
+	function fetchHistory() {
+		console.log(history);
+		if (history.length === 0) {
+			return <div />;
+		}
 
-  setTimeout(() => {
-    historyRows = history.map((post, i) => (
-      <tr>
-        <td>{post[i].country1_id}</td>
-        <td>{post[i].country2_id}</td>
-        <td>{post[i].indicator_id}</td>
-        <td>{post[i].created_at}</td>
-      </tr>
-    ));
-  }, 1500);
+		return history.map((historicalPoint) => (
+			<tr>
+				<td>{historicalPoint.country1_id}</td>
+				<td>{historicalPoint.country2_id}</td>
+				<td>{historicalPoint.indicator_id}</td>
+				<td>{historicalPoint.created_at}</td>
+			</tr>
+		));
+	}
 
-  console.log(history);
-  // console.log(rows);
+	return (
+		<div>
+			<table className="table table-striped table-bordered">
+				<thead>
+					<tr>
+						<th scope="col">Country 1</th>
+						<th scope="col">Country 2</th>
+						<th scope="col">Indicator</th>
+						<th scope="col">Date</th>
+					</tr>
+				</thead>
+				<tbody>{fetchHistory()}</tbody>
+			</table>
+		</div>
+	);
 
-  return (
-    <div>
-      <table className="table table-striped table-bordered">
-        <thead>
-          <tr>
-            <th scope="col">Country 1</th>
-            <th scope="col">Country 2</th>
-            <th scope="col">Indicator</th>
-            <th scope="col">Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Poland</td>
-            <td>England</td>
-            <td>Birth rate</td>
-            <td>20/10/21</td>
-          </tr>
-          <tr>
-            <td>Pakistan</td>
-            <td>South Africa</td>
-            <td>Education rate</td>
-            <td>18/10/21</td>
-          </tr>
-          <tr>
-            <td>Spain</td>
-            <td>France</td>
-            <td>Coding ability</td>
-            <td>16/10/21</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  );
 }
 
 export default History;

@@ -2,11 +2,12 @@ import React from "react";
 import { Container, Col, Row, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import gp from "./Components/GP.jpg";
-import adnan from "./Components/Adnan.jpg";
+import adnan from "./Components/adnan.jpg";
 import kasia from "./Components/Kasia.jpg";
-import sang from "./Components/Sang.jpg";
+import sang from "./Components/sang.jpg";
 
 function Team() {
+
   return (
     <Container className="align-content-center p-3">
       <h1 className="p-2" style={{ textAlign: "center" }}>
@@ -214,6 +215,7 @@ function Team() {
       </Container>
     </Container>
   );
+
 }
 
 export default Team;
