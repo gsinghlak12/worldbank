@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Container, Form, Row, Col } from "react-bootstrap";
+import { Button, Container, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Graph from "./Components/GraphComponents/Graph";
 import convertData from "./Components/GraphComponents/convertData";
@@ -39,7 +39,6 @@ function Search(props) {
     };
     fetchData();
   }, []);
-
 
   const validateCountry = (
     e,
@@ -141,9 +140,7 @@ function Search(props) {
 
   const hideSecondCountry = () => {
     if (clicked) {
-
       return "input";
-
     }
     return "d-none";
   };
@@ -173,11 +170,9 @@ function Search(props) {
     );
   };
 
-
   console.log(firstCountry, secondCountry, indicator);
   const postSearch = async (e) => {
     const bodyResponse = {
-
       firstCountry: firstCountry,
       secondCountry: secondCountry,
       indicator: indicator,
@@ -212,7 +207,6 @@ function Search(props) {
     console.log(firstCode, secondCode, indicatorCode);
     console.log(secondCode === "");
     if (firstCode === "" || indicatorCode === "") {
-
       return;
     }
     if (secondCode === "" && clicked === true) {
@@ -288,7 +282,6 @@ function Search(props) {
         console.log(error);
       }
     }
-
   };
 
   const showGraph = () => {
@@ -327,7 +320,6 @@ function Search(props) {
 
               {addNewCountryField()}
               <datalist id="countryList1">{countryDropDown("first")}</datalist>
-
             </Container>
             <Container className="d-flex flex-column align-items-center text-center">
               <label className="p-2">Indicators:</label>

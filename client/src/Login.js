@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Alert, Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import women from "./Components/women-of-world.png";
 
 function Login(props) {
   const [currentUser, setCurrentUser] = useState({
@@ -18,7 +17,7 @@ function Login(props) {
   const [sessionUpdate, setSessionUpdate] = useState(0);
 
   useEffect(() => {
-    if (sessionUpdate == 0) {
+    if (sessionUpdate === 0) {
       checkSessionExists();
     }
   });
@@ -67,7 +66,7 @@ function Login(props) {
   async function postSession() {
     setSessionCount(1);
     try {
-      const response = await fetch(`http://localhost:8080/api/sessions`, {
+      await fetch(`http://localhost:8080/api/sessions`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -108,7 +107,7 @@ function Login(props) {
           <Form.Text>
             <h3 className="text-center pb-3">Log into an account</h3>
           </Form.Text>
-          <Form.Group controlId="formUsername">
+          <Form.Group>
             <Form.Label htmlFor="username">Username:</Form.Label>
             <Form.Control
               type="text"
@@ -125,7 +124,7 @@ function Login(props) {
             />
           </Form.Group>
           <br />
-          <Form.Group controlId="formPassword">
+          <Form.Group>
             <Form.Label htmlFor="password">Password:</Form.Label>
             <Form.Control
               type="password"
