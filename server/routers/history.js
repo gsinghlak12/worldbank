@@ -21,13 +21,15 @@ const pool = new Pool({
 
 router.post("/postSearch", async function (req, res) {
 	const client = await pool.connect();
-
-	const { user_id, firstCountry, secondCountry, indicator } = await req.body;
-	console.log(user_id, firstCountry, secondCountry, indicator);
+	////////UPDATE SO THAT USER_ID GRABS FROM SESSIONS//////////
+	const user_id = await client.query(`SELECT user_id FROM sessions`);
+	const user_id_value = user_id.rows[0].user_id;
+	const { firstCountry, secondCountry, indicator } = await req.body;
+	console.log(user_id_value, firstCountry, secondCountry, indicator);
 	try {
 		await client.query(
 			"INSERT INTO history (user_id, country1_id,country2_id,indicator_id) VALUES ($1, $2,$3,$4)",
-			[user_id, firstCountry, secondCountry, indicator]
+			[user_id_value, firstCountry, secondCountry, indicator]
 		);
 		res.status(200).json({ Message: "History updated!" }, 200);
 	} catch {
