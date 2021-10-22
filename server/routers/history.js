@@ -50,8 +50,6 @@ router.get("/", async function (req, res) {
 			[user_id_value]
 		);
 		res.json(response.rows);
-		console.log(user_id.rows[0].user_id);
-		console.log(response.rows);
 	} catch {
 		res.status(400).json({ Message: "Error" }, 400);
 	}
