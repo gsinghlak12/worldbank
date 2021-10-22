@@ -29,17 +29,13 @@ function App() {
   };
 
   async function deleteCookie() {
-    try {
-      await fetch(`http://localhost:8080/api/sessions/delete`, {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    await fetch(`http://localhost:8080/api/sessions/delete`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   }
 
   const setNavButtons = () => {
