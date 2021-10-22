@@ -66,36 +66,44 @@ function Login(props) {
 
   async function postSession() {
     setSessionCount(1);
-    const response = await fetch(`http://localhost:8080/api/sessions`, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(currentUser),
-    });
+    try {
+      const response = await fetch(`http://localhost:8080/api/sessions`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(currentUser),
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
   async function checkSessionExists() {
     setSessionUpdate(1);
-    const response = await fetch(`http://localhost:8080/api/sessions/check`, {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const jsonResponse = await response.json();
-    console.log(jsonResponse.loggedIn);
-    if (jsonResponse.loggedIn) {
-      props.setLoggedIn(true);
-    } else {
-      props.setLoggedIn(false);
+    try {
+      const response = await fetch(`http://localhost:8080/api/sessions/check`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const jsonResponse = await response.json();
+      console.log(jsonResponse.loggedIn);
+      if (jsonResponse.loggedIn) {
+        props.setLoggedIn(true);
+      } else {
+        props.setLoggedIn(false);
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 
   return (
     <div className="account" id="login">
-      <Container className="container border border-secondary rounded d-flex align-items-center justify-content-center shadow p-5 bg-white rounded">
+      <Container className="container d-flex flex-column border border-secondary rounded d-flex align-items-center justify-content-center shadow p-5 bg-white rounded">
         <Form>
           <Form.Text>
             <h3 className="text-center pb-3">Log into an account</h3>
@@ -146,10 +154,16 @@ function Login(props) {
           </Form.Group>
         </Form>
         {message.success ? (
-          <Alert variant="success">{message.success}</Alert>
+          <Alert className="mt-4" variant="success">
+            {message.success}
+          </Alert>
         ) : null}
-        {message.error ? <Alert variant="danger">{message.error}</Alert> : null}
-      </Container>{" "}
+        {message.error ? (
+          <Alert className="mt-4" variant="danger">
+            {message.error}
+          </Alert>
+        ) : null}
+      </Container>
     </div>
   );
 }

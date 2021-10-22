@@ -118,7 +118,7 @@ function Register(props) {
 
   return (
     <div className="account" id="register">
-      <Container className="container border border-secondary rounded d-flex align-items-center justify-content-center shadow p-5 bg-white rounded">
+      <Container className="container d-flex flex-column border border-secondary rounded d-flex align-items-center justify-content-center shadow p-5 bg-white rounded">
         <Form>
           <Form.Text>
             <h3 className="text-center pb-3">Register a new user</h3>
@@ -186,9 +186,15 @@ function Register(props) {
           </Form.Group>
         </Form>
         {message.success ? (
-          <Alert variant="success">{message.success}</Alert>
+          <Alert className="mt-4" variant="success">
+            {message.success}
+          </Alert>
         ) : null}
-        {message.error ? <Alert variant="danger">{message.error}</Alert> : null}
+        {message.error ? (
+          <Alert className="mt-4" variant="danger">
+            {message.error}
+          </Alert>
+        ) : null}
       </Container>
     </div>
   );

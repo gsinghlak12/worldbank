@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Graph from "./Components/GraphComponents/Graph";
 import convertData from "./Components/GraphComponents/convertData";
 
-function Search() {
+function Search(props) {
   const [countryList, setCountryList] = useState([]);
   const [firstCountry, setFirstCountry] = useState("");
   const [firstCode, setFirstCode] = useState("");
@@ -22,29 +22,24 @@ function Search() {
   useEffect(() => {
     //fetch data from server side of all indicators and countries
     const fetchData = async () => {
-      const response = await fetch("http://localhost:8080/api/countries");
-      const json = await response.json();
-      const countryData = json.countries;
-      setCountryList(countryData);
-      const indicatorResp = await fetch("http://localhost:8080/api/indicators");
-      const indicatorJson = await indicatorResp.json();
-      const indicatorData = indicatorJson.data;
-      setIndicatorList(indicatorData);
+      try {
+        const response = await fetch("http://localhost:8080/api/countries");
+        const json = await response.json();
+        const countryData = json.countries;
+        setCountryList(countryData);
+        const indicatorResp = await fetch(
+          "http://localhost:8080/api/indicators"
+        );
+        const indicatorJson = await indicatorResp.json();
+        const indicatorData = indicatorJson.data;
+        setIndicatorList(indicatorData);
+      } catch (error) {
+        console.log(error);
+      }
     };
     fetchData();
   }, []);
-  useEffect(() => {
-    console.log(
-      firstCountry,
-      firstCode,
-      secondCountry,
-      secondCode,
-      indicator,
-      indicatorCode,
-      start,
-      end
-    );
-  });
+  useEffect(() => {});
 
   const validateCountry = (
     e,
@@ -146,7 +141,7 @@ function Search() {
 
   const hideSecondCountry = () => {
     if (clicked) {
-      return "btn btn-light dropdown-toggle";
+      return "input";
     }
     return "d-none";
   };
@@ -193,12 +188,17 @@ function Search() {
       body: JSON.stringify(bodyResponse),
     };
 
-    const response = await fetch(
-      `http://localhost:8080/api/history/postSearch`,
-      requestOptions
-    );
-    const json = await response.json();
-    console.log(json);
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/history/postSearch`,
+        requestOptions
+      );
+      const json = await response.json();
+      console.log(json);
+    } catch (error) {
+      console.log(error);
+    }
+
     /*-json.Message ="history updated!"... make an alert for that :)
     thx
 */
@@ -216,37 +216,74 @@ function Search() {
       return;
     }
     if (secondCode === "") {
-      const response = await fetch(
-        `http://localhost:8080/api/indicators/${indicatorCode}/countries/${firstCode}`
-      );
+      try {
+        const response = await fetch(
+          `http://localhost:8080/api/indicators/${indicatorCode}/countries/${firstCode}`
+        );
+        const json = await response.json();
+        console.log(json);
 
-      const json = await response.json();
-      const queryData = json.data[0];
+        if (json.data.length > 1) {
+          const womenData = json.data[0];
+          const menData = json.data[1];
+          console.log(json);
+          setGraphData(
+            convertData([
+              womenData.years,
+              "Women",
+              womenData.value,
+              "Men",
+              menData.value,
+            ])
+          );
 
-      console.log(json);
-      console.log(queryData);
-      setGraphData(
-        convertData([queryData.years, queryData.country, queryData.value])
-      );
+          setDataSent(true);
+
+          if (props.loggedIn) {
+            postSearch();
+          }
+        } else {
+          const queryData = json.data[0];
+
+          console.log(json);
+          console.log(queryData);
+          setGraphData(
+            convertData([queryData.years, queryData.country, queryData.value])
+          );
+          setDataSent(true);
+          if (props.loggedIn) {
+            postSearch();
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
     } else {
-      const response = await fetch(
-        `http://localhost:8080/api/indicators/${indicatorCode}/countries/${firstCode}/${secondCode}`
-      );
-      console.log(response);
-      const json = await response.json();
-      const query1 = json.data[0];
-      const query2 = json.data[1];
-      setGraphData(
-        convertData([
-          query1.years,
-          query1.country,
-          query1.value,
-          query2.country,
-          query2.value,
-        ])
-      );
+      try {
+        const response = await fetch(
+          `http://localhost:8080/api/indicators/${indicatorCode}/countries/${firstCode}/${secondCode}`
+        );
+        console.log(response);
+        const json = await response.json();
+        const query1 = json.data[0];
+        const query2 = json.data[1];
+        setGraphData(
+          convertData([
+            query1.years,
+            query1.country,
+            query1.value,
+            query2.country,
+            query2.value,
+          ])
+        );
+        setDataSent(true);
+        if (props.loggedIn) {
+          postSearch();
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
-    setDataSent(true);
   };
 
   const showGraph = () => {
@@ -320,9 +357,6 @@ function Search() {
           <Button
             className="btn btn-secondary mt-3"
             onClick={async (e) => {
-              // if (props.loggedIn) {
-              // 	postSearch();
-              // }
               await sendData();
             }}
           >
