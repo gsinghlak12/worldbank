@@ -6,7 +6,6 @@ const users = require("./routers/users");
 const history = require("./routers/history");
 const sessions = require("./routers/sessions");
 const countries = require("./routers/countries");
-const results = require("./routers/results");
 const bcrypt = require("bcrypt");
 const v4 = require("uuid");
 const { Server } = require("http");
@@ -50,7 +49,6 @@ app.use("/api/users", users);
 app.use("/api/history", history);
 app.use("/api/sessions", sessions);
 app.use("/api/countries", countries);
-app.use("api/results", results);
 
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 
