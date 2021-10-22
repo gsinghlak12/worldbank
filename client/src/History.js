@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 function History() {
+
 	const [history, setHistory] = useState([]);
 	const [count, setCount] = useState(false);
 	useEffect(() => {
@@ -52,6 +53,7 @@ function History() {
 			</table>
 		</div>
 	);
+
 }
 
 export default History;

@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Route, Switch, BrowserRouter as Router, Link } from "react-router-dom";
+import React from "react";
+import { BrowserRouter as Link } from "react-router-dom";
 import { Container, Jumbotron, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import women from "./Components/women-of-world.png";
-import convertData from "./Components/GraphComponents/convertData";
 
 function Home() {
   const outerStyle = {

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Alert, Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import women from "./Components/women-of-world.png";
 
 function Login(props) {
 	const [currentUser, setCurrentUser] = useState({
@@ -17,11 +16,13 @@ function Login(props) {
 
 	const [sessionUpdate, setSessionUpdate] = useState(0);
 
+
 	useEffect(() => {
 		if (sessionUpdate == 0) {
 			checkSessionExists();
 		}
 	});
+
 
 	const handleLoginInput = (e) => {
 		const { username, password } = currentUser;
@@ -46,6 +47,7 @@ function Login(props) {
 			},
 			body: JSON.stringify(currentUser),
 		};
+
 
 		const response = await fetch(
 			`http://localhost:8080/api/users/verify`,
@@ -169,6 +171,7 @@ function Login(props) {
 			</Container>
 		</div>
 	);
+
 }
 
 export default Login;

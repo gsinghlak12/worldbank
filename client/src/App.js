@@ -18,9 +18,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import women from "./Components/women-of-world.png";
 
 function App() {
+
 	const [loggedIn, setLoggedIn] = useState(false);
 	const [userType, setUserType] = useState({ userType: "standard" });
 	const [registered, setRegister] = useState(false);
+
 
 	const onEnterKey = (e, callback) => {
 		if (e.charCode === 13) {
@@ -233,6 +235,7 @@ function App() {
 			</Container>
 		</Router>
 	);
+
 }
 
 export default App;
