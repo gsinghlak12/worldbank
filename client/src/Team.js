@@ -2,9 +2,9 @@ import React from "react";
 import { Container, Col, Row, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import gp from "./Components/GP.jpg";
-import adnan from "./Components/Adnan.jpg";
 import kasia from "./Components/Kasia.jpg";
-import sang from "./Components/Sang.jpg";
+import adnan from "./Components/addy.jpg";
+import sang from "./Components/ta.jpg";
 
 function Team() {
 	return (
