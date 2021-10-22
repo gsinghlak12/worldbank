@@ -33,18 +33,7 @@ function Search(props) {
     };
     fetchData();
   }, []);
-  useEffect(() => {
-    console.log(
-      firstCountry,
-      firstCode,
-      secondCountry,
-      secondCode,
-      indicator,
-      indicatorCode,
-      start,
-      end
-    );
-  });
+
 
   const validateCountry = (
     e,
@@ -146,7 +135,9 @@ function Search(props) {
 
   const hideSecondCountry = () => {
     if (clicked) {
-      return "btn btn-light dropdown-toggle";
+
+      return "input";
+
     }
     return "d-none";
   };
@@ -176,9 +167,11 @@ function Search(props) {
     );
   };
 
+
   console.log(firstCountry, secondCountry, indicator);
   const postSearch = async (e) => {
     const bodyResponse = {
+
       firstCountry: firstCountry,
       secondCountry: secondCountry,
       indicator: indicator,
@@ -208,44 +201,77 @@ function Search(props) {
     console.log(firstCode, secondCode, indicatorCode);
     console.log(secondCode === "");
     if (firstCode === "" || indicatorCode === "") {
+
+      console.log("failed ist");
       return;
     }
     if (secondCode === "" && clicked === true) {
+      console.log("failed 2ndt");
       return;
     }
     if (secondCode === "") {
-      const response = await fetch(
-        `http://localhost:8080/api/indicators/${indicatorCode}/countries/${firstCode}`
-      );
+      try {
+        const response = await fetch(
+          `http://localhost:8080/api/indicators/${indicatorCode}/countries/${firstCode}`
+        );
+        const json = await response.json();
 
-      const json = await response.json();
-      const queryData = json.data[0];
+        if (json.data.length > 1) {
+          const queryData = json.data[0];
+          console.log(json);
+          console.log(queryData);
+          setGraphData(
+            convertData([queryData.years, queryData.country, queryData.value])
+          );
 
-      console.log(json);
-      console.log(queryData);
-      setGraphData(
-        convertData([queryData.years, queryData.country, queryData.value])
-      );
+          setDataSent(true);
+
+          if (props.loggedIn) {
+            postSearch();
+          }
+        } else {
+          const queryData = json.data[0];
+
+          console.log(json);
+          console.log(queryData);
+          setGraphData(
+            convertData([queryData.years, queryData.country, queryData.value])
+          );
+          setDataSent(true);
+          if (props.loggedIn) {
+            postSearch();
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
     } else {
-      const response = await fetch(
-        `http://localhost:8080/api/indicators/${indicatorCode}/countries/${firstCode}/${secondCode}`
-      );
-      console.log(response);
-      const json = await response.json();
-      const query1 = json.data[0];
-      const query2 = json.data[1];
-      setGraphData(
-        convertData([
-          query1.years,
-          query1.country,
-          query1.value,
-          query2.country,
-          query2.value,
-        ])
-      );
+      try {
+        const response = await fetch(
+          `http://localhost:8080/api/indicators/${indicatorCode}/countries/${firstCode}/${secondCode}`
+        );
+        console.log(response);
+        const json = await response.json();
+        const query1 = json.data[0];
+        const query2 = json.data[1];
+        setGraphData(
+          convertData([
+            query1.years,
+            query1.country,
+            query1.value,
+            query2.country,
+            query2.value,
+          ])
+        );
+        setDataSent(true);
+        if (props.loggedIn) {
+          postSearch();
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
 
-    setDataSent(true);
   };
 
   const showGraph = () => {
@@ -281,8 +307,10 @@ function Search(props) {
                   }
                 ></input>
               </Container>
-              <datalist id="countryList1">{countryDropDown("first")}</datalist>{" "}
+
               {addNewCountryField()}
+              <datalist id="countryList1">{countryDropDown("first")}</datalist>
+
             </Container>
             <Container className="d-flex flex-column align-items-center text-center">
               <label className="p-2">Indicators:</label>
@@ -319,9 +347,6 @@ function Search(props) {
           <Button
             className="btn btn-secondary mt-3"
             onClick={async (e) => {
-              if (props.loggedIn) {
-                postSearch();
-              }
               await sendData();
             }}
           >
