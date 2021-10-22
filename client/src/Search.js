@@ -76,24 +76,22 @@ function Search() {
     }
   };
 
-
-	const yearDropDown = (startYear, endYear, type) => {
-		const options = [];
-		options.push(
-			<option key={0 + type} value={0} disabled hidden>
-				{type} year
-			</option>
-		);
-		for (let i = startYear; i >= endYear; i--) {
-			options.push(
-				<option key={i + type} value={i}>
-					{i}
-				</option>
-			);
-		}
-		return options;
-	};
-
+  const yearDropDown = (startYear, endYear, type) => {
+    const options = [];
+    options.push(
+      <option key={0 + type} value={0} disabled hidden>
+        {type} year
+      </option>
+    );
+    for (let i = startYear; i >= endYear; i--) {
+      options.push(
+        <option key={i + type} value={i}>
+          {i}
+        </option>
+      );
+    }
+    return options;
+  };
 
   const countryDropDown = (type) => {
     return countryList.map((input) => (
@@ -112,28 +110,28 @@ function Search() {
     return indicatorOption;
   };
 
-	const addCountryButton = () => {
-		if (clicked) {
-			return (
-				<Button
-					className="mx-2"
-					variant="outline-secondary"
-					onClick={(e) => cleanSecondCountry(e)}
-				>
-					-
-				</Button>
-			);
-		}
-		return (
-			<Button
-				className="mx-2"
-				variant="outline-secondary"
-				onClick={(e) => makeSecondCountryInput(e)}
-			>
-				+
-			</Button>
-		);
-	};
+  const addCountryButton = () => {
+    if (clicked) {
+      return (
+        <Button
+          className="mx-2"
+          variant="outline-secondary"
+          onClick={(e) => cleanSecondCountry(e)}
+        >
+          -
+        </Button>
+      );
+    }
+    return (
+      <Button
+        className="mx-2"
+        variant="outline-secondary"
+        onClick={(e) => makeSecondCountryInput(e)}
+      >
+        +
+      </Button>
+    );
+  };
 
   const makeSecondCountryInput = (e) => {
     e.preventDefault();
@@ -146,13 +144,12 @@ function Search() {
     setClicked(false);
   };
 
-
-	const hideSecondCountry = () => {
-		if (clicked) {
-			return "btn btn-light dropdown-toggle";
-		}
-		return "d-none";
-	};
+  const hideSecondCountry = () => {
+    if (clicked) {
+      return "btn btn-light dropdown-toggle";
+    }
+    return "d-none";
+  };
 
   const addNewCountryField = () => {
     return (
@@ -179,41 +176,43 @@ function Search() {
     );
   };
 
- const postSearch = async (e) => {
-		const bodyResponse = {
-			user_id: 38,
-			firstCountry: firstCountry,
-			secondCountry: secondCountry,
-			indicator: indicator,
-		};
-		const requestOptions = {
-			method: "POST",
-			credentials: "include",
-			headers: {
-				Access: "application/json",
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(bodyResponse),
-		};
+  const postSearch = async (e) => {
+    const bodyResponse = {
+      user_id: 38,
+      firstCountry: firstCountry,
+      secondCountry: secondCountry,
+      indicator: indicator,
+    };
+    const requestOptions = {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        Access: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(bodyResponse),
+    };
 
-		const response = await fetch(
-			`http://localhost:8080/api/history/postSearch`,
-			requestOptions
-		);
-		const json = await response.json();
-		console.log(json);
-		/*-json.Message ="history updated!"... make an alert for that :)
+    const response = await fetch(
+      `http://localhost:8080/api/history/postSearch`,
+      requestOptions
+    );
+    const json = await response.json();
+    console.log(json);
+    /*-json.Message ="history updated!"... make an alert for that :)
     thx
 */
-	};
+  };
   const sendData = async () => {
-    console.log("sent");
+    console.log("try send");
     console.log(firstCode, secondCode, indicatorCode);
     console.log(secondCode === "");
     if (firstCode === "" || indicatorCode === "") {
+      console.log("failed first check");
       return;
     }
     if (secondCode === "" && clicked === true) {
+      console.log("failed second check");
       return;
     }
     if (secondCode === "") {
@@ -247,7 +246,6 @@ function Search() {
         ])
       );
     }
-
     setDataSent(true);
   };
 
@@ -322,10 +320,10 @@ function Search() {
           <Button
             className="btn btn-secondary mt-3"
             onClick={async (e) => {
-							if (props.loggedIn) {
-								postSearch();
-							}
-              await sendData()
+              // if (props.loggedIn) {
+              // 	postSearch();
+              // }
+              await sendData();
             }}
           >
             See results
@@ -335,7 +333,6 @@ function Search() {
       {showGraph()}
     </div>
   );
-
 }
 
 export default Search;
