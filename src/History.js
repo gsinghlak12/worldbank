@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 function History() {
-
 	const [history, setHistory] = useState([]);
 	const [count, setCount] = useState(false);
 	useEffect(() => {
@@ -12,13 +11,16 @@ function History() {
 
 	const getRows = async () => {
 		setCount(true);
-		const response = await fetch(`http://localhost:8080/api/history/`, {
-			method: "GET",
-			credentials: "include",
-			headers: {
-				"Content-Type": "application/json",
-			},
-		});
+		const response = await fetch(
+			`https://world-for-women-12345.herokuapp.com/api/history`,
+			{
+				method: "GET",
+				credentials: "include",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			}
+		);
 
 		const json = await response.json();
 		setHistory(json);
@@ -53,7 +55,6 @@ function History() {
 			</table>
 		</div>
 	);
-
 }
 
 export default History;

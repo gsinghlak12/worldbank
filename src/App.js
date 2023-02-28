@@ -15,7 +15,6 @@ import Team from "./Team";
 import Register from "./Register";
 import { Button, Nav, Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import women from "./Components/women-of-world.png";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -29,13 +28,16 @@ function App() {
   };
 
   async function deleteCookie() {
-    const response = await fetch(`http://localhost:8080/api/sessions/`, {
-      method: "DELETE",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `https://world-for-women-12345.herokuapp.com/api/sessions`,
+      {
+        method: "DELETE",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
   }
 
   const setNavButtons = () => {
@@ -167,12 +169,14 @@ function App() {
           </Link>
         </div>
         <div>
-          <h5 className="pt-2 text-dark text-center">THE WORLD FOR WOMEN</h5>
+          <h5 className="pt-2 text-dark text-center w-100 pl-2 mx-4">
+            THE WORLD FOR WOMEN
+          </h5>
         </div>
         {setNavButtons()}
       </Nav>
 
-      <Container className="d-flex overflow-auto justify-content-center align-content-center position-absolute top-50 start-50 translate-middle">
+      <Container className="d-flex justify-content-center overflow-auto align-content-center mt-5 mb-2">
         <Switch>
           <Route exact path="/">
             <Home deleteCookie={deleteCookie} setLoggedIn={setLoggedIn} />
@@ -185,12 +189,6 @@ function App() {
             )}
           </Route>
           <Route exact path="/register">
-            {/* <Register
-								onEnterKey={onEnterKey}
-								setRegister={setRegister}
-								registered={registered}
-							/> */}
-
             {registered ? (
               <Redirect to="/login" />
             ) : (

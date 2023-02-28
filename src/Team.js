@@ -2,19 +2,18 @@ import React from "react";
 import { Container, Col, Row, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import gp from "./Components/GP.jpg";
-import adnan from "./Components/Adnan.jpg";
 import kasia from "./Components/Kasia.jpg";
-import sang from "./Components/Sang.jpg";
+import adnan from "./Components/addy.jpg";
+import sang from "./Components/ta.jpg";
 
 function Team() {
-
   return (
-    <Container className="align-content-center text-center m-2 pt-4 overflow-auto position-relative">
-      <h1 className="py-2">Hello from Team μ</h1>
+    <Container className="d-flex flex-column align-content-center justify-content-center mb-3 text-center pt-4 ">
+      <h1 className="pt-2 pb-2">Hello from Team μ</h1>
       <Container className="m-2">
         <div class="card px-5">
           <div class="card-body text-center">
-            <h6>
+            <h5>
               We are a team of four Software Engineers working at{" "}
               <a
                 href="https://sigmalabs.co.uk/"
@@ -25,37 +24,39 @@ function Team() {
                 Sigma Labs
               </a>{" "}
               in London.
-            </h6>
-            Using the skills learnt during our full-stack training, we have
-            created this data visualisation dashboard to display{" "}
-            <a
-              href="https://www.kaggle.com/kaggle/world-development-indicators"
-              target="_blank"
-              rel="noreferrer"
-              className="link-dark"
-            >
-              World Development Indicators
-            </a>{" "}
-            data from{" "}
-            <a
-              href="https://www.worldbank.org/en/home"
-              target="_blank"
-              rel="noreferrer"
-              className="link-dark"
-            >
-              The World Bank
-            </a>
-            . Since the database contains over 1,300 indicators, we thought it
-            would be beneficial to focus on human geography, in particular
-            metrics relating to the lives of women around the world. Where the
-            data for men relating to the same indicator exists, we have
-            automatically displayed it on the same graph for comparison. We hope
-            you find exploring this website as interesting as we found building
-            it!
+            </h5>
+            <p className="px-4">
+              Using the skills learnt during our full-stack training, we have
+              created this data visualisation dashboard to display{" "}
+              <a
+                href="https://www.kaggle.com/kaggle/world-development-indicators"
+                target="_blank"
+                rel="noreferrer"
+                className="link-dark"
+              >
+                World Development Indicators
+              </a>{" "}
+              data from{" "}
+              <a
+                href="https://www.worldbank.org/en/home"
+                target="_blank"
+                rel="noreferrer"
+                className="link-dark"
+              >
+                The World Bank
+              </a>
+              . Since the database contains over 1,300 indicators, we thought it
+              would be beneficial to focus on human geography, <br />
+              in particular metrics relating to the lives of women around the
+              world. Where the data for men relating to the same indicator
+              exists, we have automatically displayed it on the same graph for
+              comparison. We hope you find exploring this website as interesting
+              as we found building it!
+            </p>
           </div>
         </div>
       </Container>
-      <Container className="m-3">
+      <Container className="m-2 ">
         <Row>
           <Col>
             <div className="card text-center my-3" style={{ width: "18rem" }}>
