@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
+import config from './config';
 
 function History() {
 	const [history, setHistory] = useState([]);
@@ -11,16 +12,13 @@ function History() {
 
 	const getRows = async () => {
 		setCount(true);
-		const response = await fetch(
-			`https://world-for-women-12345.herokuapp.com/api/history`,
-			{
-				method: "GET",
-				credentials: "include",
-				headers: {
-					"Content-Type": "application/json",
-				},
-			}
-		);
+		const response = await fetch(`${config.wfwApi}/history`, {
+			method: 'GET',
+			credentials: 'include',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
 
 		const json = await response.json();
 		setHistory(json);
@@ -42,13 +40,13 @@ function History() {
 
 	return (
 		<div>
-			<table className="table table-striped table-bordered">
+			<table className='table table-striped table-bordered'>
 				<thead>
 					<tr>
-						<th scope="col">Country 1</th>
-						<th scope="col">Country 2</th>
-						<th scope="col">Indicator</th>
-						<th scope="col">Date</th>
+						<th scope='col'>Country 1</th>
+						<th scope='col'>Country 2</th>
+						<th scope='col'>Indicator</th>
+						<th scope='col'>Date</th>
 					</tr>
 				</thead>
 				<tbody>{fetchHistory()}</tbody>

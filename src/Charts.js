@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from "react";
-import convertData from "./Components/GraphComponents/convertData";
-import Graph from "./Components/GraphComponents/Graph";
+import React, { useEffect, useState } from 'react';
+import convertData from './Components/GraphComponents/convertData';
+import Graph from './Components/GraphComponents/Graph';
+import config from './config';
 
 function Charts() {
 	const [years, setYears] = useState([]);
-	const [country, setCountry] = useState("");
+	const [country, setCountry] = useState('');
 	const [value, setValue] = useState([]);
-	const [title, setTitle] = useState("");
+	const [title, setTitle] = useState('');
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await fetch(
-					"https://world-for-women-12345.herokuapp.com/api/indicators"
-				);
+				const response = await fetch(`${config.wfwApi}/indicators`);
 				const json = await response.json();
 				const { years, country, value, title } = json;
 				setYears(years);
@@ -28,7 +27,7 @@ function Charts() {
 	const dataset = convertData([years, country, value]);
 	return (
 		<div>
-			<Graph input="" dataset={dataset} title={title} />
+			<Graph input='' dataset={dataset} title={title} />
 		</div>
 	);
 }

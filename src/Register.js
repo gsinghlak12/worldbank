@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Form, Button, Alert } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import config from './config';
 
 function Register(props) {
 	const [newUser, setNewUser] = useState({
@@ -82,7 +83,7 @@ function Register(props) {
 			}),
 		};
 
-		const response = await fetch(`https://world-for-women-12345.herokuapp.com/api/users`, requestOptions);
+		const response = await fetch(`${config.wfwApi}/users`, requestOptions);
 		const json = await response.json();
 
 		if (response.status == 400) {

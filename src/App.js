@@ -9,10 +9,10 @@ import Team from './Team';
 import Register from './Register';
 import { Button, Nav, Container } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import config from './config';
 
 function App() {
 	const [loggedIn, setLoggedIn] = useState(false);
-	const [userType, setUserType] = useState({ userType: 'standard' });
 	const [registered, setRegister] = useState(false);
 
 	const onEnterKey = (e, callback) => {
@@ -22,7 +22,7 @@ function App() {
 	};
 
 	async function deleteCookie() {
-		const response = await fetch(`https://world-for-women-12345.herokuapp.com/api/sessions`, {
+		await fetch(`${config.wfwApi}/sessions`, {
 			method: 'DELETE',
 			credentials: 'include',
 			headers: {
