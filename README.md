@@ -1,6 +1,6 @@
-# μ's World Bank Data
+# Word-for-women - World Bank Data Visualisation
 
-Welcome to Group μ's Week 10 project: The World For Women.
+The World For Women.
 
 The brief was to create a prototype data visualisation dashboard for The World Bank that displays its data on World Development Indicators. 
 We decided on three "must-have" features to include:
@@ -15,7 +15,6 @@ In addition to these core features, we were given a number of other User Stories
  - [Objective](#Objective)
  - [Our Team](#Our-Team)
  - [Database](#Database)
- - [Technical Manual](#Technical-Manual)
 
 
 ## Objective
@@ -45,7 +44,8 @@ This repository contains the front-end code for the platform. You can run it loc
 npm install
 npm start
 
-The backend API is here: (Coming soon)
+The backend API is here: https://github.com/AdnanGondal/worldbank-backend
+
 This will also neeed to run locally for the app to function fully. 
 
 ## Live link

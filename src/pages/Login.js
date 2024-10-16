@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Alert, Container } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import config from './config';
+import config from '../config/config';
 
 function Login(props) {
 	const [currentUser, setCurrentUser] = useState({

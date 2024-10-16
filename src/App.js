@@ -1,15 +1,15 @@
 import './App.css';
 import React, { useState } from 'react';
 import { Route, Switch, BrowserRouter as Router, Link, Redirect } from 'react-router-dom';
-import Home from './Home';
-import Login from './Login';
-import Search from './Search';
-import History from './History';
-import Team from './Team';
-import Register from './Register';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Search from './pages/Search';
+import History from './pages/History';
+import Team from './pages/Team';
+import Register from './pages/Register';
 import { Button, Nav, Container } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import config from './config';
+import config from './config/config';
 
 function App() {
 	const [loggedIn, setLoggedIn] = useState(false);

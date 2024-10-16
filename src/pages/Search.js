@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Alert, Button, Container, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Graph from './Components/GraphComponents/Graph';
-import convertData from './Components/GraphComponents/convertData';
-import config from './config';
+import Graph from '../components/GraphComponents/Graph';
+import convertData from '../components/GraphComponents/convertData';
+import config from '../config/config';
 
 function Search(props) {
 	const [countryList, setCountryList] = useState([]);
@@ -27,16 +27,16 @@ function Search(props) {
 		//fetch data from server side of all indicators and countries
 		const fetchData = async () => {
 			try {
-				const response = await fetch('${config.wfwApi}/countries');
-				const json = await response.json();
-				const countryData = json.countries;
+				const response = await fetch(`${config.wfwApi}/countries`);
+				const countryData = await response.json();
 				setCountryList(countryData);
-				const indicatorResp = await fetch('${config.wfwApi}/indicators');
-				const indicatorJson = await indicatorResp.json();
-				const indicatorData = indicatorJson.data;
+				const indicatorResp = await fetch(`${config.wfwApi}/indicators`);
+				const indicatorData = await indicatorResp.json();
 				setIndicatorList(indicatorData);
 			} catch (error) {
 				console.log(error);
+				setCountryList([]);
+				setIndicatorList([]);
 			}
 		};
 		fetchData();
@@ -52,7 +52,7 @@ function Search(props) {
 		let countryCode = '';
 		if (
 			listOfItems.some((input) => {
-				countryCode = input.countrycode;
+				countryCode = input.shortcode;
 				return input.shortname === e;
 			})
 		) {
@@ -91,6 +91,10 @@ function Search(props) {
 	};
 
 	const countryDropDown = (type) => {
+		if (!countryList || countryList.length === 0) {
+			return <option disabled>Loading countries...</option>;
+		}
+
 		return countryList.map((input) => (
 			<option key={input.shortname + type} value={input.shortname}>
 				{input.shortname}
@@ -99,6 +103,10 @@ function Search(props) {
 	};
 
 	const indicatorDropDown = () => {
+		if (!indicatorList || indicatorList.length === 0) {
+			return <option disabled>Loading indicators...</option>;
+		}
+
 		let indicatorOption = indicatorList.map((input) => (
 			<option key={input.indicatorname} value={input.indicatorname}>
 				{input.indicatorname}
@@ -231,6 +239,7 @@ function Search(props) {
 					}
 				}
 			} catch (error) {
+
 				setMessage({
 					error: 'No data for the chosen indicator. Please choose another.',
 				});
