@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import women from './Components/women-of-world.png';
+import women from '../components/women-of-world.png'
 
 function Home() {
 	const outerStyle = {

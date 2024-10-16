@@ -1,12 +1,13 @@
 import React from 'react';
 import { Container, Col, Row, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import gp from './Components/GP.jpg';
-import kasia from './Components/Kasia.jpg';
-import adnan from './Components/addy.jpg';
-import sang from './Components/ta.jpg';
 
 function Team() {
+
+	const gp = "/GP.jpg";
+	const kasia = "/Kasia.jpg";
+	const adnan = "/addy.jpg";
+	const sang = "/ta.jpg";
 	return (
 		<Container className='d-flex flex-column align-content-center justify-content-center mb-3 text-center pt-4 '>
 			<h1 className='pt-2 pb-2'>Hello from Team μ</h1>

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Alert, Button, Container, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Graph from './Components/GraphComponents/Graph';
-import convertData from './Components/GraphComponents/convertData';
-import config from './config';
+import Graph from '../components/GraphComponents/Graph';
+import convertData from '../components/GraphComponents/convertData';
+import config from '../config/config';
 
 function Search(props) {
 	const [countryList, setCountryList] = useState([]);

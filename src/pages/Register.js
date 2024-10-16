@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Form, Button, Alert } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import config from './config';
+import config from '../config/config';
 
 function Register(props) {
 	const [newUser, setNewUser] = useState({
