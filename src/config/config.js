@@ -1,5 +1,7 @@
+
+
 const config = {
-    wfwApi: process.env.API_URL || 'localhost:8080/api/'
+    wfwApi: "https://worldbank-backend.fly.dev/api"
 };
 
 export default config;
